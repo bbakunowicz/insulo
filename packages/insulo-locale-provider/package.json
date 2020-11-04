@@ -1,6 +1,6 @@
 {
   "name": "insulo-locale-provider",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Testing: Locale provider for insulo components",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -11,7 +11,7 @@
     "umd"
   ],
   "scripts": {
-    "build": "nwb build-react-component --no-demo --copy-files && ../header.sh",
+    "build": "nwb build-react-component --no-demo --copy-files && ../_header.sh",
     "clean": "nwb clean-module && nwb clean-demo",
     "prepublishOnly": "npm run build",
     "start": "nwb serve-react-demo",
