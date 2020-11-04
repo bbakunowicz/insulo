@@ -1,0 +1,46 @@
+{
+  "name": "insulo-locale-provider",
+  "version": "0.1.7",
+  "description": "Testing: Locale provider for insulo components",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "css",
+    "es",
+    "lib",
+    "umd"
+  ],
+  "scripts": {
+    "build": "nwb build-react-component --no-demo --copy-files && ../header.sh",
+    "clean": "nwb clean-module && nwb clean-demo",
+    "prepublishOnly": "npm run build",
+    "start": "nwb serve-react-demo",
+    "test": "echo \"Error: no test specified\""
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "flag-icon-css": "^3.5.0",
+    "react": "^16.13.1"
+  },
+  "devDependencies": {
+    "nwb": "0.25.x",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "author": "Bartosz Bakunowicz",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbakunowicz/insulo-locale-provider.git",
+    "directory": "packages/insulo-locale-provider"
+  },
+  "bugs": {
+    "url": "https://github.com/bbakunowicz/insulo-locale-provider/issues"
+  },
+  "homepage": "https://github.com/bbakunowicz/insulo-locale-provider#readme",
+  "keywords": [
+    "menu",
+    "react",
+    "react-component"
+  ]
+}
