@@ -1,0 +1,46 @@
+{
+  "name": "insulo-theme-provider",
+  "version": "0.1.1",
+  "description": "Testing: Theme provider for React components. Do not use it in production, please.",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "css",
+    "es",
+    "lib",
+    "umd"
+  ],
+  "scripts": {
+    "build": "nwb build-react-component --no-demo --copy-files && ../_header.sh",
+    "clean": "nwb clean-module && nwb clean-demo",
+    "prepublishOnly": "npm run build",
+    "start": "nwb serve-react-demo",
+    "test": "echo \"Error: no test specified\""
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@material-ui/core": "^4.11.0",
+    "react": "^16.13.1"
+  },
+  "devDependencies": {
+    "nwb": "0.25.x",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "author": "Bartosz Bakunowicz <bartosz.bakunowicz@gmail.com>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbakunowicz/insulo-theme-provider.git",
+    "directory": "packages/insulo-theme-provider"
+  },
+  "bugs": {
+    "url": "https://github.com/bbakunowicz/insulo-theme-provider/issues"
+  },
+  "homepage": "https://github.com/bbakunowicz/insulo-theme-provider#readme",
+  "keywords": [
+    "menu",
+    "react",
+    "react-component"
+  ]
+}
