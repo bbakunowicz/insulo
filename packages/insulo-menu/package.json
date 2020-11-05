@@ -1,0 +1,50 @@
+{
+  "name": "insulo-menu",
+  "version": "0.1.1",
+  "description": "Testing: React component implementing an application menu",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "css",
+    "es",
+    "lib",
+    "umd"
+  ],
+  "scripts": {
+    "build": "nwb build-react-component --no-demo --copy-files && ../_header.sh",
+    "clean": "nwb clean-module && nwb clean-demo",
+    "prepublishOnly": "npm run build",
+    "start": "nwb serve-react-demo",
+    "test": "echo \"Error: no test specified\""
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "clsx": "^1.1.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0"
+  },
+  "devDependencies": {
+    "nwb": "0.25.x",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "author": "Bartosz Bakunowicz",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbakunowicz/insulo-menu.git",
+    "directory": "packages/insulo-menu"
+  },
+  "bugs": {
+    "url": "https://github.com/bbakunowicz/insulo-menu/issues"
+  },
+  "homepage": "https://github.com/bbakunowicz/insulo-menu#readme",
+  "keywords": [
+    "menu",
+    "react",
+    "react-component"
+  ]
+}
