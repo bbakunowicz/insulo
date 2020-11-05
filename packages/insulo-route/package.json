@@ -1,0 +1,45 @@
+{
+  "name": "insulo-route",
+  "version": "0.1.1",
+  "description": "Testing: React component providing a private route functionality. Do not use it in production, please.",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "css",
+    "es",
+    "lib",
+    "umd"
+  ],
+  "scripts": {
+    "build": "nwb build-react-component --no-demo --copy-files && ../_header.sh",
+    "clean": "nwb clean-module && nwb clean-demo",
+    "prepublishOnly": "npm run build",
+    "start": "nwb serve-react-demo",
+    "test": "echo \"Error: no test specified\""
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "^16.13.1"
+  },
+  "devDependencies": {
+    "nwb": "0.25.x",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
+  },
+  "author": "Bartosz Bakunowicz <bartosz.bakunowicz@gmail.com>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbakunowicz/insulo-route.git",
+    "directory": "packages/insulo-route"
+  },
+  "bugs": {
+    "url": "https://github.com/bbakunowicz/insulo-route/issues"
+  },
+  "homepage": "https://github.com/bbakunowicz/insulo-route#readme",
+  "keywords": [
+    "menu",
+    "react",
+    "react-component"
+  ]
+}
