@@ -57,7 +57,7 @@ declare namespace LocaleConfigProvider {
 
 }
 
-export const getItemCaption = (localeConfig: LocaleConfigProvider.ContextValue) => (captionId: string) => string | undefined;
+export const getItemCaption: (localeConfig: LocaleConfigProvider.ContextValue) => (captionId: string) => string | undefined;
 
 declare const Context: React.Context<{value: LocaleConfigProvider.ContextValue, dispatch: (DispatchValues) => void}>;
 export default Context;
