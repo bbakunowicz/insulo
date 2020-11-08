@@ -1,6 +1,6 @@
 {
   "name": "insulo-theme-provider",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Testing: Theme provider for React components. Do not use it in production, please.",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -31,16 +31,17 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bbakunowicz/insulo-theme-provider.git",
+    "url": "https://github.com/bbakunowicz/insulo.git",
     "directory": "packages/insulo-theme-provider"
   },
   "bugs": {
-    "url": "https://github.com/bbakunowicz/insulo-theme-provider/issues"
+    "url": "https://github.com/bbakunowicz/insulo/issues"
   },
-  "homepage": "https://github.com/bbakunowicz/insulo-theme-provider#readme",
+  "homepage": "https://github.com/bbakunowicz/insulo#readme",
   "keywords": [
     "menu",
     "react",
-    "react-component"
+    "react-component",
+    "material-ui"
   ]
 }
