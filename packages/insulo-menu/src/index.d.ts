@@ -28,7 +28,7 @@ interface Children {
 
 interface DispatchValues {
     type: string
-};
+}
 
 export const menuTypes: {
     CALL_DISPATCH: string;
@@ -43,9 +43,9 @@ export const menuTypes: {
     PERSISTENT: "persistent";
     TEMPORARY: "temporary";
     REGISTER_CONTEXT: string;
-    REGISTER_ITEM_CAPTION_CALLBACK: string;
-    REGISTER_ITEM_VISIBILITY_CALLBACK: string;
-    REGISTER_SETTING_VISIBILITY_CALLBACK: string;
+    // REGISTER_ITEM_CAPTION_CALLBACK: string;
+    // REGISTER_ITEM_VISIBILITY_CALLBACK: string;
+    // REGISTER_SETTING_VISIBILITY_CALLBACK: string;
     SET_CURRENT_ITEM: string;
     SET_CURRENT_ROUTE: string;
     SET_CURRENT_SETTING: string;
@@ -97,7 +97,7 @@ declare namespace MenuItemsProvider {
         defaultVisible?: boolean,
         getMenuItems?: () => Array<Item | ItemWithSubitems | ItemDivider>,
         getSettingsItems?: () => Array<Setting | SettingWithSubitems | ItemDivider>
-        getItemVisibility?: (any) => (any) => boolean
+        getItemVisibility?: (any, any) => boolean
     }
 
     export interface ContextValues extends InitValues {
@@ -188,7 +188,7 @@ export default Context;
 export function ApplicationBar(_ref: {children: JSX.Element | JSX.Element[] | string, position?: string}): JSX.Element;
 
 export function Menu(_ref: {history: History<LocationState>, backgroundColor?: string, selectedColor?: string
-    authConfig?: AuthValues}): JSX.Element;
+    itemVibilityValues?: any, settingsVibilityValues?: any, itemCaptionCallback?: (captionId: string) => string | undefined }): JSX.Element;
 
 export function MenuLanding(_ref: Children): JSX.Element;
 

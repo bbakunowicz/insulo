@@ -196,7 +196,7 @@ const getSelectedClass = (value) => {
   }
 }
 
-export function Menu({children, history, backgroundColor, selectedColor, authConfig}) {
+export function Menu({children, history, backgroundColor, selectedColor, itemVibilityValues, settingsVibilityValues, itemCaptionCallback}) {
 
   const { value: menuConfig, dispatch: menuDispatch } = useContext(MenuContext);
   const { value: itemsConfig, dispatch: itemsDispatch } = useContext(ItemsContext);
@@ -271,11 +271,13 @@ export function Menu({children, history, backgroundColor, selectedColor, authCon
         {
           itemsConfig.settings &&
           <Collapse in={menuConfig.settingsOpen} classes={{entered: classes.collapseEntered}}>
-            <MenuSettingsPanel classes={classes} selectedClass={selectedClass}/>
+            <MenuSettingsPanel classes={classes} selectedClass={selectedClass} settingsVibilityValues={settingsVibilityValues} />
           </Collapse>
         }
         { 
-          itemsConfig.items && <MenuItemsPanel classes={classes} history={history} selectedClass={selectedClass} authConfig={authConfig} />
+          itemsConfig.items && 
+            <MenuItemsPanel classes={classes} history={history} selectedClass={selectedClass} itemVibilityValues={itemVibilityValues} 
+              itemCaptionCallback = {itemCaptionCallback} />
         } 
         {/* <button onClick={() => setState1(state1 + 1)}>
           Click

@@ -31,7 +31,8 @@ const onItemChange = (item, history) => {
   }
 }
 
-const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsDispatch, history, selectedClass, authConfig) => {
+const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsDispatch, history, selectedClass, 
+  itemVibilityValues, itemCaptionCallback) => {
 
   if (item.type === 'divider') {
     return (
@@ -39,12 +40,15 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
     )
   }
   else {
-    // const isItemVisible = (typeof itemsConfig.itemVisibilityCallback == 'function' && typeof item.visibleParams == 'object' )? 
-    //   itemsConfig.itemVisibilityCallback(item.visibleParams): itemsConfig.defaultVisible === true;
-    const isItemVisible = (item.key === itemsConfig.curentItemKey) || 
-    ((typeof itemsConfig.getItemVisibility == 'function' && typeof item.visibleParams == 'object' )? 
-      (typeof authConfig == 'object')?itemsConfig.getItemVisibility(authConfig.authValues)(item.visibleParams):false
-      : true); //itemsConfig.defaultVisible === true;
+    let isItemVisible = (item.key === itemsConfig.curentItemKey);
+    if (!isItemVisible) {
+      try {
+        isItemVisible = ((typeof itemsConfig.getItemVisibility == 'function')? itemsConfig.getItemVisibility(itemVibilityValues, item) : true); 
+      }
+      catch (e) {
+        console.error(`getItemVisibility error: ${e.message}`);
+      }
+    }
 
     if (!isItemVisible) {
       return (
@@ -52,13 +56,22 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
       )
     }
 
-    const itemCaption = (typeof itemsConfig.itemCaptionCallback == 'function' && item.captionId) && itemsConfig.itemCaptionCallback(item.captionId);
+    let itemCaption = item.caption;
+    
+    if (typeof itemCaptionCallback == 'function' && item.captionId) {
+      try {
+        itemCaption = itemCaptionCallback(item.captionId);
+      }
+      catch (e) {
+        console.error(`itemCaptionCallback error: ${e.message}`);
+      }
+    }
+
     const menuMaximized = menuConfig.variant !== menuTypes.MINIMIZED || menuConfig.open;
 
     return (
       <ListItem 
         button 
-        // classes={ { root: clsx(classes.listItem, item.key === menuConfig.curentItemKey && classes.listItemSelected) }}
         classes={ { 
           root: clsx(classes.listItem), 
           selected: clsx(classes.listItemSelected, selectedClass && classes[selectedClass]) }}
@@ -69,7 +82,7 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
         onClick={e => {
           if (item.key !== itemsConfig.curentItemKey) {
             if (Array.isArray(item.items)) {
-              itemsDispatch({type: menuTypes.SET_PARENT_ITEM, key: item.key, caption: itemCaption || item.caption});
+              itemsDispatch({type: menuTypes.SET_PARENT_ITEM, key: item.key, caption: itemCaption});
             }
             else {
               itemsDispatch({type: menuTypes.SET_CURRENT_ITEM, item});
@@ -95,7 +108,7 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
   }
 }
 
-const MenuPanel = ({classes, history, selectedClass, authConfig}) => {
+const MenuItemsList = ({classes, history, selectedClass, itemVibilityValues, itemCaptionCallback}) => {
   const { value: menuConfig, dispatch: menuDispatch } = useContext(MenuContext);
   const { value: itemsConfig, dispatch: itemsDispatch } = useContext(ItemsContext);
 
@@ -111,10 +124,11 @@ const MenuPanel = ({classes, history, selectedClass, authConfig}) => {
   return (
     <Fragment>
       { Array.isArray(items) && items.map((data) => {
-        return renderItem( data, classes, menuConfig, menuDispatch, itemsConfig, itemsDispatch, history, selectedClass, authConfig);
+        return renderItem( data, classes, menuConfig, menuDispatch, itemsConfig, itemsDispatch, history, selectedClass, 
+          itemVibilityValues, itemCaptionCallback);
       })}
     </Fragment>
   )
 }
 
-export default MenuPanel;
+export default MenuItemsList;

@@ -27,7 +27,7 @@ import { Context as MenuContext } from './provider/config/providerWrapper';
 import { Context as ItemsContext } from './provider/items/providerWrapper';
 import * as menuTypes from './provider/types';
 
-const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsDispatch, selectedClass) => {
+const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsDispatch, selectedClass, settingsVibilityValues) => {
   if (item.type === 'divider') {
     return (
       <Divider key={item.key} classes={{root: classes.divider}}/>
@@ -66,12 +66,19 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
     itemSelected = true;
   }
 
-  const isItemVisible = itemSelected || ((typeof itemsConfig.settingVisibilityCallback == 'function' && typeof item.visibleParams == 'object' )? 
-  itemsConfig.settingVisibilityCallback(item.visibleParams): true); //itemsConfig.defaultVisible === true);
+  let isItemVisible = itemSelected;
+  if (!itemSelected) {
+    try {
+      isItemVisible = ((typeof itemsConfig.getSettingVisibility == 'function')? itemsConfig.getSettingVisibility(settingsVibilityValues, item): true);
+    }
+    catch (e) {
+      console.error(`getSettingVisibility error: ${e.message}`);
+    }
+  }
 
   if (!isItemVisible) {
     return (
-      <Fragment></Fragment>
+      <Fragment key={item.key}></Fragment>
     )
   }
 
@@ -81,7 +88,6 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
   return (
       <ListItem 
         button 
-        // classes={ { root: clsx(classes.listItem, item.key === menuConfig.curentItemKey && classes.listItemSelected) }}
         classes={ { 
           root: clsx(classes.listItem), 
           selected: clsx(classes.listItemSelected, selectedClass && classes[selectedClass]) }}
@@ -129,7 +135,7 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
   }
 }
 
-const MenuSettingsItems = ({classes, selectedClass}) => {
+const MenuSettingsItems = ({classes, selectedClass, settingsVibilityValues}) => {
 
   const { value: menuConfig, dispatch: menuDispatch } = useContext(MenuContext);
   const { value: itemsConfig, dispatch: itemsDispatch } = useContext(ItemsContext);
@@ -144,7 +150,7 @@ const MenuSettingsItems = ({classes, selectedClass}) => {
   return (
     <Fragment>
       { Array.isArray(items) && items.map((data) => {
-          return renderItem( data, classes, menuConfig, menuDispatch, itemsConfig, itemsDispatch, selectedClass);
+          return renderItem( data, classes, menuConfig, menuDispatch, itemsConfig, itemsDispatch, selectedClass, settingsVibilityValues);
       })}
     </Fragment>
   )

@@ -20,12 +20,12 @@ import Divider from '@material-ui/core/Divider';
 import MenuSettingsList from './MenuSettingsList';
 import MenuBackSettingsPanel from './MenuBackSettingsPanel';
 
-const MenuSettingsPanel = ({classes, selectedClass}) => {
+const MenuSettingsPanel = ({classes, selectedClass, settingsVibilityValues}) => {
   return (
     <Fragment>
       <List >
         <MenuBackSettingsPanel classes={classes} />
-        <MenuSettingsList classes={classes} selectedClass={selectedClass}/>
+        <MenuSettingsList classes={classes} selectedClass={selectedClass} settingsVibilityValues={settingsVibilityValues} />
       </List>
       <Divider />
     </Fragment>

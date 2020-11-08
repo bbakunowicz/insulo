@@ -19,11 +19,12 @@ import List from '@material-ui/core/List';
 import MenuItemsList from './MenuItemsList';
 import MenuBackPanel from './MenuBackPanel';
 
-const MenuItemsPanel = ({classes, history, selectedClass, authConfig}) => {
+const MenuItemsPanel = ({classes, history, selectedClass, itemVibilityValues, itemCaptionCallback}) => {
   return (
     <List >
       <MenuBackPanel classes={classes} />
-      <MenuItemsList classes={classes} history={history} selectedClass={selectedClass} authConfig={authConfig}/>
+      <MenuItemsList classes={classes} history={history} selectedClass={selectedClass} itemVibilityValues={itemVibilityValues}
+        itemCaptionCallback = {itemCaptionCallback} />
     </List>
   )
 }

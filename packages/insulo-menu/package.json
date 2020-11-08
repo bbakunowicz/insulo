@@ -1,7 +1,7 @@
 {
   "name": "insulo-menu",
-  "version": "0.1.2",
-  "description": "Testing: React component implementing an application menu",
+  "version": "0.1.3",
+  "description": "Testing: React component implementing an application menu. Do not use it in production, please",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
@@ -31,20 +31,21 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
-  "author": "Bartosz Bakunowicz",
+  "author": "Bartosz Bakunowicz <bartosz.bakunowicz@gmail.com>",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bbakunowicz/insulo-menu.git",
+    "url": "https://github.com/bbakunowicz/insulo.git",
     "directory": "packages/insulo-menu"
   },
   "bugs": {
-    "url": "https://github.com/bbakunowicz/insulo-menu/issues"
+    "url": "https://github.com/bbakunowicz/insulo/issues"
   },
-  "homepage": "https://github.com/bbakunowicz/insulo-menu#readme",
+  "homepage": "https://github.com/bbakunowicz/insulo#readme",
   "keywords": [
     "menu",
     "react",
-    "react-component"
+    "react-component",
+    "material-ui"
   ]
 }
