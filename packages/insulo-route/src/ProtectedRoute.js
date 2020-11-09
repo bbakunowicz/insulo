@@ -17,17 +17,15 @@
 import React, { Fragment, useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Context as RoutingContext } from './provider/route/providerWrapper';
-import { Context as AuthContext} from './provider/auth/providerWrapper';
 
-export function ProtectedRoute({authProps, authId, component: Component, componentProps, redirectRoute, publicRoute, 
+export function ProtectedRoute({authProps, authId, authValues, component: Component, componentProps, redirectRoute, publicRoute, 
   forwardRoute, authError, path, ...rest}) {
     const RedirectComponent=Redirect;
     const { value: routeConfig } = useContext(RoutingContext);
-    const { value: authConfig } = useContext(AuthContext);
     
     let isAuthenticated = false;
     let authPropsCnv = typeof authProps == 'object' ? {...authProps}: undefined;
-    if (typeof routeConfig.getPageVisibility == 'function' && typeof authConfig == 'object') {
+    if (typeof routeConfig.getPageVisibility == 'function' && typeof authValues != 'undefined') {
       if (typeof authPropsCnv == 'undefined') {
         if (typeof routeConfig.authRoute == 'object') {
           if (typeof path == 'string') {
@@ -51,14 +49,14 @@ export function ProtectedRoute({authProps, authId, component: Component, compone
       }
 
       if (window._INSULO_DEBUG_ === true) {
-        console.log(`ProtectedRoute: authConfig:`);
-        console.log(authConfig);
+        console.log(`ProtectedRoute: authValues:`);
+        console.log(authValues);
         console.log(`ProtectedRoute: authPropsCnv:`);
         console.log(authPropsCnv);
-    }
+      }
 
       if (typeof authPropsCnv != 'undefined') {
-        isAuthenticated = routeConfig.getPageVisibility(authConfig.authValues)(authPropsCnv);
+        isAuthenticated = routeConfig.getPageVisibility(authValues, authPropsCnv);
       }
 
     }
@@ -90,8 +88,8 @@ export function ProtectedRoute({authProps, authId, component: Component, compone
 
         if (window._INSULO_DEBUG_ === true) {
           //console.log(`ProtectedRoute: publicRoute = ${publicRoute}, isAuthenticated = ${isAuthenticated}, unauthenticatedRoute = ${unauthenticatedRoute}`);
-          console.log(`ProtectedRoute: publicRoute = ${publicRoute}, isAuthenticated = ${isAuthenticated}, authConfig:`);
-          console.log(authConfig);
+          console.log(`ProtectedRoute: publicRoute = ${publicRoute}, isAuthenticated = ${isAuthenticated}, authValues:`);
+          console.log(authValues);
 
           // if (publicRoute === true || (isAuthenticated && unauthenticatedRoute !== true) || (!isAuthenticated && unauthenticatedRoute === true)) {
           if (publicRoute === true || isAuthenticated ) {
