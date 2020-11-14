@@ -16,7 +16,7 @@
 
 interface DispatchValues {
     type: string
-};
+}
 
 export const localeTypes: {
     LS_CURRENT_LOCALE: string;
