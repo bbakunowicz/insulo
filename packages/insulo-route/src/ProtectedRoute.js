@@ -56,7 +56,16 @@ export function ProtectedRoute({authProps, authId, authValues, component: Compon
       }
 
       if (typeof authPropsCnv != 'undefined') {
-        isAuthenticated = routeConfig.getPageVisibility(authValues, authPropsCnv);
+        try {
+          isAuthenticated = routeConfig.getPageVisibility(authValues, authPropsCnv);
+        }
+        catch (e) {
+          console.error(`getPageVisibility error: ${e.message}`);
+        }
+      }
+
+      if (typeof isAuthenticated != 'boolean') {
+        isAuthenticated = false;
       }
 
     }
@@ -74,7 +83,7 @@ export function ProtectedRoute({authProps, authId, authValues, component: Compon
 
     return (
       <Route {...props} render={(props) => {
-        let mergedProps = {...componentProps, isAuthenticated, ...props};
+        let mergedProps = {...componentProps, ...props};
         if (forwardCnv){
           if (typeof mergedProps.location == 'object') {
             if (typeof mergedProps.location.state == 'undefined') {

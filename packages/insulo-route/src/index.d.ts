@@ -22,7 +22,7 @@ interface Children {
 
 interface DispatchValues {
     type: string
-};
+}
 
 export const authTypes: {
     SET_AUTH_VALUES: string;
@@ -69,6 +69,7 @@ declare namespace AuthConfigProvider {
     export interface InitValues {
         setCredentials: (credentails: any, dispatch: (DispatchValues) => void) => Promise<any>;
         clearCredentials: (dispatch: any) => Promise<any>;
+        clearCredentialsImmediately?: boolean
     }
 
     export interface Actions {

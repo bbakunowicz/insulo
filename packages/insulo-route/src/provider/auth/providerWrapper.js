@@ -64,14 +64,20 @@ const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, dispa
   })(credentials, dispatch);
 }
 
-const clearCredentialsFunc = (dispatch, clearRolesWrk) => ({history, route, dispatchState}) => {
+const clearCredentialsFunc = (dispatch, initValue) => ({dispatchState, history, route}) => {
   if (window._INSULO_DEBUG_ === true) console.log(`clearRoles: route=${route}, dispatchState = ${dispatchState}`);
+
+  const clearRolesWrk = initValue.clearCredentials;
 
   const dispatchStateSet = typeof dispatchState == 'function';
 
+  if (initValue.clearCredentialsImmediately === true) {
+    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined});
+  }
+
   if (typeof clearRolesWrk != 'function' || clearRolesWrk.constructor.name !== "AsyncFunction") {
     if (window._INSULO_DEBUG_ === true) console.error(`clearRoles: clearRolesWrk is not an AsyncFunction`);
-    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: {}});
+    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined});
     dispatchStateSet && dispatchState({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_ERROR});
   }
 
@@ -97,7 +103,7 @@ const clearCredentialsFunc = (dispatch, clearRolesWrk) => ({history, route, disp
     })(dispatch);
   }
   catch(err) {
-    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: {}});
+    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined});
     if (dispatchStateSet) { 
       if (window._INSULO_DEBUG_ === true) console.log(`clearRoles, AUTH_STATE_ERROR`);
       dispatchState({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_ERROR});
@@ -109,7 +115,7 @@ export const AuthConfigProvider = ({ children, initValue }) => {
   const [value, dispatch] = useReducer(reducer, {...initValue});
 
   const setCredentials = (typeof initValue.setCredentials == 'function')? setCredentialsFunc(dispatch,initValue.setCredentials) : undefined;
-  const clearCredentials = (typeof initValue.clearCredentials == 'function') ? clearCredentialsFunc(dispatch,initValue.clearCredentials) : undefined;
+  const clearCredentials = (typeof initValue.clearCredentials == 'function') ? clearCredentialsFunc(dispatch,initValue) : undefined;
 
   return Provider({children, Context, value, dispatch, actions: {setCredentials, clearCredentials}});
 }
