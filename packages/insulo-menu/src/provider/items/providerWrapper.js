@@ -38,10 +38,24 @@ const addId = (inputData, baseKey) => {
 }
 
 export const MenuItemsProvider = ({ children, initValue }) => {
-  const settings = typeof initValue == 'object' && typeof initValue.getSettingsItems == 'function' && 
+
+  let settings = [];
+  let items = [];
+  try {
+    settings = typeof initValue == 'object' && typeof initValue.getSettingsItems == 'function' && 
     (initValue.settings ? initValue.settings : addId(initValue.getSettingsItems()));
-  const items = typeof initValue == 'object' && typeof initValue.getMenuItems == 'function' && 
+  }
+  catch (e) {
+    console.error(`getSettingsItems error: ${e.message}`);
+  }
+
+  try {
+    items = typeof initValue == 'object' && typeof initValue.getMenuItems == 'function' && 
     (initValue.items ? initValue.items : addId(initValue.getMenuItems()));
+  }
+  catch (e) {
+    console.error(`getMenuItems error: ${e.message}`);
+  }
 
   const provider = Provider({children, initValue: {...initValue, contexts: {}, 
     items: items||[], settings: settings||[], currentSettingsKeys: {}}, Context, reducer});
