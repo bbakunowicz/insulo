@@ -67,7 +67,7 @@ declare namespace ThemeConfigProvider {
 
 interface DispatchValues {
     type: string
-};
+}
 
 declare const Context: React.Context<{value: ThemeConfigProvider.ContextValues, dispatch: (DispatchValues) => void, 
     actions: {getProps:(string, ThemeType) => any }}>
