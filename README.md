@@ -26,7 +26,7 @@ npm start
 
 **The easiest way** of Insulo components is to use the [Create React App](https://create-react-app.dev/docs/getting-started/) template:
 
-```
+```sh
 npx create-react-app insulo-test --template insulo
 cd insulo-test
 npm start
@@ -83,7 +83,7 @@ Properties of the configuration object passed to the initValue:
 # Functionality testing
 
 For basic tests, don't delete comments, just run the app:
-```
+```sh
 npx create-react-app test-insulo-template --template insulo
 cd test-insulo-template
 npm start
