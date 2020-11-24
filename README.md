@@ -79,7 +79,11 @@ The starting point of the application is *App.js*, where Insulo providers are de
 Insulo components do not provide any authentication or authorization mechanisms. Instead, they provide an interface for user authorization. For authorized access to individual pages, use the **PrivateRoute** component from the **insulo-route** package.
 
 ```jsx
-<ProtectedRoute exact path="/item1" component=   {SampleComponent} authProps={{role: "user"}} authValues={authValues} getPageVisibility={getPageVisibility} />
+<ProtectedRoute exact path="/item1" 
+    component={SampleComponent} 
+    authProps={{role: "user"}} 
+    authValues={authValues} 
+    getPageVisibility={getPageVisibility} />
 ```          
 
 **PrivateRoute** uses following parameters to configure authorized access to a given route:
