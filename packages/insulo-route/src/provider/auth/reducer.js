@@ -18,10 +18,21 @@ import * as types from "./types";
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case types.SET_AUTH_VALUES:
-      return {...state, 
-        authValues: {...action.authValues},
+    case types.SET_AUTH_VALUES: {
+      if (typeof action.authValues == 'object') {
+        return {...state, 
+          authValues: {...action.authValues},
+        }
       }
+      if (Array.isArray(action.authValues)) {
+        return {...state, 
+          authValues: [...action.authValues],
+        }
+      }
+      return {...state, 
+        authValues: action.authValues,
+      }
+    }
     default:
       return state;
   }

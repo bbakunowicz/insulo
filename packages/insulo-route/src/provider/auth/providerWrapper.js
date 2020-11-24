@@ -31,7 +31,7 @@ const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, dispa
 
   if (typeof setCredentialsWrk != 'function' || setCredentialsWrk.constructor.name !== "AsyncFunction") {
     if (window._INSULO_DEBUG_ === true) console.error(`setCredentialsFunc: setCredentialsWrk is not an AsyncFunction`);
-    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: {}});
+    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined});
     dispatchStateSet && dispatchState({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_ERROR});
   }
 
@@ -55,7 +55,7 @@ const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, dispa
     }
     catch (err) {
       if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc, SET_AUTH_VALUES`);
-      dispatch({type: authTypes.SET_AUTH_VALUES, authValues: {}});
+      dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined});
       if (dispatchStateSet) {
         if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: AUTH_STATE_ERROR`);
         dispatchState({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_ERROR});

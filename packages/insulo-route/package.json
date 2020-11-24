@@ -1,6 +1,6 @@
 {
   "name": "insulo-route",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Testing: React component providing a private route functionality. Do not use it in production, please.",
   "main": "lib/index.js",
   "module": "es/index.js",

@@ -18,14 +18,16 @@ import React, { Fragment, useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Context as RoutingContext } from './provider/route/providerWrapper';
 
-export function ProtectedRoute({authProps, authId, authValues, component: Component, componentProps, redirectRoute, publicRoute, 
+export function ProtectedRoute({authProps, authId, authValues, getPageVisibility, component: Component, componentProps, redirectRoute, publicRoute, 
   forwardRoute, authError, path, ...rest}) {
     const RedirectComponent=Redirect;
     const { value: routeConfig } = useContext(RoutingContext);
+
+    const getPageVisibilityCnv = getPageVisibility || routeConfig.getPageVisibility;
     
     let isAuthenticated = false;
     let authPropsCnv = typeof authProps == 'object' ? {...authProps}: undefined;
-    if (typeof routeConfig.getPageVisibility == 'function' && typeof authValues != 'undefined') {
+    if (typeof getPageVisibilityCnv == 'function' && typeof authValues != 'undefined') {
       if (typeof authPropsCnv == 'undefined') {
         if (typeof routeConfig.authRoute == 'object') {
           if (typeof path == 'string') {
@@ -57,7 +59,7 @@ export function ProtectedRoute({authProps, authId, authValues, component: Compon
 
       if (typeof authPropsCnv != 'undefined') {
         try {
-          isAuthenticated = routeConfig.getPageVisibility(authValues, authPropsCnv);
+          isAuthenticated = getPageVisibilityCnv(authValues, authPropsCnv);
         }
         catch (e) {
           console.error(`getPageVisibility error: ${e.message}`);

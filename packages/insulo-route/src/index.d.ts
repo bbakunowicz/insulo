@@ -101,10 +101,13 @@ declare namespace AuthStateConfigProvider {
     }
 }
 
-export function ProtectedRoute({ authProps, authId, component: Component, componentProps, redirectRoute, publicRoute, forwardRoute, authError, path, ...rest }: {
+export function ProtectedRoute({ authProps, authId, authValues, getPageVisibility, component: Component, componentProps, 
+    redirectRoute, publicRoute, forwardRoute, authError, path, ...rest }: {
     [x: string]: any;
     authProps?: any;
     authId?: string;
+    authValues?: any; 
+    getPageVisibility?: (authValues: any, authProps: any) => boolean;
     component?: (any) => JSX.Element | JSX.Element;
     componentProps?: any;
     redirectRoute?: string;
