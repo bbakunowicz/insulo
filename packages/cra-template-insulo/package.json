@@ -1,0 +1,33 @@
+{
+  "name": "cra-template-insulo",
+  "version": "0.1.0",
+  "keywords": [
+    "react",
+    "create-react-app",
+    "template",
+    "insulo"
+  ],
+  "description": "The base template for Insulo components.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbakunowicz/insulo.git",
+    "directory": "packages/cra-template-insulo"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=10"
+  },
+  "bugs": {
+    "url": "https://github.com/bbakunowicz/insulo/issues"
+  },
+  "files": [
+    "template",
+    "template.json"
+  ],
+  "keywords": [
+    "menu",
+    "react",
+    "react-component",
+    "material-ui"
+  ]
+}
