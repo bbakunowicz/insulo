@@ -1,7 +1,7 @@
 {
   "name": "insulo-theme-provider",
-  "version": "0.1.10",
-  "description": "Testing: Theme provider for React components. Do not use it in production, please.",
+  "version": "0.1.11",
+  "description": "Theme provider for Insulo components.",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
