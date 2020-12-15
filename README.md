@@ -30,12 +30,12 @@ The best way to learn about Insulo components is to run test applications. To ru
 for plain javascript example:
 ```sh
 cd cra-demo
-npm start
+yarn install && yarn start
 ```
 for the Typescript version:
 ```sh
 cd cra-demo-ts
-npm start
+yarn install && yarn start
 ```
 
 # Use of Insulo components
@@ -45,7 +45,7 @@ The easiest way of using Insulo components is to apply the [Create React App](ht
 ```
 npx create-react-app insulo-test --template insulo
 cd insulo-test
-npm start
+yarn start
 ```
 which prepares the project structure and installs appropriate packages:_insulo-menu_, _insulo-route_, _insulo-theme-provider_ and _insulo-locale-provider_.
 
@@ -193,3 +193,6 @@ An example of limiting the visibility of one of the setting menu items (*Menu va
 
 # Future plans
 There are plans to extend the library with middleware components enabling data access and components responsible for presenting data in the frontend layer. 
+
+# Licensing
+The entire project is licensed under the Apache-2.0 License, while the insulo template, located in the packages/cra-template-insulo directory is licensed under the MIT License.
