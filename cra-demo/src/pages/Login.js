@@ -1,10 +1,10 @@
 // Credit to:
 // https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-in/SignIn.js
 import React, {useState, useContext, Fragment} from 'react';
+import clsx from 'clsx';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
@@ -14,8 +14,15 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import InfoIcon from '@material-ui/icons/Info';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import {AuthContext, AuthStateContext, authTypes} from 'insulo-route';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Popover from '@material-ui/core/Popover';
+import {AuthContext, authTypes} from 'insulo-route';
 import LoginSuspense from './LoginSuspense';
 
 function Copyright() {
@@ -29,6 +36,72 @@ function Copyright() {
       {'.'}
     </Typography>
   );
+}
+
+function CustomControl({children, controlId, popoverId, label, type, autocomplete, value, onChange, classes, ariaLabel}) {
+  const [anchor, setAnchor] = React.useState(null);
+
+  const popoverOpen = Boolean(anchor);
+  
+  const popoverIdCnv = popoverOpen ? popoverId : undefined;
+
+  const handleClick = (event) => {
+    setAnchor(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchor(null);
+  };
+
+  const handleMouseDown = (event) => {
+    event.preventDefault();
+  };
+
+  return (
+    <React.Fragment>
+      <FormControl className={clsx(classes.margin)} variant="outlined" fullWidth >
+        <InputLabel htmlFor={controlId}>{label}</InputLabel>
+        <OutlinedInput
+          id={controlId}
+          type={type}
+          fullWidth
+          autoComplete={autocomplete}
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                color='primary'
+                aria-label={ariaLabel}
+                onClick={handleClick}
+                onMouseDown={handleMouseDown}
+                edge="end"
+              >
+                <InfoIcon />
+              </IconButton>
+            </InputAdornment>
+          }
+          label={label}
+        />
+      </FormControl>
+      <Popover
+        id={popoverIdCnv}
+        open={popoverOpen}
+        anchorEl={anchor}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        {children}
+      </Popover>
+    </React.Fragment>
+  )
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -55,35 +128,36 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     },
   },
+  margin: {
+    marginBottom: theme.spacing(1),
+  },
+  popover: {
+    padding: theme.spacing(2),
+  },
 }));
 
-// In order to use custom Authentication & Authorization without helper method "setCredentials" you can dispatch actions like: 
-// dispatchState({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_LOGINPROGRESS});
-// authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin']}});
-// dispatchState({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_SET});
-// history.push(location.state.forward);
-
-const handleSubmit = (actions, username, password, authDispatch, dispatchState, location, history) => (evt) => {
-  evt.preventDefault();
-  if (window._INSULO_DEBUG_ === true) console.log(`Login, (handleSubmit): forward=${location.state.forward}`);
-  
-  const route = (typeof location == 'object' && typeof location.state == 'object' && typeof location.state.forward == 'string')?
-    location.state.forward : undefined;
-  actions.setCredentials({credentials: {username, password}, dispatchState, history, route});
-
-  if (window._INSULO_DEBUG_ === true) console.log('Login, (handleSubmit): end');
-}
-
 export default function SignIn({history, location, ...params}) {
+  console.log('SignIn');
 
   const classes = useStyles();  
-  const {value: authConfig, actions: authActions, dispatch: authDispatch} = useContext(AuthContext);
-  const {value: authStateConfig, dispatch: authStateDispatch} = useContext(AuthStateContext);
+  const {value: authConfig, actions: authActions} = useContext(AuthContext);
+  
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    if (window._INSULO_DEBUG_ === true) console.log(`Login, (handleSubmit): forward=${location.state.forward}`);
+    
+    const route = (typeof location == 'object' && typeof location.state == 'object' && typeof location.state.forward == 'string')?
+      location.state.forward : undefined;
+      authActions.setCredentials({credentials: {username, password}, history, route});
+  
+    if (window._INSULO_DEBUG_ === true) console.log('Login, (handleSubmit): end');
+  }
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  if (authStateConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS || authStateConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {
+  if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS || authConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {
     return (
       <LoginSuspense />
     )
@@ -101,34 +175,21 @@ export default function SignIn({history, location, ...params}) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit(
-            authActions, username, password, authDispatch, authStateDispatch, location, history)}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="username"
-            autoFocus
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <CustomControl controlId="username-with-info" popoverId="username-popover" label="Username" type="text" 
+            autocomplete="username" value={username} onChange={setUsername} classes={classes} 
+            ariaLabel="acceptable values are: user or admin" >
+            <Typography className={classes.popover}>
+              Use one of the predefined username values:<br />"<strong>user</strong>"" or "<strong>admin</strong>".
+            </Typography>
+          </CustomControl>
+          <CustomControl controlId="password-with-info" popoverId="password-popover" label="Password" type="password" 
+            autocomplete="current-password" value={password} onChange={setPassword} classes={classes} 
+            ariaLabel="enter any non-empty (preferably complicated) string" >
+            <Typography className={classes.popover}>
+              Enter any non-empty (preferably complicated) string.
+            </Typography>
+          </CustomControl>
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -157,31 +218,32 @@ export default function SignIn({history, location, ...params}) {
         </form>
       </div>
     </Container>
-    <Container component="main" maxWidth="md">
+    <Container component="main" maxWidth="xs">
       <div className={classes.alerts}>
-      { authStateConfig.authState === authTypes.AUTH_STATE_ERROR &&
-        <Alert severity="error">
-          Autorization error - wrong username or empty password.<br />
-          Use: <strong>user</strong> or <strong>admin</strong> as username and <strong>any string</strong> as password.
-        </Alert>
-      } 
-      <Alert severity="info">
-        <AlertTitle>Use for authorization:</AlertTitle>
-          Username: <strong>user</strong>, Password: <strong>{"<any_string>"}</strong> or
-          Username: <strong>admin</strong>, Password: <strong>{"<any_string>"}</strong>
-      </Alert>
+      { (authConfig.authState === authTypes.AUTH_STATE_ERROR && !(typeof authConfig.authError == 'object' && typeof authConfig.authError.message)) && (
+          <Alert severity="error">
+            Autorization error - wrong username or empty password.<br />
+            Use: <strong>user</strong> or <strong>admin</strong> as username and <strong>any string</strong> as password.
+          </Alert>
+        )
+      }
+      { (authConfig.authState === authTypes.AUTH_STATE_ERROR && typeof authConfig.authError == 'object' && typeof authConfig.authError.message) && (
+          <Alert severity="error">{authConfig.authError.message}</Alert>
+        )
+      }
       { (roles.length > 0) && (
         <Alert severity="warning">
           <AlertTitle>User is already authenticated</AlertTitle>
             Current roles are: "<strong>{`${roles.join(', ')}`}</strong>".
+            {typeof location.state.authError === 'string' && <br />}
             {typeof location.state.authError === 'string' && location.state.authError}
         </Alert>
       )}
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
-    </Fragment>
+    <Box mt={8}>
+      <Copyright />
+    </Box>
+  </Fragment>
   );
 }

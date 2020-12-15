@@ -73,30 +73,19 @@ declare namespace AuthConfigProvider {
     }
 
     export interface Actions {
-        setCredentials: ({ credentials, dispatchState, history, route }: {
+        setCredentials: ({ credentials, history, route }: {
             credentials: any;
-            dispatchState: (DispatchValues) => void;
             history: History<LocationState>;
             route: string;
         }) => void,
-        clearCredentials: ({ history, route, dispatchState }: {
+        clearCredentials: ({ history, route }: {
             history: History<LocationState>;
             route: string;
-            dispatchState: (DispatchValues) => void;
         }) => void | undefined
     }
 
     export interface ContextValues extends InitValues {
-        authValues?: any
-    }
-}
-
-export const AuthStateConfigProvider: ({ children }: {
-    children: React.ReactNode;
-}) => JSX.Element
-
-declare namespace AuthStateConfigProvider {
-    interface ContextValues {
+        authValues?: any,
         authState: AuthState
     }
 }
@@ -122,5 +111,3 @@ export default Context;
 
 export const AuthContext: React.Context<{value: AuthConfigProvider.ContextValues, dispatch: (DispatchValues) => void, 
     actions: AuthConfigProvider.Actions}>
-
-export const AuthStateContext: React.Context<{value: AuthStateConfigProvider.ContextValues, dispatch: (DispatchValues) => void}>

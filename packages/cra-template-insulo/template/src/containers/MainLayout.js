@@ -6,9 +6,9 @@ import {MenuLanding, ApplicationBar} from 'insulo-menu';
 import Routes from '../pages/routing/Routes';
 import MenuWrapper from './MenuWrapper';
 // #Theming(start)
-import { useContext } from 'react';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import ThemeContext from 'insulo-theme-provider';
+// import { useContext } from 'react';
+// import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+// import ThemeContext from 'insulo-theme-provider';
 // #Theming(stop)
 
 const history = createBrowserHistory();
@@ -37,18 +37,18 @@ function Layout() {
 export default function MainLayout() {
 
   // #Theming(start)
-  const { value:themeConfig, actions: themeActions } = useContext(ThemeContext);
-  const theme = React.useMemo(() => createMuiTheme(themeActions.getProps(themeConfig.current, themeConfig.type)), [themeConfig, themeActions]);
+  // const { value:themeConfig, actions: themeActions } = useContext(ThemeContext);
+  // const theme = React.useMemo(() => createMuiTheme(themeActions.getProps(themeConfig.current, themeConfig.type)), [themeConfig, themeActions]);
   // #Theming(stop)
 
   return (
     <Fragment>
     {/* #Theming(start) */}
-    <ThemeProvider theme={theme}>
+    {/* <ThemeProvider theme={theme}> */}
     {/* #Theming(stop) */}
       <Layout />
     {/* #Theming(start) */}
-    </ThemeProvider>
+    {/* </ThemeProvider> */}
     {/* #Theming(stop) */}
     </Fragment>
   );

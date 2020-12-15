@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Alert } from '@material-ui/lab';
-import {AuthContext, AuthStateContext, authTypes} from 'insulo-route';
+import {AuthContext, authTypes} from 'insulo-route';
 import LoginSuspense from './LoginSuspense';
 
 function Copyright() {
@@ -51,28 +51,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const handleSubmit = (actions, location, history, dispatchState) => (evt) => {
-  evt.preventDefault();
-
-  const route = (typeof location == 'object' && typeof location.state == 'object' && typeof location.state.forward == 'string')?
-    location.state.forward : undefined;
-
-  actions.clearCredentials({dispatchState, history, route});
-}
 
 export default function SignOut({history, location, ...params}) {
 
   const classes = useStyles();  
-  const {actions: authActions} = useContext(AuthContext);
-  const {value: authStateConfig, dispatch: authStateDispatch} = useContext(AuthStateContext);
+  const {actions: authActions, value: authConfig} = useContext(AuthContext);
 
-  if (authStateConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS || authStateConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+  
+    const route = (typeof location == 'object' && typeof location.state == 'object' && typeof location.state.forward == 'string')?
+      location.state.forward : undefined;
+  
+    authActions.clearCredentials({history, route});
+  }
+
+  if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS || authConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {
     return (
       <LoginSuspense />
     )
   }
 
-  if (authStateConfig.authState === authTypes.AUTH_STATE_SET) {
+  if (authConfig.authState === authTypes.AUTH_STATE_SET) {
     return (
       <Fragment>
       <Container component="main" maxWidth="xs">
@@ -84,7 +84,7 @@ export default function SignOut({history, location, ...params}) {
           <Typography component="h1" variant="h5">
             Sign Out
           </Typography>
-          <form className={classes.form} noValidate onSubmit={handleSubmit(authActions, location, history, authStateDispatch)}>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Button
               type="submit"
               fullWidth

@@ -95,10 +95,9 @@ declare namespace MenuItemsProvider {
 
     export interface InitValues {
         defaultVisible?: boolean,
-        getMenuItems: () => Array<Item | ItemWithSubitems | ItemDivider>,
-        getSettingsItems: () => Array<Setting | SettingWithSubitems | ItemDivider>,
-        getItemVisibility?: (any, any) => boolean,
-        getSettingVisibility?: (any, any) => boolean
+        getMenuItems?: () => Array<Item | ItemWithSubitems | ItemDivider>,
+        getSettingsItems?: () => Array<Setting | SettingWithSubitems | ItemDivider>
+        getItemVisibility?: (authValues: any, item: any) => boolean
     }
 
     export interface ContextValues extends InitValues {

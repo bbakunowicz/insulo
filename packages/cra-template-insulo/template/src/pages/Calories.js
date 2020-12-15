@@ -9,11 +9,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 // #Theming(start) and #Localization(start)
-import { useContext } from 'react'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import TablePagination from '@material-ui/core/TablePagination';
-import * as locales from '@material-ui/core/locale';
-import LocaleContext from 'insulo-locale-provider';
+// import { useContext } from 'react'
+// import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+// import TablePagination from '@material-ui/core/TablePagination';
+// import * as locales from '@material-ui/core/locale';
+// import LocaleContext from 'insulo-locale-provider';
 // #Theming(stop) and #Localization(stop)
 
 const useStyles = makeStyles({
@@ -125,17 +125,17 @@ const Page = () => {
   let protein = "Protein (g)";
 
   // #Localization(start)
-  const { value: localeConfig } = useContext(LocaleContext);
-  currentLocale = localeConfig.currentLocale;
+  // const { value: localeConfig } = useContext(LocaleContext);
+  // currentLocale = localeConfig.currentLocale;
   
-  if (localeConfig.currentLocale && typeof localeConfig.locales == 'object' && 
-    typeof localeConfig.locales[localeConfig.currentLocale] == 'object') {
-    calories = localeConfig.locales[localeConfig.currentLocale]['page_el_calories'];
-    dessert = localeConfig.locales[localeConfig.currentLocale]['page_el_dessert'];
-    fat = localeConfig.locales[localeConfig.currentLocale]['page_el_fat'];
-    carbs = localeConfig.locales[localeConfig.currentLocale]['page_el_carbs'];
-    protein = localeConfig.locales[localeConfig.currentLocale]['page_el_protein'];
-  }
+  // if (localeConfig.currentLocale && typeof localeConfig.locales == 'object' && 
+  //   typeof localeConfig.locales[localeConfig.currentLocale] == 'object') {
+  //   calories = localeConfig.locales[localeConfig.currentLocale]['page_el_calories'];
+  //   dessert = localeConfig.locales[localeConfig.currentLocale]['page_el_dessert'];
+  //   fat = localeConfig.locales[localeConfig.currentLocale]['page_el_fat'];
+  //   carbs = localeConfig.locales[localeConfig.currentLocale]['page_el_carbs'];
+  //   protein = localeConfig.locales[localeConfig.currentLocale]['page_el_protein'];
+  // }
   // #Localization(stop)
 
   return (
@@ -143,7 +143,7 @@ const Page = () => {
       <h1>{`${calories}`}</h1>
       <SimpleTable props={{dessert, calories, fat, carbs, protein}} currentLocale={currentLocale} />
       {/* #Theming(start) and #Localization(start), At least all #Theming sections in App.js and MainLayout.js must be uncommented */}
-      <ThemeProvider theme={(outerTheme) => createMuiTheme(outerTheme, locales[localeConfig.currentLocaleMui])}>
+      {/* <ThemeProvider theme={(outerTheme) => createMuiTheme(outerTheme, locales[localeConfig.currentLocaleMui])}>
         <TablePagination
             count={5}
             rowsPerPage={10}
@@ -151,7 +151,7 @@ const Page = () => {
             component="div"
             onChangePage={() => {}}
           />
-      </ThemeProvider>
+      </ThemeProvider> */}
       {/* #Theming(stop) and #Localization(stop) */}
     </section>
   )

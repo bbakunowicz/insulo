@@ -20,7 +20,7 @@ import {RouteConfigProvider} from 'insulo-route';
 import routingConfig from '../config/routing/initial';
 
 // #Authentication(start)
-import {AuthConfigProvider, AuthStateConfigProvider} from 'insulo-route';
+import {AuthConfigProvider} from 'insulo-route';
 import authConfig from '../config/auth/initial'
 // #Authentication(stop)
 
@@ -39,7 +39,6 @@ export default function Demo () {
         {/* #Theming(stop) */}
           {/* #Authentication(start) */}
           <AuthConfigProvider initValue={authConfig}>
-          <AuthStateConfigProvider>
           {/* #Authentication(stop) */}
               <MenuConfigProvider initValue={menuConfig}>
                 <MenuItemsProvider initValue={menuItemsConfig}>
@@ -47,7 +46,6 @@ export default function Demo () {
                 </MenuItemsProvider>
               </MenuConfigProvider>
           {/* #Authentication(start) */}
-          </AuthStateConfigProvider>
           </AuthConfigProvider>
           {/* #Authentication(stop) */}
         {/* #Theming(start) */}

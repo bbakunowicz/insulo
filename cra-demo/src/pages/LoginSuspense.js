@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {AuthStateContext, authTypes} from 'insulo-route';
+import {AuthContext, authTypes} from 'insulo-route';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginSuspense() {
 
   const classes = useStyles();  
-  const {value: authConfig} = useContext(AuthStateContext);
+  const {value: authConfig} = useContext(AuthContext);
 
   if (window._INSULO_DEBUG_ === true) console.log(`LoginSuspense, authConfig.authState = ${authConfig.authState}`);
 

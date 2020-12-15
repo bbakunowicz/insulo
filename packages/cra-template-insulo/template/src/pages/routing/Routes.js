@@ -4,16 +4,16 @@ import Subitem from '../Subitem';
 import Dashboard from '../Dashboard';
 import Calories from '../Calories';
 // #Authentication(start)
-import {useContext} from 'react';
-import Login from '../Login';
-import Logout from '../Logout';
-import {ProtectedRoute, AuthContext} from 'insulo-route';
+// import {useContext} from 'react';
+// import Login from '../Login';
+// import Logout from '../Logout';
+// import {ProtectedRoute, AuthContext} from 'insulo-route';
 // #Authentication(stop)
 
 const Routes = (props) => {
   // #Authentication(start)
-  const { value: authConfig } = useContext(AuthContext);
-  const authValues=authConfig.authValues;
+  // const { value: authConfig } = useContext(AuthContext);
+  // const authValues=authConfig.authValues;
   // #Authentication(stop)
 
   return (
@@ -27,7 +27,7 @@ const Routes = (props) => {
         <Route exact path="/subitem1-2-2" render={(props) => <Subitem {...props} title="Item 1-2-2" title_id='item_1_2_2' />} />
         {/* #Authentication(start) */}
                 
-        <ProtectedRoute exact path="/useritem" component={Subitem} componentProps={{title:'User Page', title_id: 'item_user'}} 
+        {/* <ProtectedRoute exact path="/useritem" component={Subitem} componentProps={{title:'User Page', title_id: 'item_user'}} 
           authProps={{roles:['user', 'admin']}} authValues={authValues} authError="&quot;User's Page&quot; requires an user role."/>
         <ProtectedRoute exact path="/userhiddenitem" component={Subitem} componentProps={{title:"User's Hidden Item", title_id: 'item_user_hidden'}}
           authProps={{roles:['user', 'admin']}} authValues={authValues} />
@@ -47,7 +47,7 @@ const Routes = (props) => {
           authId="admin" authValues={authValues} />
         <ProtectedRoute exact path="/login" component={Login} publicRoute forwardRoute="/" />
         <ProtectedRoute exact path="/logout" component={Logout} forwardRoute="/" authProps={{roles:['user']}} authValues={authValues} /> 
-       
+        */}
         {/* #Authentication(stop) */}
         <Route component={Dashboard} />
       </Switch>

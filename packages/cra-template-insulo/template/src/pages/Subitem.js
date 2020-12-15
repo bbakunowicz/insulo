@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import Typography from '@material-ui/core/Typography';
 // #Localization(start)
-import { useContext } from 'react'
-import LocaleContext from 'insulo-locale-provider';
+// import { useContext } from 'react'
+// import LocaleContext from 'insulo-locale-provider';
 // #Localization(stop)
 
 const Page = ({title, title_id}) => {
@@ -39,12 +39,12 @@ const Page = ({title, title_id}) => {
   let title_cnv = title;
 
   // #Localization(start)
-  const { value: localeConfig } = useContext(LocaleContext);
+  // const { value: localeConfig } = useContext(LocaleContext);
 
-  if (title_id && localeConfig.currentLocale && typeof localeConfig.locales == 'object' && 
-    typeof localeConfig.locales[localeConfig.currentLocale] == 'object') {
-    title_cnv = localeConfig.locales[localeConfig.currentLocale][title_id];
-  }
+  // if (title_id && localeConfig.currentLocale && typeof localeConfig.locales == 'object' && 
+  //   typeof localeConfig.locales[localeConfig.currentLocale] == 'object') {
+  //   title_cnv = localeConfig.locales[localeConfig.currentLocale][title_id];
+  // }
   // #Localization(stop)
 
   return (

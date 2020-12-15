@@ -22,7 +22,5 @@ export { ProtectedRoute } from './ProtectedRoute';
 
 export { Context as AuthContext } from './provider/auth/providerWrapper';
 export { AuthConfigProvider } from './provider/auth/providerWrapper';
-export { Context as AuthStateContext } from './provider/state/providerWrapper';
-export { AuthStateConfigProvider } from './provider/state/providerWrapper';
 
 export { authTypes }
