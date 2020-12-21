@@ -18,5 +18,6 @@ import * as localeTypes from './types'
 
 export { Context as default } from './providerWrapper'
 export { default as LocaleConfigProvider} from './providerWrapper'
+export { withContext as withLocale } from './withContext';
 export { default as getItemCaption} from './getItemCaption'
 export {localeTypes}

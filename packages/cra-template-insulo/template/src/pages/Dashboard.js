@@ -87,15 +87,15 @@ const Page = ({history}) => {
   // #Localization(stop)
 
   // #No localization(start) - comment below when using localization
-  // return (
-  //   <section>
-  //     <h1>Home</h1>
-  //     <Typography paragraph>"Hello! How are you?"</Typography>
-  //     <Link href="#" onClick={(e) => handleClick(e, history)}>
-  //       {`${goto} "${sample}"`}
-  //     </Link>
-  //   </section>
-  // )
+  return (
+    <section>
+      <h1>Home</h1>
+      <Typography paragraph>"Hello! How are you?"</Typography>
+      <Link href="#" onClick={(e) => handleClick(e, history)}>
+        {`${goto} "${sample}"`}
+      </Link>
+    </section>
+  )
   // #No localization(stop)
 
 }

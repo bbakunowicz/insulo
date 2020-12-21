@@ -1,6 +1,6 @@
 // Credit to:
 // https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-in/SignIn.js
-import React, {useContext, Fragment} from 'react';
+import React, {useContext, Fragment, Component} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Alert } from '@material-ui/lab';
-import {AuthContext, authTypes} from 'insulo-route';
+import AuthConfigProvider, {AuthContext, authTypes} from 'insulo-route';
 import LoginSuspense from './LoginSuspense';
 import type { History, LocationState } from 'history';
 
@@ -52,6 +52,98 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+class SignOutForm extends Component<{history: History<LocationState>, location: any, classes: any, 
+  authContext: {actions: AuthConfigProvider.Actions, value: AuthConfigProvider.ContextValues}}> {
+
+  handleSubmit = (evt: React.FormEvent<HTMLFormElement>):void => {
+    evt.preventDefault();
+  
+    const {history, location, authContext} = this.props;
+
+    const route = (typeof location == 'object' && typeof location.state == 'object' && 
+      typeof location.state.forward == 'string')?
+      location.state.forward : undefined;
+
+    authContext.actions.clearCredentials({history, route, additionalProps: {async: authContext.value.authValues.asyncSignIn}});
+  }
+
+  render() {
+    const classes = this.props.classes;
+    const authConfig = this.props.authContext.value;
+
+    if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS || authConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {
+      return (
+        <LoginSuspense />
+      )
+    }
+  
+    if (authConfig.authState === authTypes.AUTH_STATE_SET) {
+      return (
+        <Fragment>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOpenOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign Out
+            </Typography>
+            <form className={classes.form} noValidate onSubmit={this.handleSubmit}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign Out
+              </Button>
+            </form>
+          </div>
+        </Container>
+        <Container component="main" maxWidth="lg">
+          <Box mt={8}>
+            <Copyright />
+          </Box>
+        </Container>
+        </Fragment>
+      );
+    }
+  
+    return (
+      <Container component="main" maxWidth="sm">
+        <CssBaseline />
+        <Alert severity="error">
+          Authentication error.
+        </Alert>
+      </Container>
+    );
+  }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export default function SignOut({history, location}:
   {history: History<LocationState>, location: any}) {
 
@@ -64,7 +156,7 @@ export default function SignOut({history, location}:
     const route = (typeof location == 'object' && typeof location.state == 'object' && typeof location.state.forward == 'string')?
       location.state.forward : undefined;
   
-    authActions.clearCredentials({history, route});
+      authActions.clearCredentials({history, route, additionalProps: {async: authConfig.authValues.asyncSignIn}});
   }
 
   if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS || authConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {

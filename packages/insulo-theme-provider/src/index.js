@@ -18,4 +18,5 @@ import * as themeTypes from './types'
 
 export { Context as default } from './providerWrapper'
 export { default as ThemeConfigProvider} from './providerWrapper'
+export { withContext as withMenuTheme } from './withContext';
 export {themeTypes}

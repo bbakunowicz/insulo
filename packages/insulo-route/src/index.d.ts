@@ -67,26 +67,31 @@ export const AuthConfigProvider: ({ children, initValue }: {
 
 declare namespace AuthConfigProvider {
     export interface InitValues {
-        setCredentials: (credentails: any, dispatch: (DispatchValues) => void) => Promise<any>;
-        clearCredentials: (dispatch: any) => Promise<any>;
+        setCredentials: (credentails: any, dispatch: ({type,authValues}:{type: string, authValues: any})=>void, additionalProps?: any) 
+            => Promise<void> | void;
+        clearCredentials: (dispatch: ({type,authValues}:{type: string, authValues: any})=>void, additionalProps?: any) 
+            => Promise<void> | void;
         clearCredentialsImmediately?: boolean
     }
 
     export interface Actions {
-        setCredentials: ({ credentials, history, route }: {
-            credentials: any;
-            history: History<LocationState>;
-            route: string;
+        setCredentials: ({ credentials, history, route, ...additionalProps }: {
+            credentials: any,
+            history: History<LocationState>,
+            route: string,
+            additionalProps?: any
         }) => void,
-        clearCredentials: ({ history, route }: {
+        clearCredentials: ({ history, route, ...additionalProps }: {
             history: History<LocationState>;
             route: string;
+            additionalProps?: any
         }) => void | undefined
     }
 
     export interface ContextValues extends InitValues {
         authValues?: any,
-        authState: AuthState
+        authState: AuthState,
+        authError?: {name?: string, message: string}
     }
 }
 
@@ -111,3 +116,5 @@ export default Context;
 
 export const AuthContext: React.Context<{value: AuthConfigProvider.ContextValues, dispatch: (DispatchValues) => void, 
     actions: AuthConfigProvider.Actions}>
+
+export = AuthConfigProvider;

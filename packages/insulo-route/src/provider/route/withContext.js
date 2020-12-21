@@ -14,17 +14,10 @@
    limitations under the License.
 ***************************************************************************/
 
-import * as menuTypes from './provider/types'
+import React, { useContext } from "react";
+import {Context} from './providerWrapper';
 
-export { Context as default } from './provider/config/providerWrapper';
-export { MenuConfigProvider} from './provider/config/providerWrapper';
-export { withContext as withMenuConfig } from './provider/config/withContext';
-export { Context as ItemsContext } from './provider/items/providerWrapper';
-export { MenuItemsProvider} from './provider/items/providerWrapper';
-export { withContext as withMenuItems } from './provider/items/withContext';
-
-export {Menu} from './Menu'
-export {MenuLanding} from './MenuLanding'
-export {ApplicationBar} from './ApplicationBar'
-
-export {menuTypes}
+export const withContext = Component => props => {
+    const context = useContext(Context)
+    return <Component {...props} authContext={context} />
+}

@@ -14,7 +14,6 @@ import ViewArrayIcon from '@material-ui/icons/ViewArray';
 // import ViewModuleIcon from '@material-ui/icons/ViewModule';
 // import ViewQuiltIcon from '@material-ui/icons/ViewQuilt';
 // import { FaSignInAlt, FaSignOutAlt, FaUser, FaUserTie, FaUserShield, FaUserSecret } from "react-icons/fa";
-
 // #Authentication(stop)
 
 import { FaHome } from "react-icons/fa";

@@ -12,10 +12,8 @@ import ViewDayIcon from '@material-ui/icons/ViewDay';
 import ViewCompactIcon from '@material-ui/icons/ViewCompact';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import ViewQuiltIcon from '@material-ui/icons/ViewQuilt';
-import PersonIcon from '@material-ui/icons/Person';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
-import ViewStreamOutlinedIcon from '@material-ui/icons/ViewStreamOutlined';
+import { FaSignInAlt, FaSignOutAlt, FaUser, FaUserTie, FaUserShield, FaUserSecret } from "react-icons/fa";
+
 // #Authentication(stop)
 
 import { FaHome } from "react-icons/fa";
@@ -86,27 +84,27 @@ export default () => {
     {
       caption: "User's Page",       
       captionId: "item_user",
-      icon: <PersonIcon />,
+      icon: <FaUser />,
       route: "/useritem",
     },
     {
       caption: "Admin's Page",
       captionId: "item_admin",
-      icon: <PersonAddIcon />,
+      icon: <FaUserTie />,
       route: "/adminitem",
     },
     {
       caption: "User's Hidden Page",       
       captionId: "item_user_hidden",
       visibleParams: {roles: ['user']},
-      icon: <PersonOutlineIcon />,
+      icon: <FaUserShield />,
       route: "/userhiddenitem",
     },
     {
       caption: "Admin's Hidden Submenu",
       captionId: "item_submenu_admin",
       visibleParams: {roles: ['admin']},
-      icon: <ViewStreamOutlinedIcon />,
+      icon: <FaUserSecret />,
       items: [
         {
           caption: "Subitem 2-1",
@@ -148,14 +146,14 @@ export default () => {
       caption: "Sign In",
       captionId: "item_sign_in",
       visibleParams: {except: ['user']},
-      icon: <PersonIcon />,
+      icon: <FaSignInAlt />,
       route: "/login",
     },
     {
       caption: "Sign Out",
       captionId: "item_sign_out",
       visibleParams: {roles: ['user']},
-      icon: <PersonIcon />,
+      icon: <FaSignOutAlt />,
       route: "/logout",
     }
     // #Authentication(stop)

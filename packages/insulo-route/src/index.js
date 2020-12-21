@@ -18,9 +18,11 @@ import * as authTypes from './provider/auth/types';
 
 export { Context as default } from './provider/route/providerWrapper';
 export { RouteConfigProvider} from './provider/route/providerWrapper';
+export { withContext as withRoute } from './provider/route/withContext';
 export { ProtectedRoute } from './ProtectedRoute';
 
 export { Context as AuthContext } from './provider/auth/providerWrapper';
-export { AuthConfigProvider } from './provider/auth/providerWrapper';
+export { AuthConfigProvider} from './provider/auth/providerWrapper';
+export { withContext as withAuth } from './provider/auth/withContext';
 
 export { authTypes }
