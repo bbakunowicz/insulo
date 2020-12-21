@@ -1,12 +1,7 @@
-import {setRoles, clearRoles} from './setRoles';
-// sync version:
-// import {setRolesSync, clearRolesSync} from './setRoles';
+import {setCredentials, clearCredentials} from './setCredentials';
 
 export default { 
-  setCredentials: setRoles,
-  clearCredentials: clearRoles,
-  // sync version:
-  // setCredentials: setRolesSync,
-  // clearCredentials: clearRolesSync,
+  setCredentials,         //You can use setCredentialsAsync or setCredentialsSync directly here
+  clearCredentials,       //You can use clearCredentialsAsync or clearCredentialsSync directly here
   clearCredentialsImmediately: false
 }

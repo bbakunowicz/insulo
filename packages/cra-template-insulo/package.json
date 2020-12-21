@@ -1,11 +1,11 @@
 {
   "name": "cra-template-insulo",
-  "version": "0.1.4",
+  "version": "0.1.0",
   "keywords": [
-    "menu",
     "react",
-    "react-component",
-    "material-ui"
+    "create-react-app",
+    "template",
+    "insulo"
   ],
   "description": "The base template for Insulo components.",
   "repository": {
@@ -23,5 +23,11 @@
   "files": [
     "template",
     "template.json"
+  ],
+  "keywords": [
+    "menu",
+    "react",
+    "react-component",
+    "material-ui"
   ]
 }

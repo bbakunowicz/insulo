@@ -131,9 +131,9 @@ export default () => {
       //     },
       //   ]
       // },
-      // #Theming(stop)
+      // // #Theming(stop)
 
-      // #Localization(start)
+      // // #Localization(start)
       // {
       //   caption: "Languages",
       //   icon: <LanguageIcon />,
