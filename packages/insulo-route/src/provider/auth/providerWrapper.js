@@ -25,11 +25,14 @@ const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, histo
   if (window._INSULO_DEBUG_ === true) {
     console.log(`setCredentialsFunc: route=${route}, credentials:`);
     console.log(credentials);
+    console.log(`setCredentialsFunc: additionalProps:`);
+    console.log(additionalProps);
   }
 
-  const setAuthStateSet = () => {
-    if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: AUTH_STATE_SET`);
-    dispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_SET});
+  const setAuthStateSet = (result) => {
+    if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: setAuthStateSet, authValues:`);
+    if (window._INSULO_DEBUG_ === true) console.log(result);
+    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET});
 
     if (typeof route == 'string' && typeof history == 'object') {
       if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: history.push: route=${route}`);
@@ -38,7 +41,7 @@ const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, histo
   }
 
   const setAuthStateError = (error) => {
-    if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: SET_AUTH_VALUES, AUTH_STATE_ERROR`);
+    if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: setAuthStateError, error = ${error}`);
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, authError: error});
   }
 
@@ -47,20 +50,19 @@ const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, histo
     console.error(`setCredentialsFunc: setCredentialsWrk is not a function`);
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, 
       authError: {message: 'setCredentials is not a function'}});
-    //dispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_ERROR});
     return;
   }
 
   try {
-    const promise = setCredentialsWrk(credentials, dispatch, {...additionalProps});
+    const retval = setCredentialsWrk({credentials, additionalProps});
 
-    if (promise && typeof promise.then === 'function' && promise[Symbol.toStringTag] === 'Promise') {
+    if (retval && typeof retval.then === 'function' && retval[Symbol.toStringTag] === 'Promise') {
       if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: AUTH_STATE_LOGINPROGRESS`);
       dispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_LOGINPROGRESS});
     
-      promise
+      retval
       .then(result => {
-        setAuthStateSet();
+        setAuthStateSet(result);
       })
       .catch(error => {
         // async exceptions
@@ -68,7 +70,7 @@ const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, histo
       });
     }
     else {
-      setAuthStateSet();
+      setAuthStateSet(retval);
     }
   }
   catch (error) {
@@ -78,11 +80,12 @@ const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, histo
 }
 
 const clearCredentialsFunc = (dispatch, initValue) => ({history, route, additionalProps}) => {
-  if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: route=${route}`);
+  if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: route=${route}, additionalProps:`);
+  if (window._INSULO_DEBUG_ === true) console.log(additionalProps);
 
   const setAuthStateUnset = () => {
-    if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc, AUTH_STATE_UNSET`);
-    dispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_UNSET});
+    if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: setAuthStateUnset`);
+    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_UNSET});
 
     if (typeof route == 'string' && typeof history == 'object') {
       if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: history.push: route=${route}`);
@@ -91,39 +94,38 @@ const clearCredentialsFunc = (dispatch, initValue) => ({history, route, addition
   }
 
   const setAuthStateError = (error) => {
-    if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: SET_AUTH_VALUES, AUTH_STATE_ERROR`);
+    if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: setAuthStateError, error = ${error}`);
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, authError: error});
   }
 
-  const clearRolesWrk = initValue.clearCredentials;
+  const clearCredentialsWrk = initValue.clearCredentials;
 
   if (initValue.clearCredentialsImmediately === true) {
-    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined});
+    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_UNSET});
   }
 
-  if (typeof clearRolesWrk != 'function') {
+  if (typeof clearCredentialsWrk != 'function') {
     if (window._INSULO_DEBUG_ === true) console.error(`clearCredentialsFunc: clearCredentials is not a function`);
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, 
       authError: {message: 'clearCredentials is not a function'}});
-    // dispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_ERROR});
     return;
   }
 
   try {
-    const promise = clearRolesWrk(dispatch, {...additionalProps});
+    const retval = clearCredentialsWrk({additionalProps});
 
-    if (promise && typeof promise.then === 'function' && promise[Symbol.toStringTag] === 'Promise') {
+    if (retval && typeof retval.then === 'function' && retval[Symbol.toStringTag] === 'Promise') {
       if (window._INSULO_DEBUG_ === true) console.log(`clearRoles: AUTH_STATE_LOGOUTPROGRESS`);
       dispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_LOGOUTPROGRESS});
         
-      promise
+      retval
       .then(result => {
-        setAuthStateUnset();
+        setAuthStateUnset(result);
       })
       .catch(error => {setAuthStateError(error)});
     }
     else {
-      setAuthStateUnset();
+      setAuthStateUnset(retval);
     }
   }
   catch (error) {

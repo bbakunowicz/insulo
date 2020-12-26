@@ -19,5 +19,5 @@ import {Context} from './providerWrapper';
 
 export const withContext = Component => props => {
     const context = useContext(Context)
-    return <Component {...props} authContext={context} />
+    return <Component {...props} menuContext={context} />
 }

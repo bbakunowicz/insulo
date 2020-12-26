@@ -1,62 +1,51 @@
-import {authTypes} from 'insulo-route';
+type Credentials = {username:string, password:string};
+type AdditionalProps = {async?: boolean};
+type InputValues = {credentials: Credentials, additionalProps?: AdditionalProps};
+type InputValuesClear = {additionalProps?: AdditionalProps};
+type AuthValues = {roles: string[], asyncSignIn?: boolean}|undefined;
 
 // The setCredentials function prepares authValues used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
-export const setCredentials = (credentials: {username:string, password:string}, 
-  dispatch:({type,authValues}:{type: string, authValues: any})=>void, additionalProps: {async: boolean}):Promise<void>|void => {
-  if (additionalProps.async === true ) {
-    return setCredentialsAsync(credentials, dispatch);
+export const setCredentials = ({credentials, additionalProps}: InputValues):Promise<AuthValues>|AuthValues => {
+  if (typeof additionalProps == 'object' && additionalProps.async === true ) {
+    return setCredentialsAsync(credentials);
   }
   else {
-    return setCredentialsSync(credentials, dispatch);
+    return setCredentialsSync(credentials);
   }
 }
 
 // You don't need to wrap this async function in a sync function, it's just for this example purpose
 // You can use this function directly in config/auth/initial.js
-export const setCredentialsAsync = async (credentials: {username:string, password:string}, 
-  dispatch: ({type,authValues}:{type: string, authValues: any})=>void):Promise<void> => {
-  let promise = new Promise<void>((resolve, reject) => {
-    if (typeof credentials != 'object' || typeof dispatch != 'function') return reject();
-
-    const username = credentials.username;
-    const password = credentials.password;
-
+export const setCredentialsAsync = async (credentials: Credentials):Promise<AuthValues> => {
+  let promise = new Promise<AuthValues>((resolve, reject) => {
     setTimeout(() => { 
-      if (typeof username == 'string' && typeof password == 'string' && password.length > 0){
-        if (username === 'user') {
+      if (credentials.username && credentials.password) {
+        if (credentials.username === 'user') {
           // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-          dispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user'], asyncSignIn: true}});
-          return resolve(undefined)
+          resolve({roles: ['user'], asyncSignIn: true});
         }
-        else if (username === 'admin') {
+        else if (credentials.username === 'admin') {
           // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-          dispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin'], asyncSignIn: true}});
-          return resolve(undefined)
+          resolve({roles: ['user', 'admin'], asyncSignIn: true});
         }
       }
 
-      return reject({message: 'Wrong username or empty password. (async)'});
+      reject(new Error('Wrong username or empty password. (async)'));
       
     }, 3000)
   });
   return promise;
 }
 
-export const setCredentialsSync = (credentials: {username:string, password:string}, 
-  dispatch: ({type,authValues}:{type: string, authValues: any})=>void):void => {
-  if (typeof credentials != 'object' || typeof dispatch != 'function') return;
-
-  const username = credentials.username;
-  const password = credentials.password;
-
-  if (typeof username == 'string' && typeof password == 'string' && password.length > 0){
-    if (username === 'user') {
+export const setCredentialsSync = (credentials: Credentials):AuthValues => {
+  if (credentials.username && credentials.password) {
+    if (credentials.username === 'user') {
       // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-      dispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user']}});
+      return {roles: ['user']};
     }
-    else if (username === 'admin') {
+    else if (credentials.username === 'admin') {
       // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-      dispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin']}});
+      return {roles: ['user', 'admin']};
     }
   }
   else {
@@ -64,26 +53,24 @@ export const setCredentialsSync = (credentials: {username:string, password:strin
   }
 }
 
-export const clearCredentials = (dispatch: ({type, authValues}:{type: string, authValues: any})=>void, 
-  additionalProps: {async?: boolean}): Promise<void>|void => {
-  if (additionalProps.async === true ){
-    return clearCredentialsAsync(dispatch);
+export const clearCredentials = ({additionalProps}:InputValuesClear): Promise<undefined>|undefined => {
+  if (typeof additionalProps == 'object' && additionalProps.async === true ) {
+    return clearCredentialsAsync();
   }
   else {
-    return clearCredentialsSync(dispatch);
+    return clearCredentialsSync();
   }
 }
 
-export const clearCredentialsAsync = async (dispatch: ({type,authValues}:{type: string, authValues: any})=>void):Promise<void> => {
-  let promise = new Promise<void>((resolve, reject) => {
+export const clearCredentialsAsync = async ():Promise<undefined> => {
+  let promise = new Promise<undefined>((resolve, reject) => {
     setTimeout(() => { 
-      dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined})
-      return resolve(undefined);
+      resolve(undefined);
     }, 3000)
   });
   return promise;
 }
 
-export const clearCredentialsSync = (dispatch: ({type,authValues}:{type: string, authValues: any})=>void): void => {
-  dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined});
+export const clearCredentialsSync = (): undefined => {
+  return undefined;
 }

@@ -14,51 +14,105 @@
    limitations under the License.
 ***************************************************************************/
 
+import { History, LocationState } from 'history';
+
+interface Children {
+    children: JSX.Element[] | JSX.Element
+}
+
 interface DispatchValues {
     type: string
 }
 
-export const localeTypes: {
-    LS_CURRENT_LOCALE: string;
-    SET_CURRENT_LOCALE: string;
+export const authTypes: {
+    SET_AUTH_VALUES: string;
+    SET_AUTH_STATE: string;
+    AUTH_STATE_UNSET: 'UNSET';
+    AUTH_STATE_SET: 'SET';
+    AUTH_STATE_ERROR: 'ERROR';
+    AUTH_STATE_LOGINPROGRESS: 'LOGINPROGRESS';
+    AUTH_STATE_LOGOUTPROGRESS: 'LOGOUTPROGRESS';    
 };
 
-export function LocaleConfigProvider(_ref: LocaleConfigProvider.Props): JSX.Element;
+export type AuthState = typeof authTypes.AUTH_STATE_UNSET | typeof authTypes.AUTH_STATE_SET | typeof authTypes.AUTH_STATE_ERROR | 
+    typeof authTypes.AUTH_STATE_LOGINPROGRESS | typeof authTypes.AUTH_STATE_LOGOUTPROGRESS;
 
-declare namespace LocaleConfigProvider {
+export function RouteConfigProvider(props: RouteConfigProvider.Props): JSX.Element;
+
+declare namespace RouteConfigProvider {
     export interface Props {
         children: React.ReactNode,
         initValue: InitValues
     }
 
+    export interface AuthProps {
+        authProps: any
+    }
+
+    export interface AuthId {
+        [key: string]: AuthProps
+    }
+
     export interface InitValues {
-        defaultLang: string,
-        locales: {
-            [k:string]:{
-                [k1:string]: string
-            }
-        },
-        mappingsMui: {
-            [k:string]: string
-        },
-        mappingsHtml: {
-            [k:string]: string
-        }
+        defaultRedirect?: string,
+        defaultForward?: string,
+        authId: AuthId
     }
-
-    export interface ContextValue extends InitValues {
-        lang: string,
-        supportedLocales: string[],
-        currentLocale: string,
-        currentLocaleMui: string,
-        currentLocaleHtml: string,
-        getString: ({locales, locale, id}: {locales: string[], locale: string, id: string}) => string | undefined
-    }
-
 }
 
-export const getItemCaption: (localeConfig: LocaleConfigProvider.ContextValue) => (captionId: string) => string | undefined;
+export const AuthConfigProvider: ({ children, initValue }: {
+    children: React.ReactNode;
+    initValue: AuthConfigProvider.InitValues;
+}) => JSX.Element
 
-declare const Context: React.Context<{value: LocaleConfigProvider.ContextValue, dispatch: (DispatchValues) => void}>;
+declare namespace AuthConfigProvider {
+    export interface InitValues {
+        setCredentials: ({credentials, additionalProps}: {credentials: any, additionalProps?: any}) => Promise<any> | any;
+        clearCredentials: ({additionalProps}:{additionalProps?: any}) => Promise<undefined> | undefined;
+        clearCredentialsImmediately?: boolean
+    }
+
+    export interface Actions {
+        setCredentials: ({ credentials, history, route, ...additionalProps }: {
+            credentials: any,
+            history: History<LocationState>,
+            route: string,
+            additionalProps?: any
+        }) => void,
+        clearCredentials: ({ history, route, ...additionalProps }: {
+            history: History<LocationState>;
+            route: string;
+            additionalProps?: any
+        }) => void | undefined
+    }
+
+    export interface ContextValues extends InitValues {
+        authValues?: any,
+        authState: AuthState,
+        authError?: {name?: string, message: string}
+    }
+}
+
+export function ProtectedRoute({ authProps, authId, authValues, getPageVisibility, component: Component, componentProps, 
+    redirectRoute, publicRoute, forwardRoute, authError, path, ...rest }: {
+    [x: string]: any;
+    authProps?: any;
+    authId?: string;
+    authValues?: any; 
+    getPageVisibility?: (authValues: any, authProps: any) => boolean;
+    component?: (any) => JSX.Element | JSX.Element;
+    componentProps?: any;
+    redirectRoute?: string;
+    publicRoute?: boolean;
+    forwardRoute?: string;
+    authError?: string;
+    path: string;
+}): JSX.Element
+
+declare const Context: React.Context<{value: RouteConfigProvider.InitValues, dispatch: (DispatchValues) => void}>;
 export default Context;
 
+export const AuthContext: React.Context<{value: AuthConfigProvider.ContextValues, dispatch: (DispatchValues) => void, 
+    actions: AuthConfigProvider.Actions}>
+
+export = AuthConfigProvider;

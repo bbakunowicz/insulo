@@ -23,6 +23,8 @@ import {AuthContext, authTypes} from 'insulo-route';
 import LoginSuspense from './LoginSuspense';
 import type { History, LocationState } from 'history';
 
+type AuthValues = {roles: string[], asyncSignIn?: boolean}|undefined;
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -181,31 +183,29 @@ export default function SignIn({history, location}:{history: History<LocationSta
     evt.preventDefault();
     authDispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_LOGINPROGRESS});
     
-    new Promise<void>((resolve, reject) => {
+    new Promise<AuthValues>((resolve, reject) => {
       setTimeout(() => { 
-        if (password.length > 0){
+        if (password){
           if (username === 'user') {
             // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
             // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
             // async: true is only needed for the purposes of this example in order to apply the async sing out version in the Logout page
-            authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user'], asyncSignIn: true}});
-            return resolve(undefined)
+            resolve({roles: ['user'], asyncSignIn: true});
           }
           else if (username === 'admin') {
             // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
             // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
             // async: true is only needed for the purposes of this example in order to apply the async sing out version in the Logout page
-            authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin'], asyncSignIn: true}});
-            return resolve(undefined)
+            resolve({roles: ['user', 'admin'], asyncSignIn: true});
           }
         }
         
-        return reject({message: 'Wrong username or empty password. (async)'});
+        reject(new Error('Wrong username or empty password. (async)'));
         
       }, 3000)
     })
     .then(result => {
-      authDispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_SET});
+      authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET});
 
       if (route) {
         history.push(route);
@@ -221,7 +221,7 @@ export default function SignIn({history, location}:{history: History<LocationSta
     evt.preventDefault();
     authDispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_LOGINPROGRESS});
 
-    if (password.length > 0){
+    if (password){
       if (username === 'user') {
         // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
         // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}

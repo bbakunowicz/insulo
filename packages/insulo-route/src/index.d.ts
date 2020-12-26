@@ -67,10 +67,8 @@ export const AuthConfigProvider: ({ children, initValue }: {
 
 declare namespace AuthConfigProvider {
     export interface InitValues {
-        setCredentials: (credentails: any, dispatch: ({type,authValues}:{type: string, authValues: any})=>void, additionalProps?: any) 
-            => Promise<void> | void;
-        clearCredentials: (dispatch: ({type,authValues}:{type: string, authValues: any})=>void, additionalProps?: any) 
-            => Promise<void> | void;
+        setCredentials: ({credentials, additionalProps}: {credentials: any, additionalProps?: any}) => Promise<any> | any;
+        clearCredentials: ({additionalProps}:{additionalProps?: any}) => Promise<undefined> | undefined;
         clearCredentialsImmediately?: boolean
     }
 
