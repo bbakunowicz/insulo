@@ -1,5 +1,5 @@
-const getSettingVisibility = (visibilityValues: {persistentEnabled: boolean}, setting: {visibleParams?:{persistentEnabled: boolean}}) => {
-  if (typeof setting.visibleParams == 'object' && setting.visibleParams.persistentEnabled) {
+const getSettingVisibility = (visibilityValues: {persistentEnabled: boolean}, setting: {authProps?:{persistentEnabled: boolean}}) => {
+  if (typeof setting.authProps == 'object' && setting.authProps.persistentEnabled) {
     if (typeof visibilityValues === 'object' && visibilityValues.persistentEnabled === true ){
       return true;
     }

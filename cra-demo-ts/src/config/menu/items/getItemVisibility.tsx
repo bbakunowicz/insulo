@@ -1,11 +1,12 @@
 // The authValues format is up to you, there is no obligation to use the roles property, 
 // The value of authValues is prepared in the setRoles function defined in /src/app/config/auth/initial
-const getItemVisibility = (authValues:{roles?:string[]}, item:{visibleParams: {roles?:string[],except?:string[]}}):boolean => {
-  if (typeof item != 'object' || typeof item.visibleParams != 'object') return true;
+const getItemVisibility = (authValues:{roles?:string[]}, authProps: {roles?:string[],except?:string[]}|undefined):boolean => {
+  if (typeof authProps != 'object') return true;
   
   let ret = true;
-  const roles = item.visibleParams.roles;
-  const except = item.visibleParams.except;
+  const roles = authProps.roles;
+  const except = authProps.except;
+
 
   if (Array.isArray(except)) {
     if (typeof authValues == 'object' && Array.isArray(authValues.roles) && authValues.roles.length > 0) {

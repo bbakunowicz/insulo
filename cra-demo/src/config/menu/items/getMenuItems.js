@@ -97,14 +97,14 @@ export default () => {
     {
       caption: "User's Hidden Page",       
       captionId: "item_user_hidden",
-      visibleParams: {roles: ['user']},
+      authProps: {roles: ['user']},
       icon: <FaUserShield />,
       route: "/userhiddenitem",
     },
     {
       caption: "Admin's Hidden Submenu",
       captionId: "item_submenu_admin",
-      visibleParams: {roles: ['admin']},
+      authProps: {roles: ['admin']},
       icon: <FaUserSecret />,
       items: [
         {
@@ -146,14 +146,14 @@ export default () => {
     {
       caption: "Sign In",
       captionId: "item_sign_in",
-      visibleParams: {except: ['user']},
+      authProps: {except: ['user']},
       icon: <FaSignInAlt />,
       route: "/login",
     },
     {
       caption: "Sign Out",
       captionId: "item_sign_out",
-      visibleParams: {roles: ['user']},
+      authProps: {roles: ['user']},
       icon: <FaSignOutAlt />,
       route: "/logout",
     }

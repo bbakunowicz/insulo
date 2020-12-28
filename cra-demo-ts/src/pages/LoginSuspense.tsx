@@ -37,8 +37,6 @@ export default function LoginSuspense() {
   const classes = useStyles();  
   const {value: authConfig} = useContext(AuthContext);
 
-  if (window._INSULO_DEBUG_ === true) console.log(`LoginSuspense, authConfig.authState = ${authConfig.authState}`);
-
   if (authConfig.authState !== authTypes.AUTH_STATE_SET && authConfig.authState !== authTypes.AUTH_STATE_UNSET && 
     authConfig.authState !== authTypes.AUTH_STATE_ERROR ) {
     return (

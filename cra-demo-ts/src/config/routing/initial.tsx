@@ -1,19 +1,9 @@
 import getPageVisibility from './getPageVisibility';
+import AuthErrorPage from '../../pages/AuthError'
 
 export default { 
   defaultRedirect: "/login",
   defaultForward: "/",
-  authId: {
-    "user": {
-      authProps: {
-        roles:['user']
-      },
-    },
-    "admin": {
-      authProps: {
-        roles:['admin']
-      },
-    }, 
-  },
+  AuthErrorPage,
   getPageVisibility
 }
