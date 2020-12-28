@@ -19,7 +19,6 @@ import * as types from "./types";
 export const reducer = (state, action) => {
   switch (action.type) {
     case types.SET_CURRENT_LOCALE:
-      //console.log(`SET_CURRENT_LOCALE: ${action.currentLocale}`);
       localStorage.setItem(types.LS_CURRENT_LOCALE, action.currentLocale);
       return {
         ...state, 

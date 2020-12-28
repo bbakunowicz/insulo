@@ -19,7 +19,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useThemeMediaQuery = (config, dispatch) => {
   const type = useMediaQuery('(prefers-color-scheme: dark)') ? types.DARK : types.LIGHT;
-  //console.log(`Media Query: type = ${type}, config.type = ${config.type}, config.typeSetter = ${config.typeSetter}`);
 
   if (type !== config.type && config.typeSetter === 'init') {
     dispatch({type: types.SET_THEME_TYPE, themeType: type, typeSetter: 'init'});

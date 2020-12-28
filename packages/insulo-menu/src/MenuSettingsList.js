@@ -59,9 +59,6 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
     }
   }
 
-  // console.log(`item.configProp: ${item.configProp}, configPropValue: ${configPropValue}, item.configValue: ${item.configValue}, itemsConfig.contexts:`);
-  // console.log(itemsConfig.contexts);
-
   if (configPropValue && configPropValue === item.configValue) {
     itemSelected = true;
   }

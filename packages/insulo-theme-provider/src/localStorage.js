@@ -21,7 +21,6 @@ const useLocalStorage = (config, dispatch) => {
   useEffect(() => {
     if (typeof localStorage != 'undefined') {
       const type = localStorage.getItem(types.LS_THEME_TYPE);
-      //console.log(`localStorage type = ${type}, config.type = ${config.type}`);
       if (type && type !== config.type) {
         dispatch({type: types.SET_THEME_TYPE, themeType: type});
       }

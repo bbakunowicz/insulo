@@ -16,7 +16,6 @@
 
 import { SET_PARENT_ITEM, CLEAR_PARENT_ITEM, SET_CURRENT_ITEM, SET_CURRENT_ROUTE, SET_ITEMS, 
   REGISTER_CONTEXT, CALL_DISPATCH, 
-  //REGISTER_ITEM_CAPTION_CALLBACK, REGISTER_ITEM_VISIBILITY_CALLBACK, REGISTER_SETTING_VISIBILITY_CALLBACK,
   SET_PARENT_SETTING, SET_CURRENT_SETTING, CLEAR_PARENT_SETTING
 } from "../types";
 
@@ -51,12 +50,10 @@ export const reducer = (state, action) => {
           parentItemCaption: typeof action.parentItem == 'object' ? action.parentItem.caption : undefined,
         }
       case SET_ITEMS:
-        //console.log(action.items);
         return {...state, 
           items: [...action.items], 
         }
       case SET_PARENT_SETTING:
-        //console.log(`SET_PARENT_SETTING: ${action.key}, ${action.caption}`);
         return {...state, 
           parentSettingsKey: action.key,
           parentSettingsKeyArr: action.key.split('.'),
@@ -86,45 +83,10 @@ export const reducer = (state, action) => {
           return state;  
         }
       case CALL_DISPATCH:
-        // console.log(`DISPATCH: action.name = ${action.name}, action.props:`);
-        // console.log(action.props);
-        // console.log('typeof state.contexts[action.name].dispatch:');
-        // console.log(typeof state.contexts[action.name].dispatch);
         if (typeof state.contexts[action.name] == 'object' && typeof state.contexts[action.name].dispatch == 'function'){
           state.contexts[action.name].dispatch(action.props);
         }
         return state;
-      // case REGISTER_ITEM_VISIBILITY_CALLBACK:
-      //   console.log('REGISTER_ITEM_VISIBILITY_CALLBACK');
-      //   if (typeof action.callback == 'function') {
-      //     return {
-      //       ...state,
-      //       itemVisibilityCallback: action.callback
-      //     }
-      //   }
-      //   else {
-      //     return state;
-      //   }
-      // case REGISTER_ITEM_CAPTION_CALLBACK:
-      //   if (typeof action.callback == 'function') {
-      //     return {
-      //       ...state,
-      //       itemCaptionCallback: action.callback
-      //     }
-      //   }
-      //   else {
-      //     return state;
-      //   }
-      // case REGISTER_SETTING_VISIBILITY_CALLBACK:
-      //   if (typeof action.callback == 'function') {
-      //     return {
-      //       ...state,
-      //       settingVisibilityCallback: action.callback
-      //     }
-      //   }
-      //   else {
-      //     return state;
-      // }
       default:
         return state;
     }

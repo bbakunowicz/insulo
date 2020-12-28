@@ -22,7 +22,6 @@ const useLocalStorage = (config, dispatch) => {
     if (typeof localStorage != 'undefined') {
       const variant = localStorage.getItem(types.LS_MENU_VARIANT);
       if (variant && variant !== config.variant) {
-        //console.log('Setting variant!!!!!!!');
         dispatch({type: types.SET_MENU_VARIANT, variant, init: true});
       }
       const opened = localStorage.getItem(types.LS_MENU_OPENED);

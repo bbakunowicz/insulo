@@ -206,16 +206,12 @@ export function Menu({children, history, backgroundColor, selectedColor, itemVib
 
   //const [settingsApplied, setSettingApplied] = useState(false);
 
-  //console.log(menuConfig.width);
-
-
   const classes = useStyles(menuConfig.width)();
   const location = useLocation();
 
   useEffect(() => {
     //const searchParams = new URLSearchParams(location.search);
     if (typeof location == 'object' && location.pathname ) {
-      // console.log(`New location: ${location.pathname}`);
       if (itemsConfig.currentItemRoute !== location.pathname || itemsConfig.currentItemAltRoute !== location.pathname){
         const item = findItem(itemsConfig.items, 'route', location.pathname) || findItem(itemsConfig.items, 'altRoute', location.pathname) ;
         if (typeof item == 'object' && item.key) {

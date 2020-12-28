@@ -43,7 +43,7 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
     let isItemVisible = (item.key === itemsConfig.curentItemKey);
     if (!isItemVisible) {
       try {
-        isItemVisible = ((typeof itemsConfig.getItemVisibility == 'function')? itemsConfig.getItemVisibility(itemVibilityValues, item) : true); 
+        isItemVisible = ((typeof itemsConfig.getItemVisibility == 'function')? itemsConfig.getItemVisibility(itemVibilityValues, item.authProps) : true); 
       }
       catch (e) {
         console.error(`getItemVisibility error: ${e.message}`);

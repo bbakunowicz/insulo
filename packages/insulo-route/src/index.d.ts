@@ -49,14 +49,10 @@ declare namespace RouteConfigProvider {
         authProps: any
     }
 
-    export interface AuthId {
-        [key: string]: AuthProps
-    }
-
     export interface InitValues {
         defaultRedirect?: string,
         defaultForward?: string,
-        authId: AuthId
+        AuthErrorPage?: ({authError}: {authError: string}) => JSX.Element 
     }
 }
 
@@ -93,19 +89,18 @@ declare namespace AuthConfigProvider {
     }
 }
 
-export function ProtectedRoute({ authProps, authId, authValues, getPageVisibility, component: Component, componentProps, 
-    redirectRoute, publicRoute, forwardRoute, authError, path, ...rest }: {
+export function ProtectedRoute({ authProps, authValues, getPageVisibility, component: Component, componentProps, 
+    redirectRoute, forwardRoute, authError, authErrorPage, path, ...rest }: {
     [x: string]: any;
     authProps?: any;
-    authId?: string;
     authValues?: any; 
     getPageVisibility?: (authValues: any, authProps: any) => boolean;
     component?: (any) => JSX.Element | JSX.Element;
     componentProps?: any;
     redirectRoute?: string;
-    publicRoute?: boolean;
     forwardRoute?: string;
     authError?: string;
+    authErrorPage?: (props: {authError?: string}) => JSX.Element;
     path: string;
 }): JSX.Element
 

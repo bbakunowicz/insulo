@@ -40,7 +40,7 @@ export default () => {
             configProp: ['variant'],
             configValue: menuTypes.PERSISTENT,
             // #Visibility(start)
-            // visibleParams: { persistentEnabled: true }
+            // authProps: { persistentEnabled: true }
             // #Visibility(stop)
           },
           {

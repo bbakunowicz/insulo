@@ -97,7 +97,7 @@ declare namespace MenuItemsProvider {
         defaultVisible?: boolean,
         getMenuItems?: () => Array<Item | ItemWithSubitems | ItemDivider>,
         getSettingsItems?: () => Array<Setting | SettingWithSubitems | ItemDivider>
-        getItemVisibility?: (authValues: any, item: any) => boolean
+        getItemVisibility?: (authValues: any, authProps: any) => boolean
     }
 
     export interface ContextValues extends InitValues {
@@ -135,7 +135,7 @@ declare namespace MenuItemsProvider {
         dispatcherProps: {type: string},
         configProp: string[],
         configValue: string,
-        visibleParams?: unknown,
+        authProps?: unknown,
     }
 
     export interface SettingWithSubitems {
@@ -144,7 +144,7 @@ declare namespace MenuItemsProvider {
         icon?: JSX.Element,
         iconClassName?: string,
         captionClassName?: string,
-        visibleParams?: unknown,
+        authProps?: unknown,
         items: Array<Setting | SettingWithSubitems>
     }
 

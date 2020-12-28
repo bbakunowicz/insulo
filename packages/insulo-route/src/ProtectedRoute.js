@@ -14,72 +14,52 @@
    limitations under the License.
 ***************************************************************************/
 
-import React, { Fragment, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Context as RoutingContext } from './provider/route/providerWrapper';
+import AuthError from './AuthError';
 
-export function ProtectedRoute({authProps, authId, authValues, getPageVisibility, component: Component, componentProps, redirectRoute, publicRoute, 
-  forwardRoute, authError, path, ...rest}) {
-    const RedirectComponent=Redirect;
+export function ProtectedRoute({authProps, authValues, getPageVisibility, component: Component, componentProps, redirectRoute,  
+  forwardRoute, authError, AuthErrorPage, path, ...rest}) {
+
+    if (window._INSULO_DEBUG_ === true) {
+      console.log('ProtectedRoute (start) ------------------------------------------------------------------------------------');
+      console.log(`ProtectedRoute: path = ${path}, authValues = `);
+      console.log(authValues);
+      console.log(`ProtectedRoute: authProps = `);
+      console.log(authProps);
+      console.log(`ProtectedRoute: rest = `);
+      console.log(rest);
+    }
+
     const { value: routeConfig } = useContext(RoutingContext);
-
     const getPageVisibilityCnv = getPageVisibility || routeConfig.getPageVisibility;
+    const AuthErrorCnv = AuthErrorPage || routeConfig.AuthErrorPage || AuthError;
     
     let isAuthenticated = false;
-    let authPropsCnv = typeof authProps == 'object' ? {...authProps}: undefined;
-    if (typeof getPageVisibilityCnv == 'function' && typeof authValues != 'undefined') {
-      if (typeof authPropsCnv == 'undefined') {
-        if (typeof routeConfig.authRoute == 'object') {
-          if (typeof path == 'string') {
-            if (typeof routeConfig.authRoute[path] != 'undefined') {
-              authPropsCnv = {...routeConfig.authRoute[path]}
-            }
-          }
-        }
-      }
-
-      if (typeof authPropsCnv == 'undefined') {
-        if (window._INSULO_DEBUG_ === true) {
-          console.log(`ProtectedRoute: authId = ${authId}, routeConfig:`);
-          console.log(routeConfig);
-        }
-        if (typeof routeConfig.authId == 'object' && typeof authId == 'string') {
-          if (typeof routeConfig.authId[authId] == 'object' && typeof routeConfig.authId[authId].authProps == 'object') {
-            authPropsCnv = {...routeConfig.authId[authId].authProps}
-          }
-        }
-      }
-
-      if (window._INSULO_DEBUG_ === true) {
-        console.log(`ProtectedRoute: authValues:`);
-        console.log(authValues);
-        console.log(`ProtectedRoute: authPropsCnv:`);
-        console.log(authPropsCnv);
-      }
-
-      if (typeof authPropsCnv != 'undefined') {
+    if (typeof getPageVisibilityCnv == 'function') {
         try {
-          isAuthenticated = getPageVisibilityCnv(authValues, authPropsCnv);
+          isAuthenticated = getPageVisibilityCnv(authValues, authProps);
         }
         catch (e) {
           console.error(`getPageVisibility error: ${e.message}`);
         }
-      }
 
       if (typeof isAuthenticated != 'boolean') {
         isAuthenticated = false;
       }
-
     }
 
     const redirectCnv = redirectRoute || routeConfig.defaultRedirect;
     const forwardCnv = forwardRoute || path || routeConfig.defaultForward;
-    const redirectProps = {
+    let redirectProps = {
       to: {
-        pathname: redirectCnv,
         state: {forward: forwardCnv, authError}
       }
     };
+    if (redirectCnv !== path) {
+      redirectProps.to.pathname = redirectCnv;
+    }
 
     const props = {path, ...rest};
 
@@ -98,31 +78,28 @@ export function ProtectedRoute({authProps, authId, authValues, getPageVisibility
         }
 
         if (window._INSULO_DEBUG_ === true) {
-          //console.log(`ProtectedRoute: publicRoute = ${publicRoute}, isAuthenticated = ${isAuthenticated}, unauthenticatedRoute = ${unauthenticatedRoute}`);
-          console.log(`ProtectedRoute: publicRoute = ${publicRoute}, isAuthenticated = ${isAuthenticated}, authValues:`);
-          console.log(authValues);
+          console.log(`ProtectedRoute: isAuthenticated = ${isAuthenticated}`);
 
-          // if (publicRoute === true || (isAuthenticated && unauthenticatedRoute !== true) || (!isAuthenticated && unauthenticatedRoute === true)) {
-          if (publicRoute === true || isAuthenticated ) {
-              console.log('ProtectedRoute, invoking: Component {...mergedProps}, mergedProps:');
+          if (isAuthenticated ) {
+              console.log('ProtectedRoute, invoking: Component {...mergedProps}, mergedProps =');
             console.log(mergedProps);
           }
           else if (redirectProps.to.pathname) {
-            console.log('ProtectedRoute, invoking: RedirectComponent {...redirectProps}, redirectProps:');
+            console.log('ProtectedRoute, invoking: Redirect {...redirectProps}, redirectProps =');
             console.log(redirectProps);
           }
           else {
-            console.log('ProtectedRoute, invoking: <Fragment></Fragment>');
+            console.log('ProtectedRoute, invoking: <AuthError></AuthError>, authError =');
+            console.log((authError) ? authError: (rest.location.state.authError) && rest.location.state.authError);
           }
-          console.log('------------------------------------------------------------------------------------');
+          console.log('ProtectedRoute (end) ------------------------------------------------------------------------------------');
         }
 
-        // return (publicRoute === true || (isAuthenticated && unauthenticatedRoute !== true) || (!isAuthenticated && unauthenticatedRoute === true)) ? 
-        return (publicRoute === true || isAuthenticated) ? 
+        return (isAuthenticated) ? 
           <Component {...mergedProps}/> :
           redirectProps.to.pathname ?
-            <RedirectComponent {...redirectProps} /> :
-            <Fragment></Fragment>
+            <Redirect {...redirectProps} /> :
+            <AuthErrorCnv authError={(authError) ? authError: (rest.location.state.authError) && rest.location.state.authError} />
         }
       } />
     );
