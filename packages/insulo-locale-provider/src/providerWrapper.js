@@ -14,7 +14,7 @@
    limitations under the License.
 ***************************************************************************/
 
-import { createContext } from "react";
+import { createContext, useReducer } from "react";
 import Provider from './provider';
 import { reducer } from "./reducer";
 import getString, { supportedLocales, currentLocale } from './getLocales';
@@ -43,11 +43,11 @@ const ConfigProvider = ({ children, initValue }) => {
     console.log(`ConfigProvider: currentLocale: ${initValueCnv.currentLocale}`);
   }
 
-  const provider = Provider({children, initValue: { ...initValueCnv }, Context, reducer});
+  const [value, dispatch] = useReducer(reducer, { ...initValueCnv });
 
-  useLocalStorage(provider.props.value.value, provider.props.value.dispatch);
+  useLocalStorage(value, dispatch);
 
-  return provider;
+  return Provider({children, Context, value, dispatch});
 };
 
 export default ConfigProvider;

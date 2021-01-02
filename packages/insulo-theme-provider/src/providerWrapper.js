@@ -57,12 +57,10 @@ const ProviderWrapper = ({ children, initValue }) => {
 
   const [value, dispatch] = useReducer(reducer, {...initValue, themesCnv, typeSetter: 'init'});
 
-  const provider = Provider({children, Context, value, dispatch, actions: {getProps: getProps(themesCnv)}});
-  
-  useLocalStorage(provider.props.value.value, provider.props.value.dispatch);
-  useThemeMediaQuery(provider.props.value.value, provider.props.value.dispatch);
+  useLocalStorage(value, dispatch);
+  useThemeMediaQuery(value, dispatch);
 
-  return provider;
+  return Provider({children, Context, value, dispatch, actions: {getProps: getProps(themesCnv)}});
 };
 
 export default ProviderWrapper;

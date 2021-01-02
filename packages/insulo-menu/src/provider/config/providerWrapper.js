@@ -14,7 +14,7 @@
    limitations under the License.
 ***************************************************************************/
 
-import { createContext } from "react";
+import { createContext, useReducer } from "react";
 import Provider from '../provider';
 import { reducer } from "./reducer";
 import useLocalStorage from './localStorage';
@@ -24,10 +24,9 @@ export const Context = createContext();
 export const MenuConfigProvider = ({ children, initValue }) => {
   const anchor = typeof initValue == 'object' && ((initValue.anchor === 'left' || initValue.anchor === 'right') ? initValue.anchor : 'left');
 
-  const provider = Provider({children, initValue: {...initValue, open: false, settingsOpen: false, anchor: anchor||'left'}, Context, reducer});
+  const [value, dispatch] = useReducer(reducer, {...initValue, open: false, settingsOpen: false, anchor: anchor||'left'});
 
-  useLocalStorage(provider.props.value.value, provider.props.value.dispatch);
+  useLocalStorage(value, dispatch);
 
-  return provider;
+  return Provider({children, Context, value, dispatch});
 };
-

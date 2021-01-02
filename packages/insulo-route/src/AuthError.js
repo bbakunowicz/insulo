@@ -61,7 +61,7 @@ export default function AuthError({authError}) {
         <Typography component="h1" variant="h5">Authorization Error</Typography><br />
         { (authError) &&
         <Typography component="h2" variant="h6">{authError}</Typography>
-        }return true;
+        }
       </div>
     </Container>
   )

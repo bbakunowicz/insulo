@@ -2,10 +2,7 @@
 // The value of authValues is prepared in the setRoles function defined in /src/app/config/auth/initial
 const isGranted = (authValues, authProps) => {
   if (authProps.unauthenticated === true) {
-    //try this: 
-    //return true; 
-    //or this: 
-    return !authValues;
+    return true; 
   }
 
   const roles = authProps.roles;

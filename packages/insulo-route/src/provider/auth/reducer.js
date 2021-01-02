@@ -19,36 +19,42 @@ import * as types from "./types";
 export const reducer = (state, action) => {
   switch (action.type) {
     case types.SET_AUTH_VALUES: {
+      console.log(`action.authReturnRoute: ${action.authReturnRoute}`);
       if (action.authState) {
         if (typeof action.authValues == 'object') {
           return {...state, 
             authValues: {...action.authValues},
-            authState: action.authState, authError: action.authError
+            authState: action.authState, authError: action.authError,
+            authReturnRoute: action.authReturnRoute
           }
         }
         if (Array.isArray(action.authValues)) {
           return {...state, 
             authValues: [...action.authValues],
-            authState: action.authState, authError: action.authError
+            authState: action.authState, authError: action.authError,
+            authReturnRoute: action.authReturnRoute
           }
         }
         return {...state, 
-          authValues: action.authValues, authState: action.authState, authError: action.authError
+          authValues: action.authValues, authState: action.authState, authError: action.authError, authReturnRoute: action.authReturnRoute
         }
       }
       else {
         if (typeof action.authValues == 'object') {
           return {...state, 
             authValues: {...action.authValues},
+            authReturnRoute: action.authReturnRoute
           }
         }
         if (Array.isArray(action.authValues)) {
           return {...state, 
             authValues: [...action.authValues],
+            authReturnRoute: action.authReturnRoute
           }
         }
         return {...state, 
           authValues: action.authValues,
+          authReturnRoute: action.authReturnRoute
         }
       }
     }
@@ -56,6 +62,14 @@ export const reducer = (state, action) => {
     return {...state, 
       authState: action.authState,
       authError: action.authError
+    }
+  case types.SET_RETURN_ROUTE:
+    return {...state, 
+      authReturnRoute: action.authReturnRoute,
+    }
+  case types.CLEAR_RETURN_ROUTE:
+    return {...state, 
+      authReturnRoute: undefined,
     }
   default:
       return state;

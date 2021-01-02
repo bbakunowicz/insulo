@@ -32,10 +32,13 @@ export const authTypes: {
     AUTH_STATE_ERROR: 'ERROR';
     AUTH_STATE_LOGINPROGRESS: 'LOGINPROGRESS';
     AUTH_STATE_LOGOUTPROGRESS: 'LOGOUTPROGRESS';    
+    SET_RETURN_ROUTE: 'SET_RETURN_ROUTE';
+    CLEAR_RETURN_ROUTE: 'CLEAR_RETURN_ROUTE';
 };
 
 export type AuthState = typeof authTypes.AUTH_STATE_UNSET | typeof authTypes.AUTH_STATE_SET | typeof authTypes.AUTH_STATE_ERROR | 
-    typeof authTypes.AUTH_STATE_LOGINPROGRESS | typeof authTypes.AUTH_STATE_LOGOUTPROGRESS;
+    typeof authTypes.AUTH_STATE_LOGINPROGRESS | typeof authTypes.AUTH_STATE_LOGOUTPROGRESS | 
+    typeof authTypes.SET_RETURN_ROUTE | typeof authTypes.CLEAR_RETURN_ROUTE ;
 
 export function RouteConfigProvider(props: RouteConfigProvider.Props): JSX.Element;
 
@@ -69,10 +72,11 @@ declare namespace AuthConfigProvider {
     }
 
     export interface Actions {
-        setCredentials: ({ credentials, history, route, ...additionalProps }: {
+        setCredentials: ({ credentials, history, forwardRoute, returnRoute, ...additionalProps }: {
             credentials: any,
             history: History<LocationState>,
-            route: string,
+            forwardRoute?: string,
+            returnRoute?: string,
             additionalProps?: any
         }) => void,
         clearCredentials: ({ history, route, ...additionalProps }: {
@@ -89,11 +93,10 @@ declare namespace AuthConfigProvider {
     }
 }
 
-export function ProtectedRoute({ authProps, authValues, getPageVisibility, component: Component, componentProps, 
+export function ProtectedRoute({ authProps, getPageVisibility, component: Component, componentProps, 
     redirectRoute, forwardRoute, authError, authErrorPage, path, ...rest }: {
     [x: string]: any;
     authProps?: any;
-    authValues?: any; 
     getPageVisibility?: (authValues: any, authProps: any) => boolean;
     component?: (any) => JSX.Element | JSX.Element;
     componentProps?: any;

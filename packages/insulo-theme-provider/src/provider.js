@@ -16,16 +16,6 @@
 
 import React from "react";
 
-// const Provider = ({ children, initValue, Context, reducer }) => {
-//   const [value, dispatch] = useReducer(reducer, initValue);
-
-//   return (
-//     <Context.Provider value={{ value, dispatch }}>
-//       {children}
-//     </Context.Provider>
-//   );
-// };
-
 const Provider = ({ children, Context, value, dispatch, actions }) => {
   return (
     <Context.Provider value={{ value, dispatch, actions }}>

@@ -14,20 +14,32 @@
    limitations under the License.
 ***************************************************************************/
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Context as RoutingContext } from './provider/route/providerWrapper';
 import AuthError from './AuthError';
+import { Context as AuthContext } from './provider/auth/providerWrapper';
+import * as authTypes from "./provider/auth/types";
 
-export function ProtectedRoute({authProps, authValues, getPageVisibility, component: Component, componentProps, redirectRoute,  
+export function ProtectedRoute({authProps, getPageVisibility, component: Component, componentProps, redirectRoute,  
   forwardRoute, authError, AuthErrorPage, path, ...rest}) {
+
+    const { value: authConfig, dispatch: authDispatch } = useContext(AuthContext);
+    const { authValues, authReturnRoute, redirectWhenInvalidCredentails } = authConfig;
+
+    // useEffect(() => {
+    //   if (authReturnRoute === path) {
+    //     authDispatch({type: authTypes.SET_RETURN_ROUTE, authReturnRoute: undefined});
+    //   }
+    // },[authDispatch, authReturnRoute, path]);
 
     if (window._INSULO_DEBUG_ === true) {
       console.log('ProtectedRoute (start) ------------------------------------------------------------------------------------');
-      console.log(`ProtectedRoute: path = ${path}, authValues = `);
-      console.log(authValues);
-      console.log(`ProtectedRoute: authProps = `);
+      console.log(`ProtectedRoute: path = ${path}, authProps = `);
       console.log(authProps);
+      console.log(`ProtectedRoute: authConfig = `);
+      console.log(authConfig);
+      console.log(`ProtectedRoute: authReturnRoute = ${authReturnRoute}, forwardRoute = ${forwardRoute}`);
       console.log(`ProtectedRoute: rest = `);
       console.log(rest);
     }
@@ -51,15 +63,34 @@ export function ProtectedRoute({authProps, authValues, getPageVisibility, compon
     }
 
     const redirectCnv = redirectRoute || routeConfig.defaultRedirect;
-    const forwardCnv = forwardRoute || path || routeConfig.defaultForward;
+    const forwardCnv = forwardRoute || routeConfig.defaultForward;
     let redirectProps = {
       to: {
-        state: {forward: forwardCnv, authError}
+        state: {forward: forwardCnv, authError, return: (forwardRoute !== path) && path}
       }
     };
-    if (redirectCnv !== path) {
-      redirectProps.to.pathname = redirectCnv;
+
+    if (authReturnRoute && authReturnRoute !== path) {
+      redirectProps.to.pathname = authReturnRoute;
     }
+    else {
+      if (redirectWhenInvalidCredentails) {
+        if (!isAuthenticated && redirectCnv && redirectCnv !== path) {
+          redirectProps.to.pathname = redirectCnv;
+        }
+      }
+      else {
+        if (!authValues && redirectCnv && redirectCnv !== path) {
+          redirectProps.to.pathname = redirectCnv;
+        }
+      }
+    }
+
+    useEffect(() => {
+      if (authReturnRoute) {
+        authDispatch({type: authTypes.CLEAR_RETURN_ROUTE});
+      }
+    },[authDispatch, authReturnRoute]);
 
     const props = {path, ...rest};
 
@@ -80,13 +111,13 @@ export function ProtectedRoute({authProps, authValues, getPageVisibility, compon
         if (window._INSULO_DEBUG_ === true) {
           console.log(`ProtectedRoute: isAuthenticated = ${isAuthenticated}`);
 
-          if (isAuthenticated ) {
-              console.log('ProtectedRoute, invoking: Component {...mergedProps}, mergedProps =');
-            console.log(mergedProps);
-          }
-          else if (redirectProps.to.pathname) {
+          if (redirectProps.to.pathname) {
             console.log('ProtectedRoute, invoking: Redirect {...redirectProps}, redirectProps =');
             console.log(redirectProps);
+          }
+          else if (isAuthenticated ) {
+              console.log('ProtectedRoute, invoking: Component {...mergedProps}, mergedProps =');
+            console.log(mergedProps);
           }
           else {
             console.log('ProtectedRoute, invoking: <AuthError></AuthError>, authError =');
@@ -95,11 +126,9 @@ export function ProtectedRoute({authProps, authValues, getPageVisibility, compon
           console.log('ProtectedRoute (end) ------------------------------------------------------------------------------------');
         }
 
-        return (isAuthenticated) ? 
-          <Component {...mergedProps}/> :
-          redirectProps.to.pathname ?
-            <Redirect {...redirectProps} /> :
-            <AuthErrorCnv authError={(authError) ? authError: (rest.location.state.authError) && rest.location.state.authError} />
+        return (redirectProps.to.pathname)?<Redirect {...redirectProps} />:
+          (isAuthenticated)?<Component {...mergedProps}/> :
+          <AuthErrorCnv authError={(authError) ? authError: (rest.location.state.authError) && rest.location.state.authError} />;
         }
       } />
     );

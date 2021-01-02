@@ -4,18 +4,12 @@ import Subitem from '../Subitem';
 import Dashboard from '../Dashboard';
 import Calories from '../Calories';
 // #Authentication(start)
-import {useContext} from 'react';
 import Login from '../Login';
 import Logout from '../Logout';
-import {ProtectedRoute, AuthContext} from 'insulo-route';
+import {ProtectedRoute} from 'insulo-route';
 // #Authentication(stop)
 
 const Routes = (props) => {
-  // #Authentication(start)
-  const { value: authConfig } = useContext(AuthContext);
-  const authValues=authConfig.authValues;
-  // #Authentication(stop)
-
   return (
     <section className="container">
       <Switch>
@@ -28,25 +22,27 @@ const Routes = (props) => {
         {/* #Authentication(start) */}
                 
         <ProtectedRoute exact path="/useritem" component={Subitem} componentProps={{title:'User Page', title_id: 'item_user'}} 
-          authProps={{roles:['user', 'admin']}} authValues={authValues} authError="&quot;User's Page&quot; requires an user role."/>
+          authProps={{roles:['user', 'admin']}} authError="&quot;User's Page&quot; requires an user role."/>
         <ProtectedRoute exact path="/userhiddenitem" component={Subitem} componentProps={{title:"User's Hidden Item", title_id: 'item_user_hidden'}}
-          authProps={{roles:['user', 'admin']}} authValues={authValues} />
+          authProps={{roles:['user', 'admin']}} />
         <ProtectedRoute exact path="/adminitem" component={Subitem} componentProps={{title: 'Admin Page', title_id: 'item_admin'}}
-          authProps={{roles:['admin']}} authValues={authValues} authError="&quot;Admin's Page&quot; requires an admin role."/>
+          authProps={{roles:['admin']}} authError="&quot;Admin's Page&quot; requires an admin role."/>
         <ProtectedRoute exact path="/subitem1-3" component={Subitem} componentProps={{title:'Item 1-3', title_id: 'item_1_3'}} 
-          authProps={{roles:['user', 'admin']}} authValues={authValues} />
+          authProps={{roles:['user', 'admin']}} />
         <ProtectedRoute exact path="/subitem1-4" component={Subitem} componentProps={{title:'Item 1-4', title_id: 'item_1_4'}} 
-          authProps={{roles:['user', 'admin']}} authValues={authValues} authError="&quot;Subitem 1-4&quot; requires an admin role." />
+          authProps={{roles:['user', 'admin']}} authError="&quot;Subitem 1-4&quot; requires an admin role." />
         <ProtectedRoute exact path="/subitem2-1" component={Subitem} componentProps={{title: 'Item 2-1', title_id: 'item_2_1'}} 
-          authProps={{roles:['admin']}} authValues={authValues} />
+          authProps={{roles:['admin']}} />
         <ProtectedRoute exact path="/subitem2-2-1" component={Subitem} componentProps={{title: 'Item 2-2-1', title_id: 'item_2_2_1'}} 
-          authProps={{roles:['user','admin']}} authValues={authValues} />
+          authProps={{roles:['user','admin']}} />
         <ProtectedRoute exact path="/subitem2-2-2" component={Subitem} componentProps={{title: 'Item 2-2-2', title_id: 'item_2_2_2'}} 
-          authProps={{roles:['user','admin']}} authValues={authValues} />
+          authProps={{roles:['user','admin']}} />
         <ProtectedRoute exact path="/subitem2-3" component={Subitem} componentProps={{title: 'Item 2-3', title_id: 'item_2_3'}} 
-          authProps={{roles:['user', 'admin']}} authValues={authValues} />
-        <ProtectedRoute exact path="/login" component={Login} forwardRoute="/" authProps={{unauthenticated: true}} authValues={authValues}/>
-        <ProtectedRoute exact path="/logout" component={Logout} forwardRoute="/" authProps={{roles:['user']}} authValues={authValues} /> 
+          authProps={{roles:['user', 'admin']}} />
+        <ProtectedRoute exact path="/login" component={Login} forwardRoute="/" 
+          authProps={{unauthenticated: true}} />
+        <ProtectedRoute exact path="/logout" component={Logout} 
+          authProps={{roles:['user']}} /> 
        
         {/* #Authentication(stop) */}
         <Route component={Dashboard} />

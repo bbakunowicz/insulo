@@ -1,6 +1,6 @@
 // Credit to:
 // https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-in/SignIn.js
-import React, {useContext, Fragment, Component} from 'react';
+import React, {useContext, Fragment} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Alert } from '@material-ui/lab';
-import AuthConfigProvider, {AuthContext, authTypes} from 'insulo-route';
+import {AuthContext, authTypes} from 'insulo-route';
 import LoginSuspense from './LoginSuspense';
 import type { History, LocationState } from 'history';
 

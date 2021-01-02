@@ -161,22 +161,22 @@ export default function SignIn({history, location}:{history: History<LocationSta
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   
-  const route = (typeof location == 'object' && typeof location.state == 'object' && location.state.forward)?
-    location.state.forward : undefined;
-
+  const forwardRoute = typeof location == 'object' && typeof location.state == 'object' && location.state.forward;
+  const returnRoute = typeof location == 'object' && typeof location.state == 'object' && location.state.return;
+    
   const roles = (typeof authConfig.authValues == 'object' && Array.isArray(authConfig.authValues.roles))?authConfig.authValues.roles:[]; 
 
   const handleSubmitUsingHelperAsync = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     // credentials properties are at your choice, you can use for example: {credentials: "magic_string"}
     // acync: true is only needed for the purposes of this example in order to apply the async sign in version of the setCredentials 
-    authActions.setCredentials({credentials: {username, password}, history, route, additionalProps: {async: true}});
+    authActions.setCredentials({credentials: {username, password}, history, forwardRoute, returnRoute, additionalProps: {async: true}});
   }
 
   const handleSubmitUsingHelperSync = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     // credentials properties are at your choice, you can use for example: {credentials: "magic_string"}
-    authActions.setCredentials({credentials: {username, password}, history, route});
+    authActions.setCredentials({credentials: {username, password}, history, forwardRoute, returnRoute});
   }
 
   const handleSubmitAsync = (evt: React.FormEvent<HTMLFormElement>) => {
@@ -205,10 +205,10 @@ export default function SignIn({history, location}:{history: History<LocationSta
       }, 3000)
     })
     .then(result => {
-      authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET});
+      authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET, authReturnRoute: returnRoute});
 
-      if (route) {
-        history.push(route);
+      if (!returnRoute && forwardRoute) {
+        history.push(forwardRoute);
       } 
     })
     .catch(error => {
@@ -225,17 +225,19 @@ export default function SignIn({history, location}:{history: History<LocationSta
       if (username === 'user') {
         // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
         // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user']}, authState: authTypes.AUTH_STATE_SET});
-        if (route) {
-          history.push(route);
+        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user']}, authState: authTypes.AUTH_STATE_SET,
+          authReturnRoute: returnRoute});
+        if (!returnRoute && forwardRoute) {
+          history.push(forwardRoute);
         } 
       }
       else if (username === 'admin') {
         // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
         // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin']}, authState: authTypes.AUTH_STATE_SET});
-        if (route) {
-          history.push(route);
+        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin']}, authState: authTypes.AUTH_STATE_SET,
+          authReturnRoute: returnRoute});
+        if (!returnRoute && forwardRoute) {
+          history.push(forwardRoute);
         } 
       }
     }

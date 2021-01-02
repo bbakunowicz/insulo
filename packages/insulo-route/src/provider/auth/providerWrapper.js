@@ -21,27 +21,30 @@ import * as authTypes from "./types";
 
 export const Context = createContext();
 
-const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, history, route, additionalProps}) => {
+const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, history, forwardRoute, returnRoute, additionalProps}) => {
   if (window._INSULO_DEBUG_ === true) {
-    console.log(`setCredentialsFunc: route=${route}, credentials:`);
+    console.log(`setCredentialsFunc: forwardRoute = ${forwardRoute}, returnRoute = ${returnRoute}, credentials:`);
     console.log(credentials);
     console.log(`setCredentialsFunc: additionalProps:`);
     console.log(additionalProps);
   }
 
   const setAuthStateSet = (result) => {
-    if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: setAuthStateSet, authValues:`);
-    if (window._INSULO_DEBUG_ === true) console.log(result);
-    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET});
+    if (window._INSULO_DEBUG_ === true) { 
+      console.log(`setAuthStateSet: setAuthStateSet, authReturnRoute = ${returnRoute}, authValues = `);
+      console.log(result);
+    }
 
-    if (typeof route == 'string' && typeof history == 'object') {
-      if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: history.push: route=${route}`);
-      history.push(route);
-    } 
+    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET, authReturnRoute: returnRoute});
+
+    if (!returnRoute && forwardRoute && typeof history == 'object'){
+      if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: history.push: forwardRoute=${forwardRoute}`);
+      history.push(forwardRoute);
+    }
   }
 
   const setAuthStateError = (error) => {
-    if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: setAuthStateError, error = ${error}`);
+    if (window._INSULO_DEBUG_ === true) console.log(`setAuthStateError: setAuthStateError, authError = ${error}`);
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, authError: error});
   }
 

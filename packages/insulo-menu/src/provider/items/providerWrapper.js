@@ -14,7 +14,7 @@
    limitations under the License.
 ***************************************************************************/
 
-import { createContext } from "react";
+import { createContext, useReducer } from "react";
 import Provider from '../provider';
 import { reducer } from "./reducer";
 
@@ -57,9 +57,9 @@ export const MenuItemsProvider = ({ children, initValue }) => {
     console.error(`getMenuItems error: ${e.message}`);
   }
 
-  const provider = Provider({children, initValue: {...initValue, contexts: {}, 
-    items: items||[], settings: settings||[], currentSettingsKeys: {}}, Context, reducer});
+  const [value, dispatch] = useReducer(reducer, {...initValue, contexts: {}, 
+    items: items||[], settings: settings||[], currentSettingsKeys: {}});
 
-  return provider;
+  return Provider({children, Context, value, dispatch});
 };
 

@@ -14,11 +14,9 @@
    limitations under the License.
 ***************************************************************************/
 
-import React, { useReducer } from "react";
+import React from "react";
 
-const Provider = ({ children, initValue, Context, reducer }) => {
-  const [value, dispatch] = useReducer(reducer, initValue);
-
+const Provider = ({ children, Context, value, dispatch }) => {
   return (
     <Context.Provider value={{ value, dispatch }}>
       {children}
