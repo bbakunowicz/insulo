@@ -30,15 +30,15 @@ const Routes = (props) => {
         <ProtectedRoute exact path="/subitem1-3" component={Subitem} componentProps={{title:'Item 1-3', title_id: 'item_1_3'}} 
           authProps={{roles:['user', 'admin']}} />
         <ProtectedRoute exact path="/subitem1-4" component={Subitem} componentProps={{title:'Item 1-4', title_id: 'item_1_4'}} 
-          authProps={{roles:['user', 'admin']}} authError="&quot;Subitem 1-4&quot; requires an admin role." />
+          authProps={{roles:['admin']}} authError="&quot;Subitem 1-4&quot; requires an admin role." />
         <ProtectedRoute exact path="/subitem2-1" component={Subitem} componentProps={{title: 'Item 2-1', title_id: 'item_2_1'}} 
-          authProps={{roles:['admin']}} />
+          authProps={{roles:['admin']}} authError="&quot;Subitem 2-1&quot; requires an admin role."/>
         <ProtectedRoute exact path="/subitem2-2-1" component={Subitem} componentProps={{title: 'Item 2-2-1', title_id: 'item_2_2_1'}} 
-          authProps={{roles:['user','admin']}} />
+          authProps={{roles:['admin']}} authError="&quot;Subitem 2-2-1&quot; requires an admin role."/>
         <ProtectedRoute exact path="/subitem2-2-2" component={Subitem} componentProps={{title: 'Item 2-2-2', title_id: 'item_2_2_2'}} 
-          authProps={{roles:['user','admin']}} />
+          authProps={{roles:['admin']}} authError="&quot;Subitem 2-2-2&quot; requires an admin role." />
         <ProtectedRoute exact path="/subitem2-3" component={Subitem} componentProps={{title: 'Item 2-3', title_id: 'item_2_3'}} 
-          authProps={{roles:['user', 'admin']}} />
+          authProps={{roles:['admin']}} authError="&quot;Subitem 2-3&quot; requires an admin role."/>
         <ProtectedRoute exact path="/login" component={Login} forwardRoute="/" 
           authProps={{unauthenticated: true}} />
         <ProtectedRoute exact path="/logout" component={Logout} 

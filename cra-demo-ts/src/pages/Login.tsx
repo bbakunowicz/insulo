@@ -187,13 +187,13 @@ export default function SignIn({history, location}:{history: History<LocationSta
       setTimeout(() => { 
         if (password){
           if (username === 'user') {
-            // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
+            // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
             // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
             // async: true is only needed for the purposes of this example in order to apply the async sing out version in the Logout page
             resolve({roles: ['user'], asyncSignIn: true});
           }
           else if (username === 'admin') {
-            // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
+            // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
             // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
             // async: true is only needed for the purposes of this example in order to apply the async sing out version in the Logout page
             resolve({roles: ['user', 'admin'], asyncSignIn: true});
@@ -223,7 +223,7 @@ export default function SignIn({history, location}:{history: History<LocationSta
 
     if (password){
       if (username === 'user') {
-        // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
+        // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
         // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
         authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user']}, authState: authTypes.AUTH_STATE_SET,
           authReturnRoute: returnRoute});
@@ -232,7 +232,7 @@ export default function SignIn({history, location}:{history: History<LocationSta
         } 
       }
       else if (username === 'admin') {
-        // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
+        // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
         // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
         authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin']}, authState: authTypes.AUTH_STATE_SET,
           authReturnRoute: returnRoute});

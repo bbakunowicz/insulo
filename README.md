@@ -11,7 +11,7 @@ The private route component provides an interface for applying a user-defined [a
 | Package | Contents|
 |---|---|
 | insulo-menu| <ins>Components:</ins> <br />**Menu** – a component that supports three variants of behavior, hiding menu items according to authorization, theming, localization,<br />**ApplicationBar** – an application bar component with menu button and user-defined title,<br />**MenuLanding** – a page placement area compatible with the Menu component, |
-|insulo-route| <ins>Components:</ins> <br />**PrivateRoute** – a component that supports the use of routes requiring authorization,<br /><ins>Context Providers:</ins><br />**AuthConfigProvider** – a context provider that provides an authorization context for the PrivateRoute component and for Menu component, as well as providing optional helper methods for authorization,<br />**RouteConfigProvider** – an optional (but default) context provider of the routing configuration used by ProtectedRoute components, |
+|insulo-route| <ins>Components:</ins> <br />**PrivateRoute** – a component that supports the use of routes requiring authorization,<br /><ins>Context Providers:</ins><br />**AuthConfigProvider** – a context provider that provides an authorization context for the PrivateRoute component and for Menu component, as well as providing helper methods for authorization,<br />**RouteConfigProvider** – an optional (but default) context provider of the routing configuration used by ProtectedRoute components,<br />**AuthStateConfigProvider** – an optional context provider that provides authorization state support, |
 |insulo-theme-provider | <ins>Context Providers:</ins><br /> **ThemeConfigProvider** – an optional context provider that supports themes,|
 |insulo-locale-provider|<ins>Context Providers:</ins><br />**LocaleConfigProvider** – an optional context provider supporting localization.|
 
@@ -20,8 +20,9 @@ The private route component provides an interface for applying a user-defined [a
 * **cra-demo** is a javascript demo project,
 * **cra-demo-ts** is a typescript demo project,
 * **samples** directory contains:
-    * **minimal** – an example of Menu component with minimal functionality (the best way to start with Insulo components),
-    * **minimal** – an example showing the basic rules of authorization in Insulo components.
+    * [minimal](https://github.com/bbakunowicz/insulo/tree/main/samples/minimal/) – an example of Menu component with minimal functionality (the best way to start with Insulo components),
+    * [auth](https://github.com/bbakunowicz/insulo/tree/main/samples/auth/) – an example showing the basic rules of authorization with Insulo components,
+    * [class-components](https://github.com/bbakunowicz/insulo/tree/main/samples/class-components/) – an example of React Class Components usage with Insulo components.
     
 # Getting started
 
@@ -37,6 +38,7 @@ for the Typescript version:
 cd cra-demo-ts
 yarn install && yarn start
 ```
+Additional examples can be found in the *samples* catalog. Each example has its own README file, with some usage information.
 
 # Use of Insulo components
 
@@ -139,7 +141,7 @@ For basic tests, just run the app:
 ```
 npx create-react-app test-insulo-template --template insulo
 cd test-insulo-template
-npm start
+ start
 ```
 ## Basic test
 

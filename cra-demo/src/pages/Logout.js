@@ -60,8 +60,7 @@ export default function SignOut({history, location, ...params}) {
   const handleSubmit = (evt) => {
     evt.preventDefault();
   
-    const route = (typeof location == 'object' && typeof location.state == 'object' && typeof location.state.forward == 'string')?
-      location.state.forward : undefined;
+    const route = typeof location == 'object' && typeof location.state == 'object' && location.state.forward;
 
     authActions.clearCredentials({history, route, additionalProps: {async: authConfig.authValues.asyncSignIn}});
   }

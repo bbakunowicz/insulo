@@ -61,10 +61,9 @@ export default function SignOut({history, location}:
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
   
-    const route = (typeof location == 'object' && typeof location.state == 'object' && typeof location.state.forward == 'string')?
-      location.state.forward : undefined;
-  
-      authActions.clearCredentials({history, route, additionalProps: {async: authConfig.authValues.asyncSignIn}});
+    const route = typeof location == 'object' && typeof location.state == 'object' && location.state.forward;
+
+    authActions.clearCredentials({history, route, additionalProps: {async: authConfig.authValues.asyncSignIn}});
   }
 
   if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS || authConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {

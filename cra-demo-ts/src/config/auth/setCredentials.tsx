@@ -4,7 +4,7 @@ type InputValues = {credentials: Credentials, additionalProps?: AdditionalProps}
 type InputValuesClear = {additionalProps?: AdditionalProps};
 type AuthValues = {roles: string[], asyncSignIn?: boolean}|undefined;
 
-// The setCredentials function prepares authValues used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
+// The setCredentials function prepares authValues used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
 export const setCredentials = ({credentials, additionalProps}: InputValues):Promise<AuthValues>|AuthValues => {
   if (typeof additionalProps == 'object' && additionalProps.async === true ) {
     return setCredentialsAsync(credentials);
@@ -15,7 +15,7 @@ export const setCredentials = ({credentials, additionalProps}: InputValues):Prom
 }
 
 // You don't need to wrap this async function in a sync function, it's just for this example purpose
-// You can use this function directly in config/auth/initial.js
+// You can use this function directly in src/config/auth/initial.js
 export const setCredentialsAsync = async (credentials: Credentials):Promise<AuthValues> => {
   let promise = new Promise<AuthValues>((resolve, reject) => {
     setTimeout(() => { 
