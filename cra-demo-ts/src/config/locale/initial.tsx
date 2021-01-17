@@ -1,3 +1,5 @@
+import type {LocaleProviderInitValues} from 'insulo-locale-provider';
+
 import en from './lang/en'
 import pl from './lang/pl'
 import US from './lang/en-US'
@@ -5,7 +7,7 @@ import es from './lang/es'
 import fr from './lang/fr'
 import de from './lang/de'
 
-export default { 
+const init:LocaleProviderInitValues = { 
   defaultLang: 'en',
   locales: {
     US,
@@ -32,3 +34,5 @@ export default {
     de: 'de'
   }
 }
+
+export default init;

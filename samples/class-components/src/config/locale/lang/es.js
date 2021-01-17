@@ -25,6 +25,27 @@ export default {
   page_el_fat: "Grasa",
   page_el_carbs: "Carbohidratos",
   page_el_protein: "Proteína",
-  
+  menu_variants: "Variantes de menú",
+  menu_persistent: "Persistente",
+  menu_minimized: "Mini",
+  menu_temporary: "Temporal",
+  theme_type: "Tipo de tema",
+  theme_type_light: "Ligero",
+  theme_type_dark: "Oscuro",
+  themes: "Temas",
+  theme_default: "Defecto",
+  theme_light_red: "Rojo brillante",
+  theme_dark_red: "Rojo oscuro",
+  theme_light_green: "Verde claro",
+  theme_dark_green: "Verde oscuro",
+  languages: "Idiomas",
+  autherr_info: "Información de autorización",
+  autherr_error: "Error de autorización",
+  autherr_initializing: "Cargando los valores de autorización ...",
+  autherr_adminitem: 'La "Página del administrador" requiere una función de "admin".',
+  auth_login: 'Registrarse',
+  auth_logout: 'Desconectar',
+  auth_login_inprogress: 'La autorización está en curso (espere 3 segundos) ...',
+  auth_logout_inprogress: 'Cierre de sesión en curso (espere 3 segundos) ...'
 }
 

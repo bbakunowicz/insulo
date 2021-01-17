@@ -5,19 +5,18 @@ import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-// import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
-// import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Alert } from '@material-ui/lab';
 import {authTypes, withAuth} from 'insulo-route';
-import LoginSuspense from './LoginSuspense';
+import AuthError from './AuthError';
+// #Localization(start)
+import {withLocale} from 'insulo-locale-provider';
+// #Localization(stop)
 
 function Copyright() {
   return (
@@ -73,12 +72,38 @@ class SignOutForm extends Component {
     const classes = this.props.classes;
     const authConfig = this.props.authContext.value;
 
-    if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS || authConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {
+    let SignOutCnv = "Sign Out";
+    // #Localization(start)
+    const {value: localeConfig} = this.props.localeContext;
+    const currentLocale = localeConfig.currentLocale;
+  
+    if (localeConfig.currentLocale && typeof localeConfig.locales == 'object' && 
+      typeof localeConfig.locales[currentLocale] == 'object' && localeConfig.locales[currentLocale]['auth_logout']) {
+        SignOutCnv= localeConfig.locales[currentLocale]['auth_logout'];
+    }
+    // #Localization(stop)
+
+    if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS) {
+      const authErrorProps = {
+        authError: "Authorization is in progress (wait 3 seconds) ...",
+        authErrorId: "auth_login_inprogress", 
+        authErrorSeverity: authTypes.AUTH_SEVERITY_INFO
+      }
       return (
-        <LoginSuspense />
+        <AuthError {...authErrorProps} />
       )
     }
-  
+    else if (authConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {
+      const authErrorProps = {
+        authError: "Logging out in progress (wait 3 seconds) ...",
+        authErrorId: "auth_logout_inprogress", 
+        authErrorSeverity: authTypes.AUTH_SEVERITY_INFO
+      }
+      return (
+        <AuthError {...authErrorProps} />
+      )
+    }
+
     if (authConfig.authState === authTypes.AUTH_STATE_SET) {
       return (
         <Fragment>
@@ -89,7 +114,7 @@ class SignOutForm extends Component {
               <LockOpenOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign Out
+              {SignOutCnv}
             </Typography>
             <form className={classes.form} noValidate onSubmit={this.handleSubmit}>
               <Button
@@ -99,7 +124,7 @@ class SignOutForm extends Component {
                 color="primary"
                 className={classes.submit}
               >
-                Sign Out
+                {SignOutCnv}
               </Button>
             </form>
           </div>
@@ -112,7 +137,7 @@ class SignOutForm extends Component {
         </Fragment>
       );
     }
-  
+
     return (
       <Container component="main" maxWidth="sm">
         <CssBaseline />
@@ -128,7 +153,8 @@ SignOutForm.propTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  authContext: PropTypes.object.isRequired
+  authContext: PropTypes.object.isRequired,
+  localeContext: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(withAuth(SignOutForm));
+export default withStyles(styles)(withAuth(withLocale(SignOutForm)));

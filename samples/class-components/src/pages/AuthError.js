@@ -8,6 +8,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { authTypes } from "insulo-route";
+// #Localization(start)
+import {withLocale} from 'insulo-locale-provider';
+// #Localization(stop)
 
 const styles = theme => ({
   paper: {
@@ -31,8 +35,28 @@ const styles = theme => ({
 
 class AuthError extends Component {
   render() {
-    const {classes, authError} = this.props;  
+    const {classes, authError, authErrorId, authErrorSeverity} = this.props;  
 
+    let authErrorCnv = authError;
+    let authTitleCnv = (authErrorSeverity === authTypes.AUTH_SEVERITY_INFO)?"Authorization Info":"Authorization Error";
+  
+    // #Localization(start)
+    const {value: localeConfig} = this.props.localeContext;
+    
+    if (localeConfig.currentLocale && typeof localeConfig.locales == 'object' && 
+      typeof localeConfig.locales[localeConfig.currentLocale] == 'object') {
+      if (authErrorId && localeConfig.locales[localeConfig.currentLocale][authErrorId]) {
+        authErrorCnv = localeConfig.locales[localeConfig.currentLocale][authErrorId];
+      } 
+  
+      if (localeConfig.locales[localeConfig.currentLocale][authErrorSeverity || authTypes.AUTH_SEVERITY_ERROR]) {
+        authTitleCnv = localeConfig.locales[localeConfig.currentLocale][authErrorSeverity || authTypes.AUTH_SEVERITY_ERROR];
+      }
+  
+      console.log(`authTitleCnv = ${authTitleCnv}`);
+    }
+    // #Localization(stop)
+  
     return (
       <Container component="main" maxWidth="sm">
         <CssBaseline />
@@ -40,9 +64,9 @@ class AuthError extends Component {
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">Custom Authorization Error</Typography><br />
+          <Typography component="h1" variant="h5">{authTitleCnv}</Typography><br />
           { (authError) &&
-          <Typography component="h2" variant="h6">{authError}</Typography>
+          <Typography component="h2" variant="h6">{authErrorCnv}</Typography>
           }
         </div>
       </Container>
@@ -52,7 +76,10 @@ class AuthError extends Component {
 
 AuthError.propTypes = {
   classes: PropTypes.object.isRequired,
-  authError: PropTypes.string
+  authError: PropTypes.string, 
+  authErrorId: PropTypes.string, 
+  authErrorSeverity: PropTypes.string,
+  localeContext: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(AuthError);
+export default withStyles(styles)(withLocale(AuthError));

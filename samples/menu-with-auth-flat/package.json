@@ -1,0 +1,49 @@
+{
+  "name": "menu-with-auth",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@babel/helper-builder-react-jsx": "^7.10.4",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@testing-library/dom": ">=5",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "clsx": "^1.1.1",
+    "flag-icon-css": "^3.5.0",
+    "insulo-locale-provider": "file:insulo-locale-provider-v0.1.24-3.tgz",
+    "insulo-menu": "file:insulo-menu-v0.1.15-8.tgz",
+    "insulo-route": "file:insulo-route-v0.1.15-6.tgz",
+    "insulo-theme-provider": "file:insulo-theme-provider-v0.1.19-3.tgz",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-icons": "^3.11.0",
+    "react-intl": "^5.8.6",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.3",
+    "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

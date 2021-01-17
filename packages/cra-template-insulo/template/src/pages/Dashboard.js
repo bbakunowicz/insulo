@@ -86,7 +86,7 @@ const Page = ({history}) => {
   // )
   // #Localization(stop)
 
-  // #No localization(start) - comment below when using localization
+  // #No localization(start) - comment the lines below when using localization
   return (
     <section>
       <h1>Home</h1>

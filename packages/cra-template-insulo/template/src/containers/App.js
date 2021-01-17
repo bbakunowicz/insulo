@@ -1,8 +1,6 @@
 import React from 'react';
-import {MenuConfigProvider} from 'insulo-menu';
+import {MenuProvider} from 'insulo-menu';
 import menuConfig from '../config/menu/initial';
-import {MenuItemsProvider} from 'insulo-menu';
-import menuItemsConfig from '../config/menu/items/initial';
 
 // #Theming(start):
 // import {ThemeConfigProvider} from 'insulo-theme-provider';
@@ -40,11 +38,9 @@ export default function Demo () {
           {/* #Authentication(start) */}
           {/* <AuthConfigProvider initValue={authConfig}> */}
           {/* #Authentication(stop) */}
-              <MenuConfigProvider initValue={menuConfig}>
-                <MenuItemsProvider initValue={menuItemsConfig}>
-                  <MainLayout />
-                </MenuItemsProvider>
-              </MenuConfigProvider>
+              <MenuProvider initValue={menuConfig}>
+                <MainLayout />
+              </MenuProvider>
           {/* #Authentication(start) */}
           {/* </AuthConfigProvider> */}
           {/* #Authentication(stop) */}

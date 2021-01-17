@@ -21,7 +21,11 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Popover from '@material-ui/core/Popover';
 import {authTypes, withAuth} from 'insulo-route';
-import LoginSuspense from './LoginSuspense';
+import AuthError from './AuthError';
+// #Localization(start)
+import {withLocale} from 'insulo-locale-provider';
+// #Localization(stop)
+
 
 function Copyright() {
   return (
@@ -37,111 +41,111 @@ function Copyright() {
 }
 
 function CustomControl({children, controlId, popoverId, label, type, autocomplete, name, value, onChange, classes, ariaLabel}) {
-  const [anchor, setAnchor] = React.useState(null);
+const [anchor, setAnchor] = React.useState(null);
 
-  const popoverOpen = Boolean(anchor);
-  
-  const popoverIdCnv = popoverOpen ? popoverId : undefined;
+const popoverOpen = Boolean(anchor);
 
-  const handleClick = (event) => {
-    setAnchor(event.currentTarget);
-  };
+const popoverIdCnv = popoverOpen ? popoverId : undefined;
 
-  const handleClose = () => {
-    setAnchor(null);
-  };
+const handleClick = (event) => {
+setAnchor(event.currentTarget);
+};
 
-  const handleMouseDown = (event) => {
-    event.preventDefault();
-  };
+const handleClose = () => {
+setAnchor(null);
+};
 
-  return (
-    <React.Fragment>
-      <FormControl className={clsx(classes.margin)} variant="outlined" fullWidth >
-        <InputLabel htmlFor={controlId}>{label}</InputLabel>
-        <OutlinedInput
-          id={controlId}
-          type={type}
-          fullWidth
-          name={name}
-          autoComplete={autocomplete}
-          value={value}
-          onChange={onChange}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                color='primary'
-                aria-label={ariaLabel}
-                onClick={handleClick}
-                onMouseDown={handleMouseDown}
-                edge="end"
-              >
-                <InfoIcon />
-              </IconButton>
-            </InputAdornment>
-          }
-          label={label}
-        />
-      </FormControl>
-      <Popover
-        id={popoverIdCnv}
-        open={popoverOpen}
-        anchorEl={anchor}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        {children}
-      </Popover>
-    </React.Fragment>
-  )
+const handleMouseDown = (event) => {
+event.preventDefault();
+};
+
+return (
+<React.Fragment>
+  <FormControl className={clsx(classes.margin)} variant="outlined" fullWidth >
+    <InputLabel htmlFor={controlId}>{label}</InputLabel>
+    <OutlinedInput
+      id={controlId}
+      type={type}
+      fullWidth
+      name={name}
+      autoComplete={autocomplete}
+      value={value}
+      onChange={onChange}
+      endAdornment={
+        <InputAdornment position="end">
+          <IconButton
+            color='primary'
+            aria-label={ariaLabel}
+            onClick={handleClick}
+            onMouseDown={handleMouseDown}
+            edge="end"
+          >
+            <InfoIcon />
+          </IconButton>
+        </InputAdornment>
+      }
+      label={label}
+    />
+  </FormControl>
+  <Popover
+    id={popoverIdCnv}
+    open={popoverOpen}
+    anchorEl={anchor}
+    onClose={handleClose}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'right',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+  >
+    {children}
+  </Popover>
+</React.Fragment>
+)
 }
 
 const styles = theme => ({
-  paper: {
-    marginTop: theme.spacing(6),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', 
-    marginTop: theme.spacing(1),
-  },
-  formWithoutMargin: {
-    width: '100%',
-    marginTop: theme.spacing(-2),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  alerts: {
-    width: '100%',
-    '& > *': {
-        marginTop: theme.spacing(2),
-    },
-  },
-  margin: {
-    marginBottom: theme.spacing(1),
-  },
-  popover: {
-    padding: theme.spacing(2),
-  },
+paper: {
+marginTop: theme.spacing(6),
+display: 'flex',
+flexDirection: 'column',
+alignItems: 'center',
+},
+avatar: {
+margin: theme.spacing(1),
+backgroundColor: theme.palette.secondary.main,
+},
+form: {
+width: '100%', 
+marginTop: theme.spacing(1),
+},
+formWithoutMargin: {
+width: '100%',
+marginTop: theme.spacing(-2),
+},
+submit: {
+margin: theme.spacing(3, 0, 2),
+},
+alerts: {
+width: '100%',
+'& > *': {
+    marginTop: theme.spacing(2),
+},
+},
+margin: {
+marginBottom: theme.spacing(1),
+},
+popover: {
+padding: theme.spacing(2),
+},
 });
 
 const INITIAL_STATE = {
-  username: "",
-  password: ""
+username: "",
+password: ""
 };
 
 class SignInForm extends Component {
@@ -157,20 +161,20 @@ class SignInForm extends Component {
     this.handleSubmitSync = this.handleSubmitSync.bind(this);
   }
 
-  handleSubmitUsingHelperAsync = ({authActions, username, password, history, forwardRoute, returnRoute}) => (evt) => {
+  handleSubmitUsingHelperAsync = ({authActions, username, password}) => (evt) => {
     evt.preventDefault();
     // credentials properties are at your choice, you can use for example: {credentials: "magic_string"}
     // acync: true is only needed for the purposes of this example in order to apply the async sign in version of the setCredentials 
-    authActions.setCredentials({credentials: {username, password}, history, forwardRoute, returnRoute, additionalProps: {async: true}});
+    authActions.setCredentials({credentials: {username, password}, additionalProps: {async: true}});
   }
 
-  handleSubmitUsingHelperSync = ({authActions, username, password, history, forwardRoute, returnRoute}) => (evt) => {
+  handleSubmitUsingHelperSync = ({authActions, username, password}) => (evt) => {
     evt.preventDefault();
     // credentials properties are at your choice, you can use for example: {credentials: "magic_string"}
-    authActions.setCredentials({credentials: {username, password}, history, forwardRoute, returnRoute});
+    authActions.setCredentials({credentials: {username, password}});
   }
 
-  handleSubmitAsync = ({authDispatch, username, password, history, forwardRoute, returnRoute}) => (evt) => {
+  handleSubmitAsync = ({authDispatch, username, password}) => (evt) => {
     evt.preventDefault();
     authDispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_LOGINPROGRESS});
     
@@ -178,13 +182,13 @@ class SignInForm extends Component {
       setTimeout(() => { 
         if (password){
           if (username === 'user') {
-            // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
+            // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
             // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
             // async: true is only needed for the purposes of this example in order to apply the async sing out version in the Logout page
             resolve({roles: ['user'], asyncSignIn: true});
           }
           else if (username === 'admin') {
-            // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
+            // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
             // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
             // async: true is only needed for the purposes of this example in order to apply the async sing out version in the Logout page
             resolve({roles: ['user', 'admin'], asyncSignIn: true});
@@ -196,11 +200,7 @@ class SignInForm extends Component {
       }, 3000)
     })
     .then(result => {
-      authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET, authReturnRoute: returnRoute});
-
-      if (!returnRoute && forwardRoute) {
-        history.push(forwardRoute);
-      } 
+      authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET});
     })
     .catch(error => {
       authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, authError: error});
@@ -208,28 +208,20 @@ class SignInForm extends Component {
     
   }
 
-  handleSubmitSync = ({authDispatch, username, password, history, forwardRoute, returnRoute}) => (evt) => {
+  handleSubmitSync = ({authDispatch, username, password}) => (evt) => {
     evt.preventDefault();
     authDispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_LOGINPROGRESS});
 
     if (password){
       if (username === 'user') {
-        // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
+        // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
         // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user']}, authState: authTypes.AUTH_STATE_SET,
-          authReturnRoute: returnRoute});
-        if (!returnRoute && forwardRoute) {
-          history.push(forwardRoute);
-        } 
+        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user']}, authState: authTypes.AUTH_STATE_SET});
       }
       else if (username === 'admin') {
-        // The authValues prepared here are used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
+        // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
         // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin']}, authState: authTypes.AUTH_STATE_SET,
-          authReturnRoute: returnRoute});
-        if (!returnRoute && forwardRoute) {
-          history.push(forwardRoute);
-        } 
+        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin']}, authState: authTypes.AUTH_STATE_SET});
       }
     }
     else {
@@ -238,6 +230,7 @@ class SignInForm extends Component {
     }
   }
 
+
   handleChange = evt => {
     this.setState({[evt.target.name]: evt.target.value});
   }
@@ -245,19 +238,44 @@ class SignInForm extends Component {
   render() {
     const {username, password} = this.state;
 
-    const {classes, location, history} = this.props;
-    const forwardRoute = typeof location == 'object' && typeof location.state == 'object' && location.state.forward;
-    const returnRoute = typeof location == 'object' && typeof location.state == 'object' && location.state.return;
+    const {classes} = this.props;
   
     const {value: authConfig, actions: authActions, dispatch: authDispatch} = this.props.authContext;
-    const roles = (typeof authConfig.authValues == 'object' && Array.isArray(authConfig.authValues.roles))?authConfig.authValues.roles:[]; 
 
-    if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS || authConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {
+    let SignInCnv = "Sign In";
+    // #Localization(start)
+    const {value: localeConfig} = this.props.localeContext;
+    const currentLocale = localeConfig.currentLocale;
+  
+    if (localeConfig.currentLocale && typeof localeConfig.locales == 'object' && 
+      typeof localeConfig.locales[currentLocale] == 'object' && localeConfig.locales[currentLocale]['auth_login']) {
+        SignInCnv = localeConfig.locales[currentLocale]['auth_login'];
+    }
+    // #Localization(stop)
+  
+    if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS) {
+      const authErrorProps = {
+        authError: "Authorization is in progress (wait 3 seconds) ...",
+        authErrorId: "auth_login_inprogress", 
+        authErrorSeverity: authTypes.AUTH_SEVERITY_INFO
+      }
       return (
-        <LoginSuspense />
+        <AuthError {...authErrorProps} />
       )
     }
-  
+    else if (authConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {
+      const authErrorProps = {
+        authError: "Logging out in progress (wait 3 seconds) ...",
+        authErrorId: "auth_logout_inprogress", 
+        authErrorSeverity: authTypes.AUTH_SEVERITY_INFO
+      }
+      return (
+        <AuthError {...authErrorProps} />
+      )
+    }
+    
+    const roles = (typeof authConfig.authValues == 'object' && Array.isArray(authConfig.authValues.roles))?authConfig.authValues.roles:[]; 
+
     return (
       <Fragment>
       <Container component="main" maxWidth="xs">
@@ -267,10 +285,10 @@ class SignInForm extends Component {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            {SignInCnv}
           </Typography>
           <form className={classes.form} noValidate 
-            onSubmit={this.handleSubmitUsingHelperAsync({authActions, username, password, history, forwardRoute, returnRoute})}>
+            onSubmit={this.handleSubmitUsingHelperAsync({authActions, username, password})}>
             <CustomControl controlId="username-with-info" popoverId="username-popover" label="Username" type="text" 
               autocomplete="username" name="username" value={username} onChange={this.handleChange} classes={classes} 
               ariaLabel="acceptable values are: user or admin" >
@@ -292,11 +310,11 @@ class SignInForm extends Component {
               color="primary"
               className={classes.submit}
             >
-              Sign In Simulation (async)
+              {`${SignInCnv} (async)`}
             </Button>
           </form>
           <form className={classes.formWithoutMargin} noValidate
-            onSubmit={this.handleSubmitUsingHelperSync({authActions, username, password, history, forwardRoute, returnRoute})}>
+            onSubmit={this.handleSubmitUsingHelperSync({authActions, username, password})}>
             <Button
               type="submit"
               fullWidth
@@ -304,11 +322,11 @@ class SignInForm extends Component {
               color="primary"
               className={classes.submit}
             >
-              Sign In Simulation (sync)
+              {`${SignInCnv} (sync)`}
             </Button>
           </form>
           <form className={classes.form} noValidate 
-            onSubmit={this.handleSubmitAsync({authDispatch, username, password, history, forwardRoute, returnRoute})}>
+            onSubmit={this.handleSubmitAsync({authDispatch, username, password})}>
             <Button
               type="submit"
               fullWidth
@@ -316,11 +334,11 @@ class SignInForm extends Component {
               color="primary"
               className={classes.submit}
             >
-              Sign In Simulation (async, without helper)
+              {`${SignInCnv} (async, without helper)`}
             </Button>
           </form>
           <form className={classes.formWithoutMargin} noValidate 
-            onSubmit={this.handleSubmitSync({authDispatch, username, password, history, forwardRoute, returnRoute})}>
+            onSubmit={this.handleSubmitSync({authDispatch, username, password})}>
             <Button
               type="submit"
               fullWidth
@@ -328,10 +346,10 @@ class SignInForm extends Component {
               color="primary"
               className={classes.submit}
             >
-              Sign In Simulation (sync, without helper)
+              {`${SignInCnv} (sync, without helper)`}
             </Button>
           </form>
-       </div>
+      </div>
       </Container>
       <Container component="main" maxWidth="xs">
         <div className={classes.alerts}>
@@ -351,8 +369,8 @@ class SignInForm extends Component {
           <Alert severity="warning">
             <AlertTitle>User is already authenticated</AlertTitle>
               Current roles are: "<strong>{`${roles.join(', ')}`}</strong>".
-              {typeof location.state.authError === 'string' && <br />}
-              {typeof location.state.authError === 'string' && location.state.authError}
+              {(authConfig.authError) && <br />} 
+              {(authConfig.authError) && authConfig.authError}
           </Alert>
         )}
         </div>
@@ -369,7 +387,8 @@ SignInForm.propTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  authContext: PropTypes.object.isRequired
+  authContext: PropTypes.object.isRequired,
+  localeContext: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(withAuth(SignInForm));
+export default withStyles(styles)(withAuth(withLocale(SignInForm)));

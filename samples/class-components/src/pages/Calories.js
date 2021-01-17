@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -16,7 +16,7 @@ import * as locales from '@material-ui/core/locale';
 import {withLocale} from 'insulo-locale-provider';
 // #Theming(stop) and #Localization(stop)
 
-const useStyles = makeStyles({
+const styles = () => ({
   table: {
     minWidth: 650,
   },
@@ -82,9 +82,7 @@ const getRows = (currentLocale) => [
   createData(desserts[currentLocale][4], 356, 16.0, 49, 3.9),
 ];
 
-function SimpleTable({props, currentLocale}) {
-  const classes = useStyles();
-
+function SimpleTable({props, classes, currentLocale}) {
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -128,6 +126,7 @@ class Calories extends Component {
     // #Localization(start)
     const {value: localeConfig} = this.props.localeContext;
     currentLocale = localeConfig.currentLocale;
+    const {classes} = this.props;  
     
     if (localeConfig.currentLocale && typeof localeConfig.locales == 'object' && 
       typeof localeConfig.locales[localeConfig.currentLocale] == 'object') {
@@ -142,7 +141,7 @@ class Calories extends Component {
     return (
       <section>
         <h1>{`${calories}`}</h1>
-        <SimpleTable props={{dessert, calories, fat, carbs, protein}} currentLocale={currentLocale} />
+        <SimpleTable props={{dessert, calories, fat, carbs, protein}} currentLocale={currentLocale} classes={classes}/>
         {/* #Theming(start) and #Localization(start), At least all #Theming sections in App.js and MainLayout.js must be uncommented */}
         <ThemeProvider theme={(outerTheme) => createMuiTheme(outerTheme, locales[localeConfig.currentLocaleMui])}>
           <TablePagination
@@ -160,8 +159,10 @@ class Calories extends Component {
 }
 
 Calories.propTypes = {
+  classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  localeContext: PropTypes.object.isRequired
+  localeContext: PropTypes.object.isRequired,
+
 };
 
-export default withLocale(Calories);
+export default withStyles(styles)(withLocale(Calories));

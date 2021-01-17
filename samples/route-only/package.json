@@ -1,0 +1,65 @@
+{
+  "name": "insulo-cra-demo",
+  "version": "0.1.0",
+  "private": false,
+  "dependencies": {
+    "@babel/helper-builder-react-jsx": "^7.10.4",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@testing-library/dom": ">=5",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "clsx": "^1.1.1",
+    "flag-icon-css": "^3.5.0",
+    "insulo-locale-provider": "file:insulo-locale-provider-v0.1.24-3.tgz",
+    "insulo-menu": "file:insulo-menu-v0.1.15-7.tgz",
+    "insulo-route": "file:insulo-route-v0.1.15-5.tgz",
+    "insulo-theme-provider": "file:insulo-theme-provider-v0.1.19-2.tgz",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-icons": "^3.11.0",
+    "react-intl": "^5.8.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.3",
+    "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "echo \"No test specified.\"",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "author": "Bartosz Bakunowicz <bartosz.bakunowicz@gmail.com>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbakunowicz/insulo.git",
+    "directory": "cra-demo"
+  },
+  "bugs": {
+    "url": "https://github.com/bbakunowicz/insulo/issues"
+  },
+  "keywords": [
+    "menu",
+    "react",
+    "react-component",
+    "material-ui"
+  ]
+}

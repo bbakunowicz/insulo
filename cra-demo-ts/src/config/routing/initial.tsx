@@ -1,9 +1,11 @@
 import getPageVisibility from './getPageVisibility';
 import AuthErrorPage from '../../pages/AuthError'
+import type {RouteProviderInitValues} from 'insulo-route';
 
-export default { 
+const init:RouteProviderInitValues = { 
   defaultRedirect: "/login",
-  defaultForward: "/",
   AuthErrorPage,
   getPageVisibility
 }
+
+export default init;

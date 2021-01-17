@@ -20,7 +20,10 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Popover from '@material-ui/core/Popover';
 import {AuthContext, authTypes} from 'insulo-route';
-import LoginSuspense from './LoginSuspense';
+import AuthError from './AuthError';
+// #Localization(start)
+// import LocaleContext from 'insulo-locale-provider';
+// #Localization(stop)
 
 function Copyright() {
   return (
@@ -137,30 +140,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn({history, location, ...params}) {
+export default function SignIn() {
   const classes = useStyles();  
 
-  const {value: authConfig, actions: authActions, dispatch: authDispatch} = useContext(AuthContext);
-  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const forwardRoute = typeof location == 'object' && typeof location.state == 'object' && location.state.forward;
-  const returnRoute = typeof location == 'object' && typeof location.state == 'object' && location.state.return;
-    
-  const roles = (typeof authConfig.authValues == 'object' && Array.isArray(authConfig.authValues.roles))?authConfig.authValues.roles:[]; 
+  const {value: authConfig, actions: authActions, dispatch: authDispatch} = useContext(AuthContext);
+  
+  let SignInCnv = "Sign In";
+  // #Localization(start)
+  // const { value: localeConfig } = useContext(LocaleContext);
+  // const currentLocale = localeConfig.currentLocale;
+
+  // if (localeConfig.currentLocale && typeof localeConfig.locales == 'object' && 
+  //   typeof localeConfig.locales[currentLocale] == 'object' && localeConfig.locales[currentLocale]['auth_login']) {
+  //     SignInCnv = localeConfig.locales[currentLocale]['auth_login'];
+  // }
+  // #Localization(stop)
 
   const handleSubmitUsingHelperAsync = (evt) => {
     evt.preventDefault();
     // credentials properties are at your choice, you can use for example: {credentials: "magic_string"}
     // acync: true is only needed for the purposes of this example in order to apply the async sign in version of the setCredentials 
-    authActions.setCredentials({credentials: {username, password}, history, forwardRoute, returnRoute, additionalProps: {async: true}});
+    authActions.setCredentials({credentials: {username, password}, additionalProps: {async: true}});
   }
 
   const handleSubmitUsingHelperSync = (evt) => {
     evt.preventDefault();
     // credentials properties are at your choice, you can use for example: {credentials: "magic_string"}
-    authActions.setCredentials({credentials: {username, password}, history, forwardRoute, returnRoute});
+    authActions.setCredentials({credentials: {username, password}});
   }
 
   const handleSubmitAsync = (evt) => {
@@ -189,11 +198,7 @@ export default function SignIn({history, location, ...params}) {
       }, 3000)
     })
     .then(result => {
-      authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET, authReturnRoute: returnRoute});
-
-      if (!returnRoute && forwardRoute) {
-        history.push(forwardRoute);
-      } 
+      authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET});
     })
     .catch(error => {
       authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, authError: error});
@@ -209,20 +214,12 @@ export default function SignIn({history, location, ...params}) {
       if (username === 'user') {
         // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
         // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user']}, authState: authTypes.AUTH_STATE_SET,
-          authReturnRoute: returnRoute});
-        if (!returnRoute && forwardRoute) {
-          history.push(forwardRoute);
-        } 
+        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user']}, authState: authTypes.AUTH_STATE_SET});
       }
       else if (username === 'admin') {
         // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
         // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin']}, authState: authTypes.AUTH_STATE_SET,
-          authReturnRoute: returnRoute});
-        if (!returnRoute && forwardRoute) {
-          history.push(forwardRoute);
-        } 
+        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin']}, authState: authTypes.AUTH_STATE_SET});
       }
     }
     else {
@@ -231,12 +228,29 @@ export default function SignIn({history, location, ...params}) {
     }
   }
 
-  if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS || authConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {
+  if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS) {
+    const authErrorProps = {
+      authError: "Authorization is in progress (wait 3 seconds) ...",
+      authErrorId: "auth_login_inprogress", 
+      authErrorSeverity: authTypes.AUTH_SEVERITY_INFO
+    }
     return (
-      <LoginSuspense />
+      <AuthError {...authErrorProps} />
+    )
+  }
+  else if (authConfig.authState === authTypes.AUTH_STATE_LOGOUTPROGRESS) {
+    const authErrorProps = {
+      authError: "Logging out in progress (wait 3 seconds) ...",
+      authErrorId: "auth_logout_inprogress", 
+      authErrorSeverity: authTypes.AUTH_SEVERITY_INFO
+    }
+    return (
+      <AuthError {...authErrorProps} />
     )
   }
 
+  const roles = (typeof authConfig.authValues == 'object' && Array.isArray(authConfig.authValues.roles))?authConfig.authValues.roles:[]; 
+  
   return (
     <Fragment>
     <Container component="main" maxWidth="xs">
@@ -246,7 +260,7 @@ export default function SignIn({history, location, ...params}) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          {SignInCnv}
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmitUsingHelperAsync}>
           <CustomControl controlId="username-with-info" popoverId="username-popover" label="Username" type="text" 
@@ -270,7 +284,7 @@ export default function SignIn({history, location, ...params}) {
             color="primary"
             className={classes.submit}
           >
-            Sign In Simulation (async)
+            {`${SignInCnv} (async)`}
           </Button>
         </form>
         <form className={classes.formWithoutMargin} noValidate onSubmit={handleSubmitUsingHelperSync}>
@@ -281,7 +295,7 @@ export default function SignIn({history, location, ...params}) {
             color="primary"
             className={classes.submit}
           >
-            Sign In Simulation (sync)
+            {`${SignInCnv} (sync)`}
           </Button>
         </form>
         <form className={classes.form} noValidate onSubmit={handleSubmitAsync}>
@@ -292,7 +306,7 @@ export default function SignIn({history, location, ...params}) {
             color="primary"
             className={classes.submit}
           >
-            Sign In Simulation (async, without helper)
+            {`${SignInCnv} (async, without helper)`}
           </Button>
         </form>
         <form className={classes.formWithoutMargin} noValidate onSubmit={handleSubmitSync}>
@@ -303,7 +317,7 @@ export default function SignIn({history, location, ...params}) {
             color="primary"
             className={classes.submit}
           >
-            Sign In Simulation (sync, without helper)
+            {`${SignInCnv} (sync, without helper)`}
           </Button>
         </form>
      </div>
@@ -326,8 +340,8 @@ export default function SignIn({history, location, ...params}) {
         <Alert severity="warning">
           <AlertTitle>User is already authenticated</AlertTitle>
             Current roles are: "<strong>{`${roles.join(', ')}`}</strong>".
-            {typeof location.state.authError === 'string' && <br />}
-            {typeof location.state.authError === 'string' && location.state.authError}
+            {(authConfig.authError) && <br />} 
+            {(authConfig.authError) && authConfig.authError}
         </Alert>
       )}
       </div>

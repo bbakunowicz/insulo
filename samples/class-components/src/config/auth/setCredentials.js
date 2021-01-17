@@ -1,4 +1,4 @@
-// The setCredentials function prepares authValues used in config/menu/items/getItemVisibility or in config/routing/getPageVisibility 
+// The setCredentials function prepares authValues used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
 export const setCredentials = ({credentials, additionalProps}) => {
   if (typeof additionalProps == 'object' && additionalProps.async === true ) {
     return setCredentialsAsync(credentials);
@@ -9,7 +9,7 @@ export const setCredentials = ({credentials, additionalProps}) => {
 }
 
 // You don't need to wrap this async function in a sync function, it's just for this example purpose
-// You can use this function directly in config/auth/initial.js
+// You can use this function directly in src/config/auth/initial.js
 export const setCredentialsAsync = async (credentials) => {
   let promise = new Promise((resolve, reject) => {
 
@@ -58,7 +58,7 @@ export const clearCredentials = ({additionalProps}) => {
 }
 
 // You don't need to wrap this async function in a sync function, it's just for this example purpose
-// You can use this function directly in config/auth/initial.js
+// You can use this function directly in src/config/auth/initial.js
 export const clearCredentialsAsync = async () => {
   let promise = new Promise((resolve, reject) => {
     setTimeout(() => { 

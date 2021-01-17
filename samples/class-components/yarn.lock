@@ -5865,25 +5865,21 @@ inquirer@^7.0.0:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-insulo-locale-provider@^0.1.0:
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/insulo-locale-provider/-/insulo-locale-provider-0.1.23.tgz#ba0c0d88e794eecaa4f6f3bb9f2682a119913f33"
-  integrity sha512-VedoRRLEltiLg2MWo8yFm2IM2pMEHiW7vXvmCXD41EP+9D8ifHXgtQ3x/jymV76S63rw5tCRi4PqtGpSlKGaLQ==
+"insulo-locale-provider@file:insulo-locale-provider-v0.1.24-5.tgz":
+  version "0.1.24-5"
+  resolved "file:insulo-locale-provider-v0.1.24-5.tgz#7990fdf375865742795cced9c0aebea45bf3cbf9"
 
-insulo-menu@^0.1.0:
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/insulo-menu/-/insulo-menu-0.1.14.tgz#3bb39cd8b2df46a594ff9433e43f0ceada4d3c7c"
-  integrity sha512-Yp5btp8+V0iFF9D/mwnTmuLRZ9C1UojJuOaPKtzrxIJbGBO5ek/OwMv53TeMvrO0U+x76ZBZPgRRdNZ9duUgDQ==
+"insulo-menu@file:insulo-menu-v0.1.15-10.tgz":
+  version "0.1.15-10"
+  resolved "file:insulo-menu-v0.1.15-10.tgz#ff47a9e9f5bd89009967811f90ca9c3d91ed7feb"
 
-insulo-route@^0.1.0:
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/insulo-route/-/insulo-route-0.1.14.tgz#4a3702c66317d1f6f25e71ef95e025d503cfa549"
-  integrity sha512-MmXiwOT4K66M8Tr8GDQ+Gtv/jPCu5NvpTTiwsIcOr9hhOO6KsRyNNSsQvqvdL6QYF0eeBk/10csCXP0WmoKtlQ==
+"insulo-route@file:insulo-route-v0.1.15-9.tgz":
+  version "0.1.15-9"
+  resolved "file:insulo-route-v0.1.15-9.tgz#4a66a6effbd9367ea2c94aaa1dc6cfde30c8d533"
 
-insulo-theme-provider@^0.1.0:
-  version "0.1.18"
-  resolved "https://registry.yarnpkg.com/insulo-theme-provider/-/insulo-theme-provider-0.1.18.tgz#b2602b3bdf33f67b5d20a9451e5b4f9d1e8bf628"
-  integrity sha512-gbI2zLxwKkqj5T08VLfyXuKeOM/NXlLJO8eVSyMUMZkBSq0yKoQxuQC8VagZM76Ya2OgQUcFHnKfkzsFyzWDqw==
+"insulo-theme-provider@file:insulo-theme-provider-v0.1.19-5.tgz":
+  version "0.1.19-5"
+  resolved "file:insulo-theme-provider-v0.1.19-5.tgz#910eb05eb2f3072a541522ba1f1b7f3cc305ba76"
 
 internal-ip@^4.3.0:
   version "4.3.0"

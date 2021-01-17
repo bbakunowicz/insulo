@@ -20,8 +20,11 @@ The private route component provides an interface for applying a user-defined [a
 * **cra-demo** is a javascript demo project,
 * **cra-demo-ts** is a typescript demo project,
 * **samples** directory contains:
-    * [minimal](https://github.com/bbakunowicz/insulo/tree/main/samples/minimal/) – an example of Menu component with minimal functionality (the best way to start with Insulo components),
-    * [auth](https://github.com/bbakunowicz/insulo/tree/main/samples/auth/) – an example showing the basic rules of authorization with Insulo components,
+    * [menu-only-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only-flat/) – an example of Menu component with minimal functionality, structured as single file,
+    * [menu-only](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only/) – equivalent to [menu-only-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only-flat/), organized as separate files,
+    * [route-only](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only/) – an example example of routing with *insulo-route* package,
+    * [menu-with-auth-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth-flat/) – an example [menu-only-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only-flat/) extended with an authorization, structured as single file, 
+    * [menu-with-auth](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth/) – equivalent to [menu-with-auth-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth-flat/), organized as separate files,
     * [class-components](https://github.com/bbakunowicz/insulo/tree/main/samples/class-components/) – an example of React Class Components usage with Insulo components.
     
 # Getting started

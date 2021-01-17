@@ -25,6 +25,28 @@ export default {
   page_el_fat: "Tłuszcz",
   page_el_carbs: "Węglowodany",
   page_el_protein: "Białko",
+  menu_variants: "Warianty menu",
+  menu_persistent: "Stałe",
+  menu_minimized: "Mini",
+  menu_temporary: "Tymczasowe",
+  theme_type: "Typ motywu",
+  theme_type_light: "Jasny",
+  theme_type_dark: "Ciemny",
+  themes: "Motywy",
+  theme_default: "Domyślny",
+  theme_light_red: "Jasnoczerwony",
+  theme_dark_red: "Ciemnoczerwony",
+  theme_light_green: "Jasnozielony",
+  theme_dark_green: "Ciemnozielony",
+  languages: "Wybór języka",
+  autherr_info: "Informacje o autoryzacji",
+  autherr_error: "Błąd autoryzacji",
+  autherr_initializing: "Inicjalizacja wartości autoryzacji ...",
+  autherr_adminitem: '"Strona administratora" wymaga roli "admin".',
+  auth_login: 'Logowanie ',
+  auth_logout: 'Wylogowywanie',
+  auth_login_inprogress: 'Autoryzacja w trakcie (zaczekaj 3 sekundy) ...',
+  auth_logout_inprogress: 'Trwa wylogowywanie (zaczekaj 3 sekundy) ...'
 }  
 
 
