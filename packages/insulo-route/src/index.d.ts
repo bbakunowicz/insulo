@@ -14,8 +14,6 @@
    limitations under the License.
 ***************************************************************************/
 
-import { History, LocationState } from 'history';
-
 interface Children {
     children: JSX.Element[] | JSX.Element
 }
@@ -25,20 +23,24 @@ interface DispatchValues {
 }
 
 export const authTypes: {
-    SET_AUTH_VALUES: string;
-    SET_AUTH_STATE: string;
+    SET_AUTH_VALUES: 'SET_AUTH_VALUES';
+    SET_AUTH_STATE: 'SET_AUTH_STATE';
+    SET_LOADING_STATE: 'SET_LOADING_STATE';
     AUTH_STATE_UNSET: 'UNSET';
     AUTH_STATE_SET: 'SET';
     AUTH_STATE_ERROR: 'ERROR';
     AUTH_STATE_LOGINPROGRESS: 'LOGINPROGRESS';
     AUTH_STATE_LOGOUTPROGRESS: 'LOGOUTPROGRESS';    
-    SET_RETURN_ROUTE: 'SET_RETURN_ROUTE';
-    CLEAR_RETURN_ROUTE: 'CLEAR_RETURN_ROUTE';
+    LS_AUTH_VALUES: 'insulo:auth:values';
+    AUTH_SEVERITY_INFO: 'autherr_info';
+    AUTH_SEVERITY_ERROR: 'autherr_error';
+    AUTH_ERROR_INITIALIZING: 'autherr_initializing';
 };
 
 export type AuthState = typeof authTypes.AUTH_STATE_UNSET | typeof authTypes.AUTH_STATE_SET | typeof authTypes.AUTH_STATE_ERROR | 
-    typeof authTypes.AUTH_STATE_LOGINPROGRESS | typeof authTypes.AUTH_STATE_LOGOUTPROGRESS | 
-    typeof authTypes.SET_RETURN_ROUTE | typeof authTypes.CLEAR_RETURN_ROUTE ;
+    typeof authTypes.AUTH_STATE_LOGINPROGRESS | typeof authTypes.AUTH_STATE_LOGOUTPROGRESS;
+
+export type AuthErrorSeverity = typeof authTypes.AUTH_SEVERITY_INFO | typeof authTypes.AUTH_SEVERITY_ERROR;
 
 export function RouteConfigProvider(props: RouteConfigProvider.Props): JSX.Element;
 
@@ -54,8 +56,8 @@ declare namespace RouteConfigProvider {
 
     export interface InitValues {
         defaultRedirect?: string,
-        defaultForward?: string,
-        AuthErrorPage?: ({authError}: {authError: string}) => JSX.Element 
+        AuthErrorPage?: (ref: {authError: string, authErrorId?: string, authErrorSeverity: AuthErrorSeverity}) => JSX.Element,
+        getPageVisibility?: (authValues: any, authProps: any) => boolean
     }
 }
 
@@ -67,21 +69,20 @@ export const AuthConfigProvider: ({ children, initValue }: {
 declare namespace AuthConfigProvider {
     export interface InitValues {
         setCredentials: ({credentials, additionalProps}: {credentials: any, additionalProps?: any}) => Promise<any> | any;
-        clearCredentials: ({additionalProps}:{additionalProps?: any}) => Promise<undefined> | undefined;
-        clearCredentialsImmediately?: boolean
+        clearCredentials?: ({additionalProps}:{additionalProps?: any}) => Promise<undefined> | undefined;
+        redirectWhenInvalidCredentails?: boolean;
+        saveAuthValues?: boolean;
+        saveAuthValuesDecode?: ({authValuesStr}:{authValuesStr: string}) => any;
+        saveAuthValuesEncode?: ({authValues}:{authValues: any}) => string;
+        authValuesKey?: string
     }
 
     export interface Actions {
-        setCredentials: ({ credentials, history, forwardRoute, returnRoute, ...additionalProps }: {
+        setCredentials: ({ credentials, additionalProps }: {
             credentials: any,
-            history: History<LocationState>,
-            forwardRoute?: string,
-            returnRoute?: string,
             additionalProps?: any
         }) => void,
-        clearCredentials: ({ history, route, ...additionalProps }: {
-            history: History<LocationState>;
-            route: string;
+        clearCredentials: ({ additionalProps }: {
             additionalProps?: any
         }) => void | undefined
     }
@@ -112,5 +113,9 @@ export default Context;
 
 export const AuthContext: React.Context<{value: AuthConfigProvider.ContextValues, dispatch: (DispatchValues) => void, 
     actions: AuthConfigProvider.Actions}>
+
+export interface RouteProviderInitValues extends RouteConfigProvider.InitValues {}
+
+export interface AuthProviderInitValues extends AuthConfigProvider.InitValues {}
 
 export = AuthConfigProvider;

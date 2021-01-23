@@ -7,16 +7,17 @@ import ApplicationBarContent from './ApplicationBarContent';
 import type {MenuProviderInitValues} from 'insulo-menu';
 
 const init:MenuProviderInitValues = { 
-  width: "20em",                //mandatory
-  variant: menuTypes.TEMPORARY, //optional
+  width: "20em",                      //mandatory
+  variant: menuTypes.TEMPORARY,       //optional
   availableVariants: [menuTypes.PERSISTENT, menuTypes.TEMPORARY, menuTypes.MINIMIZED],  //optional
-  anchor: menuTypes.MENU_LEFT,  //optional
-  //defaultVisible: false,      //optional
-  items,                        //the getMenuItems function may be used alternatively
-  settings,                     //the getSettingsItems function may be used alternatively
-  getItemVisibility,            //optional
-  getSettingVisibility,         //optional
-  ApplicationBarContent         //optional
+  anchor: menuTypes.MENU_LEFT,        //optional
+  //defaultVisible: false,            //optional
+  items,                        
+  settings,                     
+  getItemVisibility,                  //optional
+  getSettingVisibility,               //optional
+  ApplicationBarContent,              //optional
+  persistentMenuMinWindowSize: 800    //optional
 }
 
 export default init;

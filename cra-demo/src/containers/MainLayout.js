@@ -9,9 +9,9 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import ThemeContext from 'insulo-theme-provider';
 // #Theming(stop)
 
-// #Visibility(start) or #Theming(start) or #Localization(start)
+// #Theming(start) or #Localization(start)
 import { useEffect } from 'react';
-// #Visibility(stop) or #Theming(stop) or #Localization(stop)
+// #Theming(stop) or #Localization(stop)
 
 // #Authentication(start) or #Theming(start) or #Localization(start)
 import { useContext } from 'react';
@@ -21,11 +21,6 @@ import { useContext } from 'react';
 import MenuContext, {menuTypes} from 'insulo-menu';
 // #Theming(stop) or #Localization(stop)
 
-// #Visibility(start)
-import { useState } from 'react';
-import { useTheme } from '@material-ui/core/styles';
-// #Visibility(stop)
-
 // #Authentication(start)
 import {AuthContext} from 'insulo-route';
 // #Authentication(stop)
@@ -34,38 +29,12 @@ import {AuthContext} from 'insulo-route';
 import LocaleContext, {getItemCaption} from 'insulo-locale-provider';
 // #Localization(stop)
 
-
-// #Visibility(start)
-function usePersistent(breakpoint = 'md') {
-  const [variant, setVariant] = useState(false);
-  const theme = useTheme();
-  
-  useEffect(() => {
-    function updateSize() {
-      const size = theme.breakpoints.values[breakpoint];
-      if (window.innerWidth < size) setVariant(false)
-      else setVariant(true);
-    }
-
-    window.addEventListener('resize', updateSize);
-    updateSize();
-    return () => window.removeEventListener('resize', updateSize);
-  }, [theme.breakpoints, breakpoint]);
-
-  return variant;
-}
-// #Visibility(stop)
-
 export default function MainLayout() {
 
   // #Theming(start)
   const { value:themeConfig, actions: themeActions, dispatch: themeDispatch } = useContext(ThemeContext);
   const theme = React.useMemo(() => createMuiTheme(themeActions.getProps(themeConfig.current, themeConfig.type)), [themeConfig, themeActions]);
   // #Theming(stop)
-
-  // #Visibility(start)
-  const persistentEnabled = usePersistent();
-  // #Visibility(stop)
 
   // #Authentication(start)
   const { value: authConfig } = useContext(AuthContext);
@@ -117,10 +86,8 @@ export default function MainLayout() {
           // #Theming(stop)
           // #Authentication(start)
           itemVibilityValues={authConfig.authValues} 
+          settingsVibilityValues={authConfig.authValues}
           // #Authentication(stop)
-          // #Visibility(start)
-          settingsVibilityValues={{persistentEnabled}}
-          // #Visibility(stop)
           // #Localization(start)
           itemCaptionCallback={getItemCaption(localeConfig)}
           // #Localization(stop)

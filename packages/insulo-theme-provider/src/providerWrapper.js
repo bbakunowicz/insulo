@@ -14,7 +14,7 @@
    limitations under the License.
 ***************************************************************************/
 
-import { createContext, useReducer } from "react";
+import React, { createContext, useReducer } from "react";
 import Provider from './provider';
 import { reducer } from "./reducer";
 import useLocalStorage from './localStorage';
@@ -53,7 +53,7 @@ const getProps = (themesCnv) => (current, type) => {
 }
 
 const ProviderWrapper = ({ children, initValue }) => {
-  const themesCnv = normalize(initValue.themes);
+  const themesCnv = React.useMemo(() => normalize(initValue.themes), [initValue.themes]);
 
   const [value, dispatch] = useReducer(reducer, {...initValue, themesCnv, typeSetter: 'init'});
 

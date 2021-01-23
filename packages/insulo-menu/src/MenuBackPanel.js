@@ -21,13 +21,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import getItem from './utils/getItem';
-import { Context as MenuContext } from './provider/config/providerWrapper';
-import { Context as ItemsContext } from './provider/items/providerWrapper';
+import { Context as MenuContext } from './provider/providerWrapper';
 import * as menuTypes from './provider/types';
 
-const renderBackItem = (classes, menuConfig, itemsConfig, itemsDispatch) => {
+const renderBackItem = (classes, menuConfig, menuDispatch) => {
   let action = {type: menuTypes.CLEAR_PARENT_ITEM};
-  const item = getItem(itemsConfig.items, itemsConfig.parentItemKeyArr, true);
+  const item = getItem(menuConfig.items, menuConfig.parentItemKeyArr, true);
 
   if (item) {
     action = {type: menuTypes.SET_PARENT_ITEM, key: item.key, caption: item.caption};
@@ -39,13 +38,13 @@ const renderBackItem = (classes, menuConfig, itemsConfig, itemsDispatch) => {
         button
         className={classes.listItem}
         onClick={() => {
-          itemsDispatch(action);
+          menuDispatch(action);
         }}
       >
         <ListItemIcon className={classes.listItemIcon}>
           <ArrowBack />
         </ListItemIcon>
-        { (menuConfig.variant !== menuTypes.MINIMIZED || menuConfig.open) && (<ListItemText primary={itemsConfig.parentItemCaption} />)}
+        { (menuConfig.variant !== menuTypes.MINIMIZED || menuConfig.open) && (<ListItemText primary={menuConfig.parentItemCaption} />)}
       </ListItem>
       <Divider />
     </Fragment>
@@ -53,13 +52,12 @@ const renderBackItem = (classes, menuConfig, itemsConfig, itemsDispatch) => {
 }
   
 const MenuBackPanel = ({classes}) => {
-  const { value: menuConfig } = useContext(MenuContext);
-  const { value: itemsConfig, dispatch: itemsDispatch } = useContext(ItemsContext);
-
+  const { value: menuConfig, dispatch: menuDispatch } = useContext(MenuContext);
+  
   return (
     <Fragment>
-      { (Array.isArray(itemsConfig.parentItemKeyArr) && itemsConfig.parentItemKeyArr.length > 0) && 
-        renderBackItem(classes, menuConfig, itemsConfig, itemsDispatch)}
+      { (Array.isArray(menuConfig.parentItemKeyArr) && menuConfig.parentItemKeyArr.length > 0) && 
+        renderBackItem(classes, menuConfig, menuDispatch)}
     </Fragment>
   )
 }

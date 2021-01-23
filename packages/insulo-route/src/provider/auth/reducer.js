@@ -19,42 +19,59 @@ import * as types from "./types";
 export const reducer = (state, action) => {
   switch (action.type) {
     case types.SET_AUTH_VALUES: {
-      console.log(`action.authReturnRoute: ${action.authReturnRoute}`);
+      const newIncarnation = state.authIncarnation + 1;
       if (action.authState) {
         if (typeof action.authValues == 'object') {
           return {...state, 
             authValues: {...action.authValues},
-            authState: action.authState, authError: action.authError,
-            authReturnRoute: action.authReturnRoute
+            authState: action.authState, 
+            authError: action.authError,
+            authIncarnation: newIncarnation,
+            // authReturnRoute: action.authReturnRoute,
+            // authReturnInvoker: action.authReturnInvoker
           }
         }
         if (Array.isArray(action.authValues)) {
           return {...state, 
             authValues: [...action.authValues],
-            authState: action.authState, authError: action.authError,
-            authReturnRoute: action.authReturnRoute
+            authState: action.authState, 
+            authError: action.authError,
+            authIncarnation: newIncarnation,
+            // authReturnRoute: action.authReturnRoute,
+            // authReturnInvoker: action.authReturnInvoker
           }
         }
         return {...state, 
-          authValues: action.authValues, authState: action.authState, authError: action.authError, authReturnRoute: action.authReturnRoute
+          authValues: action.authValues, 
+          authState: action.authState, 
+          authError: action.authError, 
+          authIncarnation: newIncarnation,
+          // authReturnRoute: action.authReturnRoute,
+          // authReturnInvoker: action.authReturnInvoker
         }
       }
       else {
         if (typeof action.authValues == 'object') {
           return {...state, 
             authValues: {...action.authValues},
-            authReturnRoute: action.authReturnRoute
+            authIncarnation: newIncarnation,
+            // authReturnRoute: action.authReturnRoute,
+            // authReturnInvoker: action.authReturnInvoker
           }
         }
         if (Array.isArray(action.authValues)) {
           return {...state, 
             authValues: [...action.authValues],
-            authReturnRoute: action.authReturnRoute
+            authIncarnation: newIncarnation,
+            // authReturnRoute: action.authReturnRoute,
+            // authReturnInvoker: action.authReturnInvoker
           }
         }
         return {...state, 
           authValues: action.authValues,
-          authReturnRoute: action.authReturnRoute
+          authIncarnation: newIncarnation,
+          // authReturnRoute: action.authReturnRoute,
+          // authReturnInvoker: action.authReturnInvoker
         }
       }
     }
@@ -63,14 +80,19 @@ export const reducer = (state, action) => {
       authState: action.authState,
       authError: action.authError
     }
-  case types.SET_RETURN_ROUTE:
-    return {...state, 
-      authReturnRoute: action.authReturnRoute,
-    }
-  case types.CLEAR_RETURN_ROUTE:
-    return {...state, 
-      authReturnRoute: undefined,
-    }
+  // case types.SET_RETURN_ROUTE:
+  //   return {...state, 
+  //     authReturnRoute: action.authReturnRoute,
+  //     authReturnInvoker: action.authReturnInvoker
+  //   }
+  // case types.CLEAR_RETURN_ROUTE:
+  //   return {...state, 
+  //     authReturnRoute: undefined,
+  //     authReturnInvoker: undefined
+  //   }
+  case types.SET_LOADING_STATE: {
+    return {...state, inloadingState: action.inloadingState}
+  }
   default:
       return state;
   }

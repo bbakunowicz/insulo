@@ -6,5 +6,6 @@ export default {
     setCredentials: ({credentials, additionalProps}) => {
       return {authorized: credentials.username}
     },
+   authValuesKey: "insulo:auth:menu-with-auth"
   }
   

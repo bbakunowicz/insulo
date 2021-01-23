@@ -14,16 +14,16 @@
    limitations under the License.
 ***************************************************************************/
 
-import type {ThemeOptions} from '@material-ui/core/styles/createMuiTheme';
+import type {ThemeOptions} from '@material-ui/core/styles';
 
 export const themeTypes: {
     DARK: "dark";
     LIGHT: "light";
-    LS_THEME_CURRENT: string;
     LS_THEME_TYPE: string;
+    LS_THEME_CURRENT: string;
     SET_THEME: string;
-    SET_THEMES: string;
     SET_THEME_TYPE: string;
+    SET_THEMES: string;
 };
 
 export type ThemeType = typeof themeTypes.DARK | typeof themeTypes.LIGHT; 

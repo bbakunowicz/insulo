@@ -16,9 +16,9 @@
 
 export const DARK = 'dark';
 export const LIGHT = 'light';
-export const SET_THEME_TYPE = 'SET_THEME_TYPE';
+export const LS_THEME_TYPE = 'insulo:theme:type';
+export const LS_THEME_CURRENT = 'insulo:theme:current';
 export const SET_THEME = 'SET_THEME';
+export const SET_THEME_TYPE = 'SET_THEME_TYPE';
 export const SET_THEMES = 'SET_THEMES';
-export const LS_THEME_TYPE = 'theme:type';
-export const LS_THEME_CURRENT = 'theme:current';
 

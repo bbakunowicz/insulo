@@ -21,8 +21,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import { Context as MenuContext } from './provider/config/providerWrapper';
-import { Context as ItemsContext } from './provider/items/providerWrapper';
+import { Context as MenuContext } from './provider/providerWrapper';
 import * as menuTypes from './provider/types';
 
 const onItemChange = (item, history) => {
@@ -31,8 +30,7 @@ const onItemChange = (item, history) => {
   }
 }
 
-const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsDispatch, history, selectedClass, 
-  itemVibilityValues, itemCaptionCallback) => {
+const renderItem = (item, classes, menuConfig, menuDispatch, history, selectedClass, itemVibilityValues, itemCaptionCallback) => {
 
   if (item.type === 'divider') {
     return (
@@ -40,10 +38,10 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
     )
   }
   else {
-    let isItemVisible = (item.key === itemsConfig.curentItemKey);
+    let isItemVisible = (item.key === menuConfig.curentItemKey);
     if (!isItemVisible) {
       try {
-        isItemVisible = ((typeof itemsConfig.getItemVisibility == 'function')? itemsConfig.getItemVisibility(itemVibilityValues, item.authProps) : true); 
+        isItemVisible = ((typeof menuConfig.getItemVisibility == 'function')? menuConfig.getItemVisibility(itemVibilityValues, item.authProps) : true); 
       }
       catch (e) {
         console.error(`getItemVisibility error: ${e.message}`);
@@ -63,7 +61,7 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
         itemCaption = itemCaptionCallback(item.captionId);
       }
       catch (e) {
-        console.error(`itemCaptionCallback error: ${e.message}`);
+        console.error(`MenuItemsList.renderItem: itemCaptionCallback error: ${e.message}`);
       }
     }
 
@@ -76,16 +74,21 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
           root: clsx(classes.listItem), 
           selected: clsx(classes.listItemSelected, selectedClass && classes[selectedClass]) }}
         key={item.key}
-        selected = {item.key === itemsConfig.curentItemKey}
-        disableRipple = {item.key === itemsConfig.curentItemKey}
-        disableTouchRipple = {item.key === itemsConfig.curentItemKey}
+        selected = {item.key === menuConfig.curentItemKey}
+        disableRipple = {item.key === menuConfig.curentItemKey}
+        disableTouchRipple = {item.key === menuConfig.curentItemKey}
         onClick={e => {
-          if (item.key !== itemsConfig.curentItemKey) {
+          if (window._INSULO_DEBUG_ === true) {
+            console.log('MenuItemsList.renderItem <onClick>, item:');
+            console.log(item);
+          }
+
+          if (item.key !== menuConfig.curentItemKey) {
             if (Array.isArray(item.items)) {
-              itemsDispatch({type: menuTypes.SET_PARENT_ITEM, key: item.key, caption: itemCaption});
+              menuDispatch({type: menuTypes.SET_PARENT_ITEM, key: item.key, caption: itemCaption});
             }
             else {
-              itemsDispatch({type: menuTypes.SET_CURRENT_ITEM, item});
+              menuDispatch({type: menuTypes.SET_CURRENT_ITEM, item});
               onItemChange(item, history);
               if (menuConfig.variant === menuTypes.TEMPORARY) {
                 menuDispatch({type: menuTypes.SET_MENU_CLOSE});
@@ -99,7 +102,7 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
 
         }}>
         {item.icon && <ListItemIcon classes={{ root: clsx(classes.listItemIcon)}}>{item.icon}</ListItemIcon>}
-        {menuMaximized && (<ListItemText primary={itemCaption || item.caption} />)}
+        {menuMaximized && (<ListItemText primary={itemCaption} />)}
         {item.items && menuMaximized && (
             <ListItemIcon className={classes.listItemIconRight}><KeyboardArrowRightIcon /></ListItemIcon>
         )}
@@ -110,12 +113,11 @@ const renderItem = (item, classes, menuConfig, menuDispatch, itemsConfig, itemsD
 
 const MenuItemsList = ({classes, history, selectedClass, itemVibilityValues, itemCaptionCallback}) => {
   const { value: menuConfig, dispatch: menuDispatch } = useContext(MenuContext);
-  const { value: itemsConfig, dispatch: itemsDispatch } = useContext(ItemsContext);
 
-  if (window._INSULO_DEBUG_ === true) console.log(`MenuItemsList, itemsConfig.curentItemKey: ${itemsConfig.curentItemKey}`);
+  if (window._INSULO_DEBUG_ === true) console.log(`MenuItemsList, menuConfig.curentItemKey: ${menuConfig.curentItemKey}`);
 
-  let items = itemsConfig.items && [ ...itemsConfig.items];
-  let key = itemsConfig.parentItemKeyArr && [...itemsConfig.parentItemKeyArr];
+  let items = menuConfig.items && [ ...menuConfig.items];
+  let key = menuConfig.parentItemKeyArr && [...menuConfig.parentItemKeyArr];
   while (Array.isArray(key) && key.length>0){
     items = items[key[0]].items;
     key.shift();
@@ -124,7 +126,7 @@ const MenuItemsList = ({classes, history, selectedClass, itemVibilityValues, ite
   return (
     <Fragment>
       { Array.isArray(items) && items.map((data) => {
-        return renderItem( data, classes, menuConfig, menuDispatch, itemsConfig, itemsDispatch, history, selectedClass, 
+        return renderItem( data, classes, menuConfig, menuDispatch, history, selectedClass, 
           itemVibilityValues, itemCaptionCallback);
       })}
     </Fragment>

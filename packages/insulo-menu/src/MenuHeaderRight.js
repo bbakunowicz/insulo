@@ -20,13 +20,11 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SettingsIcon from '@material-ui/icons/Settings';
-import { Context as MenuContext } from './provider/config/providerWrapper';
-import { Context as ItemsContext } from './provider/items/providerWrapper';
+import { Context as MenuContext } from './provider/providerWrapper';
 import * as menuTypes from './provider/types';
 
 export default function MenuHeader({classes}) {
   const { value: menuConfig, dispatch: menuDispatch } = useContext(MenuContext);
-  const { value: itemsConfig } = useContext(ItemsContext);
   
   return (
     <Fragment>
@@ -38,7 +36,7 @@ export default function MenuHeader({classes}) {
           </IconButton>
         </div>
         <div>
-          { (Array.isArray(itemsConfig.settings) && itemsConfig.settings.length > 0)  &&
+          { (Array.isArray(menuConfig.settings) && menuConfig.settings.length > 0)  &&
             <IconButton 
               classes={{root: clsx(menuConfig.settingsOpen && classes.settingsApplied)}}
               onClick={() => {

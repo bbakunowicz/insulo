@@ -16,10 +16,17 @@
 
 export const SET_AUTH_VALUES = 'SET_AUTH_VALUES';
 export const SET_AUTH_STATE = 'SET_AUTH_STATE';
+export const SET_LOADING_STATE = 'SET_LOADING_STATE';
 export const AUTH_STATE_UNSET = 'UNSET';
 export const AUTH_STATE_SET = 'SET';
 export const AUTH_STATE_ERROR = 'ERROR';
 export const AUTH_STATE_LOGINPROGRESS = 'LOGINPROGRESS';
 export const AUTH_STATE_LOGOUTPROGRESS = 'LOGOUTPROGRESS';
-export const SET_RETURN_ROUTE = 'SET_RETURN_ROUTE';
-export const CLEAR_RETURN_ROUTE = 'CLEAR_RETURN_ROUTE';
+export const LS_AUTH_VALUES = 'insulo:auth:values';
+export const AUTH_LOGIN = 'auth_login';
+export const AUTH_LOGOUT = 'auth_logout';
+export const AUTH_LOGOUT_PENDING = 'auth_logout_pending';
+export const AUTH_LOGOUT_PENDING_INFO = 'auth_logout_pending_info';
+export const AUTH_SEVERITY_INFO = 'autherr_info';
+export const AUTH_SEVERITY_ERROR = 'autherr_error';
+export const AUTH_ERROR_INITIALIZING = 'autherr_initializing';

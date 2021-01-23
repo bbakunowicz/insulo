@@ -14,13 +14,35 @@
    limitations under the License.
 ***************************************************************************/
 
-import { SET_PARENT_ITEM, CLEAR_PARENT_ITEM, SET_CURRENT_ITEM, SET_CURRENT_ROUTE, SET_ITEMS, 
+import { SET_MENU_OPEN, SET_MENU_CLOSE, SET_MENU_SETTINGS_STATE, SET_MENU_VARIANT, LS_MENU_VARIANT, LS_MENU_OPENED,
+  SET_PARENT_ITEM, CLEAR_PARENT_ITEM, SET_CURRENT_ITEM, SET_CURRENT_ROUTE, SET_ITEMS, SET_PERSISTENT_ENABLED,
   REGISTER_CONTEXT, CALL_DISPATCH, 
   SET_PARENT_SETTING, SET_CURRENT_SETTING, CLEAR_PARENT_SETTING
-} from "../types";
+} from "./types";
 
 export const reducer = (state, action) => {
     switch (action.type) {
+      case SET_MENU_OPEN:
+        localStorage.setItem(LS_MENU_OPENED, true);
+        return {...state, 
+          open: true,
+        }
+      case SET_MENU_CLOSE:
+        localStorage.setItem(LS_MENU_OPENED, false);
+        return {...state, 
+          open: false,
+        }
+      case SET_MENU_SETTINGS_STATE:
+        return {...state, 
+          settingsOpen: action.settingsOpen,
+      }
+      case SET_MENU_VARIANT:
+        localStorage.setItem(LS_MENU_VARIANT, action.variant, action.init);
+        return {...state, 
+          variant: action.variant,
+          open: action.variant === 'minimized' ? false : action.init ? state.open : true,
+          settingsOpen: action.variant === 'minimized' ? false : action.init ? state.settingsOpen : true
+        }
       case SET_PARENT_ITEM:
         return {...state, 
           parentItemKeyArr: action.key.split('.'),
@@ -69,6 +91,10 @@ export const reducer = (state, action) => {
         currentSettingsKeys[state.parentSettingsKey] = action.item.key;
         return {...state, 
           currentSettingsKeys
+        }
+      case SET_PERSISTENT_ENABLED:
+        return {...state,
+          persistentEnabled: action.persistentEnabled
         }
       case REGISTER_CONTEXT:
         if (typeof action.name == 'string' && typeof action.config == 'object' && typeof action.dispatch == 'function') {

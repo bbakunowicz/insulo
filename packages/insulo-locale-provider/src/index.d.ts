@@ -62,3 +62,4 @@ export const getItemCaption: (localeConfig: LocaleConfigProvider.ContextValue) =
 declare const Context: React.Context<{value: LocaleConfigProvider.ContextValue, dispatch: (DispatchValues) => void}>;
 export default Context;
 
+export interface LocaleProviderInitValues extends LocaleConfigProvider.InitValues {}

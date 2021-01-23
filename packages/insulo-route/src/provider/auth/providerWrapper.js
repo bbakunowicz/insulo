@@ -18,46 +18,100 @@ import { createContext, useReducer } from "react";
 import Provider from '../provider';
 import { reducer } from "./reducer";
 import * as authTypes from "./types";
+import useLocalStorage from './localStorage';
 
 export const Context = createContext();
 
-const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, history, forwardRoute, returnRoute, additionalProps}) => {
+const saveInLocalStorage = (authValuesKey, authValuesStr) => {
+  localStorage.setItem(authValuesKey, authValuesStr);
+}
+const removeFromLocalStorage = (authValuesKey) => {
+  localStorage.removeItem(authValuesKey);
+}
+
+const setCredentialsFunc = (dispatch, initValue) => ({authValuesStr, credentials, additionalProps}={}) => {
   if (window._INSULO_DEBUG_ === true) {
-    console.log(`setCredentialsFunc: forwardRoute = ${forwardRoute}, returnRoute = ${returnRoute}, credentials:`);
+    console.log(`setCredentialsFunc: authValuesStr=${authValuesStr}, credentials:`);
     console.log(credentials);
     console.log(`setCredentialsFunc: additionalProps:`);
     console.log(additionalProps);
   }
 
+  const authValuesKey = initValue.authValuesKey || authTypes.LS_AUTH_VALUES;
+  
+  const setAuthStateError = (error) => {
+    if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: setAuthStateError, authError = ${error}`);
+    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, authError: error});
+    removeFromLocalStorage(authValuesKey);
+  }
+
+  const saveAuthValues = (authValues) => {
+    try {
+      const saveAuthValuesEncodeWrk = typeof initValue == 'object' && initValue.saveAuthValuesEncode;
+  
+      if (typeof saveAuthValuesEncodeWrk != 'function') {
+        if (window._INSULO_DEBUG_ === true) console.error(`setCredentialsFunc: saveAuthValuesEncode is not a function`);
+        return;
+      }
+  
+      const retval = saveAuthValuesEncodeWrk({authValues});
+  
+      if (retval && typeof retval.then === 'function' && retval[Symbol.toStringTag] === 'Promise') {
+        retval
+        .then(result => {
+          saveInLocalStorage(authValuesKey, result);
+        })
+        .catch(error => {
+          // async exceptions
+          console.error(`setCredentialsFunc: saveAuthValues error: ${error.message}`);
+        });
+      }
+      else {
+        saveInLocalStorage(authValuesKey, retval);
+      }
+    }
+    catch (error) {
+      // sync exceptions
+      console.error(`setCredentialsFunc: saveAuthValues error: ${error.message}`);
+    }
+  }
+
   const setAuthStateSet = (result) => {
     if (window._INSULO_DEBUG_ === true) { 
-      console.log(`setAuthStateSet: setAuthStateSet, authReturnRoute = ${returnRoute}, authValues = `);
+      console.log(`setCredentialsFunc: setAuthStateSet, authValues = `);
       console.log(result);
     }
 
-    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET, authReturnRoute: returnRoute});
+    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET});
 
-    if (!returnRoute && forwardRoute && typeof history == 'object'){
-      if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: history.push: forwardRoute=${forwardRoute}`);
-      history.push(forwardRoute);
+    if (!authValuesStr && initValue.saveAuthValues === true) {
+      if (window._INSULO_DEBUG_ === true) { 
+        console.log(`setCredentialsFunc: setAuthStateSet, saving authValues to local storage.`);
+      }
+      saveAuthValues(result);
     }
   }
 
-  const setAuthStateError = (error) => {
-    if (window._INSULO_DEBUG_ === true) console.log(`setAuthStateError: setAuthStateError, authError = ${error}`);
-    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, authError: error});
-  }
-
-  if (typeof setCredentialsWrk != 'function') {
-    if (window._INSULO_DEBUG_ === true) console.error(`setCredentialsFunc: setCredentialsWrk is not a function`);
-    console.error(`setCredentialsFunc: setCredentialsWrk is not a function`);
-    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, 
-      authError: {message: 'setCredentials is not a function'}});
-    return;
-  }
-
   try {
-    const retval = setCredentialsWrk({credentials, additionalProps});
+    const setCredentialsWrk = typeof initValue == 'object' && (authValuesStr)? initValue.saveAuthValuesDecode : initValue.setCredentials;
+    const setCredentialsParams = (authValuesStr)? {authValuesStr} : {credentials, additionalProps};
+
+    if (typeof setCredentialsWrk != 'function') {
+      if (window._INSULO_DEBUG_ === true) {
+        if (authValuesStr) {
+          console.error(`setCredentialsFunc: saveAuthValuesDecode is not a function`);
+        }
+        else {
+          console.error(`setCredentialsFunc: setCredentials is not a function`);
+        }
+      }
+      dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, 
+        authError: {message: 'setCredentials is not a function'}});
+      removeFromLocalStorage(authValuesKey);
+      return;
+    }
+
+    const retval = setCredentialsWrk(setCredentialsParams);
 
     if (retval && typeof retval.then === 'function' && retval[Symbol.toStringTag] === 'Promise') {
       if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: AUTH_STATE_LOGINPROGRESS`);
@@ -82,35 +136,38 @@ const setCredentialsFunc = (dispatch, setCredentialsWrk) => ({credentials, histo
   }
 }
 
-const clearCredentialsFunc = (dispatch, initValue) => ({history, route, additionalProps}) => {
-  if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: route=${route}, additionalProps:`);
-  if (window._INSULO_DEBUG_ === true) console.log(additionalProps);
+const clearCredentialsFunc = (dispatch, initValue) => ({additionalProps}={}) => {
+  if (window._INSULO_DEBUG_ === true) {
+    console.log(`clearCredentialsFunc: additionalProps:`);
+    console.log(additionalProps);
+  }
+
+  const authValuesKey = initValue.authValuesKey || authTypes.LS_AUTH_VALUES;
 
   const setAuthStateUnset = () => {
     if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: setAuthStateUnset`);
+
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_UNSET});
 
-    if (typeof route == 'string' && typeof history == 'object') {
-      if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: history.push: route=${route}`);
-      history.push(route);
-    }
+    removeFromLocalStorage(authValuesKey);
   }
 
   const setAuthStateError = (error) => {
     if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: setAuthStateError, error = ${error}`);
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, authError: error});
+    removeFromLocalStorage(authValuesKey);
   }
 
-  const clearCredentialsWrk = initValue.clearCredentials;
+  dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_UNSET});
+  removeFromLocalStorage(authValuesKey);
 
-  if (initValue.clearCredentialsImmediately === true) {
-    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_UNSET});
-  }
+  const clearCredentialsWrk = typeof initValue == 'object' && initValue.clearCredentials;
 
   if (typeof clearCredentialsWrk != 'function') {
     if (window._INSULO_DEBUG_ === true) console.error(`clearCredentialsFunc: clearCredentials is not a function`);
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, 
       authError: {message: 'clearCredentials is not a function'}});
+    removeFromLocalStorage(authValuesKey);
     return;
   }
 
@@ -137,10 +194,13 @@ const clearCredentialsFunc = (dispatch, initValue) => ({history, route, addition
 }
 
 export const AuthConfigProvider = ({ children, initValue }) => {
-  const [value, dispatch] = useReducer(reducer, {...initValue, authValues: undefined, authState: authTypes.AUTH_STATE_UNSET});
-
-  const setCredentials = setCredentialsFunc(dispatch,initValue.setCredentials);
+  const [value, dispatch] = useReducer(reducer, {...initValue, authValues: undefined, authState: authTypes.AUTH_STATE_UNSET, 
+    inloadingState: initValue.saveAuthValues === true, authIncarnation: 0});
+    
+  const setCredentials = setCredentialsFunc(dispatch,initValue);
   const clearCredentials = clearCredentialsFunc(dispatch,initValue);
+  
+  useLocalStorage(value, dispatch, setCredentials);
 
   return Provider({children, Context, value, dispatch, actions: {setCredentials, clearCredentials}});
 }

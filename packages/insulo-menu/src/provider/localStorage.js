@@ -14,10 +14,23 @@
    limitations under the License.
 ***************************************************************************/
 
-import React, { useContext } from "react";
-import {Context} from './providerWrapper';
+import {useEffect} from 'react';
+import * as types from './types';
 
-export const withContext = Component => props => {
-    const context = useContext(Context)
-    return <Component {...props} itemsContext={context} />
+const useLocalStorage = (config, dispatch) => {
+  useEffect(() => {
+    if (typeof localStorage != 'undefined') {
+      const variant = localStorage.getItem(types.LS_MENU_VARIANT);
+      if (variant && variant !== config.variant) {
+        dispatch({type: types.SET_MENU_VARIANT, variant, init: true});
+      }
+      const opened = localStorage.getItem(types.LS_MENU_OPENED);
+      if (opened && opened === "true") {
+        dispatch({type: types.SET_MENU_OPEN});
+      }
+    }
+  // eslint-disable-next-line
+  }, []);
 }
+
+export default useLocalStorage;

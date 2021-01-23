@@ -1,6 +1,6 @@
 {
   "name": "insulo-theme-provider",
-  "version": "0.1.18",
+  "version": "0.1.21",
   "description": "Theme provider for Insulo components.",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -19,13 +19,13 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "@material-ui/core": "^4.11.0",
-    "react": "^16.13.1"
+    "@material-ui/core": ">=4.11.0",
+    "react": ">=16.13.1"
   },
   "devDependencies": {
     "nwb": "0.25.x",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react": ">=16.13.1",
+    "react-dom": ">=16.13.1"
   },
   "author": "Bartosz Bakunowicz <bartosz.bakunowicz@gmail.com>",
   "license": "Apache-2.0",

@@ -25,6 +25,7 @@ const authConfig = {
   setCredentials: ({credentials, additionalProps}) => {
     return {authorized: credentials.username}
   },
+  authValuesKey: "insulo:auth:route-only"
 }
 
 const Page = ({text}) => {

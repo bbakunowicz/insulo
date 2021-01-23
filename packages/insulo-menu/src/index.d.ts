@@ -31,21 +31,21 @@ interface DispatchValues {
 }
 
 export const menuTypes: {
+    MINIMIZED: "minimized";
+    PERSISTENT: "persistent";
+    TEMPORARY: "temporary";
     CALL_DISPATCH: string;
     CLEAR_PARENT_ITEM: string;
     CLEAR_PARENT_SETTING: string;
     LS_MENU_OPENED: string;
     LS_MENU_VARIANT: string;
+    MENU_DIVIDER: string;
     MENU_LEFT: "left";
     MENU_RIGHT: "right";
-    MENU_DIVIDER: string;
-    MINIMIZED: "minimized";
-    PERSISTENT: "persistent";
-    TEMPORARY: "temporary";
-    REGISTER_CONTEXT: string;
-    // REGISTER_ITEM_CAPTION_CALLBACK: string;
-    // REGISTER_ITEM_VISIBILITY_CALLBACK: string;
-    // REGISTER_SETTING_VISIBILITY_CALLBACK: string;
+    MENU_MINIMIZED: 'menu_minimized';
+    MENU_PERSISTENT: 'menu_persistent';
+    MENU_TEMPORARY: 'menu_temporary';
+    MENU_VARIANTS: 'menu_variants';
     SET_CURRENT_ITEM: string;
     SET_CURRENT_ROUTE: string;
     SET_CURRENT_SETTING: string;
@@ -54,59 +54,18 @@ export const menuTypes: {
     SET_MENU_OPEN: string;
     SET_MENU_SETTINGS_STATE: string;
     SET_MENU_VARIANT: string;
-    SET_MENU_WIDTH: string;
     SET_PARENT_ITEM: string;
     SET_PARENT_SETTING: string;
+    SET_PERSISTENT_ENABLED: string;
+    REGISTER_CONTEXT: string;
 };
 
 export type MenuVariant = typeof menuTypes.PERSISTENT | typeof menuTypes.TEMPORARY | typeof menuTypes.MINIMIZED;
 export type MenuAnchor = typeof menuTypes.MENU_LEFT | typeof menuTypes.MENU_RIGHT;
 
-export function MenuConfigProvider(props: MenuConfigProvider.Props): JSX.Element;
+export function MenuProvider(props: MenuProvider.Props): JSX.Element;
 
-declare namespace MenuConfigProvider {
-
-    export interface Props {
-        children: React.ReactNode,
-        initValue: InitValues
-    }
-
-    export interface InitValues {
-        variant?: MenuVariant,
-        width: number | string,
-        anchor?: MenuAnchor,
-    }
-
-    export interface ContextValues extends InitValues {
-        open: boolean;
-        settingsOpen: boolean;
-    }
-}
-
-export interface MenuConfigProviderInitValues extends MenuConfigProvider.InitValues {}
-
-export function MenuItemsProvider(props: MenuItemsProvider.Props): JSX.Element;
-
-declare namespace MenuItemsProvider {
-    export interface Props {
-        children: React.ReactNode,
-        initValue: InitValues
-    }
-
-    export interface InitValues {
-        defaultVisible?: boolean,
-        getMenuItems?: () => Array<Item | ItemWithSubitems | ItemDivider>,
-        getSettingsItems?: () => Array<Setting | SettingWithSubitems | ItemDivider>
-        getItemVisibility?: (authValues: any, authProps: any) => boolean
-    }
-
-    export interface ContextValues extends InitValues {
-        contexts: {[key:string]:{config: any, dispatch: (DispatchValues) => void}},
-        items: { [key: string]: ItemWithKey | ItemWithSubitemsWithKey | ItemDividerWithKey}, 
-        settings: { [key: string]: SettingWithKey | SettingWithSubitemsWithKey}, 
-        currentSettingsKeys: { [key: string]: string}, 
-    }
-
+declare namespace MenuProvider {
     export interface Item {
         caption: string,
         captionId?: string,
@@ -172,23 +131,55 @@ declare namespace MenuItemsProvider {
         key: string,
     }  
 
+    export interface Props {
+        children: React.ReactNode,
+        initValue: InitValues
+    }
+
+    export interface InitValues {
+        width: number | string,
+        variant?: MenuVariant,
+        availableVariants?: MenuVariant[],
+        anchor?: MenuAnchor,
+        defaultVisible?: boolean,
+        getMenuItems?: () => Array<Item | ItemWithSubitems | ItemDivider>,
+        getSettingsItems?: () => Array<Setting | SettingWithSubitems | ItemDivider>
+        items?: Array<Item | ItemWithSubitems | ItemDivider>,
+        settings?: Array<Setting | SettingWithSubitems | ItemDivider>
+        getItemVisibility?: (authValues: any, authProps: any) => boolean,
+        getSettingVisibility?: (authValues: any, authProps: any) => boolean,
+        ApplicationBarContent?: ({children}:{children: JSX.Element[] | JSX.Element}) => JSX.Element,
+        persistentMenuMinWindowSize?: number
+    }
+
+    export interface ContextValues extends InitValues {
+        open: boolean,
+        settingsOpen: boolean,
+        contexts: {[key:string]:{config: any, dispatch: (DispatchValues) => void}},
+        items: { [key: string]: ItemWithKey | ItemWithSubitemsWithKey | ItemDividerWithKey}, 
+        settings: { [key: string]: SettingWithKey | SettingWithSubitemsWithKey}, 
+        currentSettingsKeys: { [key: string]: string}, 
+    }
 }
 
-interface AuthValues {
-    setCredentials: (credentails: any, dispatch: (DispatchValues) => void) => Promise<any>;
-    clearCredentials: (dispatch: any) => Promise<any>;
-    authValues?: any
-}
-
-export const ItemsContext: React.Context<{value: MenuItemsProvider.ContextValues, dispatch: (DispatchValues) => void}>;
-
-declare const Context: React.Context<{value: MenuConfigProvider.ContextValues, dispatch: (DispatchValues) => void}>;
+declare const Context: React.Context<{value: MenuProvider.ContextValues, dispatch: (DispatchValues) => void}>;
 export default Context;
 
 export function ApplicationBar(_ref: {children: JSX.Element | JSX.Element[] | string, position?: string}): JSX.Element;
+
+export function Landing(_ref: {
+    children: JSX.Element | JSX.Element[] | string,
+    backgroundColor?: string | undefined; 
+    selectedColor?: string | undefined; 
+    itemVibilityValues?: any; 
+    settingsVibilityValues?: any; 
+    itemCaptionCallback: (captionId: string) => string | undefined;
+}): JSX.Element;
 
 export function Menu(_ref: {history: History<LocationState>, backgroundColor?: string, selectedColor?: string
     itemVibilityValues?: any, settingsVibilityValues?: any, itemCaptionCallback?: (captionId: string) => string | undefined }): JSX.Element;
 
 export function MenuLanding(_ref: Children): JSX.Element;
+
+export interface MenuProviderInitValues extends MenuProvider.InitValues {}
 

@@ -26,8 +26,7 @@ import MenuHeaderLeft from './MenuHeaderLeft';
 import MenuHeaderRight from './MenuHeaderRight';
 import MenuItemsPanel from './MenuItemsPanel';
 import MenuSettingsPanel from './MenuSettingsPanel';
-import { Context as MenuContext } from './provider/config/providerWrapper';
-import { Context as ItemsContext } from './provider/items/providerWrapper';
+import { Context as MenuContext } from './provider/providerWrapper';
 import * as menuTypes from './provider/types';
 
 
@@ -199,7 +198,6 @@ const getSelectedClass = (value) => {
 export function Menu({children, history, backgroundColor, selectedColor, itemVibilityValues, settingsVibilityValues, itemCaptionCallback}) {
 
   const { value: menuConfig, dispatch: menuDispatch } = useContext(MenuContext);
-  const { value: itemsConfig, dispatch: itemsDispatch } = useContext(ItemsContext);
   
   const backgroundClass = getBackgroundClass(backgroundColor);
   const selectedClass = getSelectedClass(selectedColor);
@@ -212,18 +210,31 @@ export function Menu({children, history, backgroundColor, selectedColor, itemVib
   useEffect(() => {
     //const searchParams = new URLSearchParams(location.search);
     if (typeof location == 'object' && location.pathname ) {
-      if (itemsConfig.currentItemRoute !== location.pathname || itemsConfig.currentItemAltRoute !== location.pathname){
-        const item = findItem(itemsConfig.items, 'route', location.pathname) || findItem(itemsConfig.items, 'altRoute', location.pathname) ;
+      //if (menuConfig.currentItemRoute !== location.pathname || menuConfig.currentItemAltRoute !== location.pathname){
+        const item = findItem(menuConfig.items, 'route', location.pathname) || findItem(menuConfig.items, 'altRoute', location.pathname) ;
         if (typeof item == 'object' && item.key) {
-          if (window._INSULO_DEBUG_ === true) console.log(`Menu, itemsConfig.curentItemKey: ${itemsConfig.curentItemKey}`);
-          if (item.key !== itemsConfig.curentItemKey) {
-            if (window._INSULO_DEBUG_ === true) console.log(`Menu, new itemsConfig.curentItemKey: ${item.key}`);
-            itemsDispatch({type: menuTypes.SET_CURRENT_ROUTE, item, parentItem: getItem(itemsConfig.items, item.key.split('.'), true)});
+          if (window._INSULO_DEBUG_ === true) console.log(`Menu, location.pathname=${location.pathname}, menuConfig.curentItemKey=${menuConfig.curentItemKey}`);
+          if (item.key !== menuConfig.curentItemKey) {
+            if (window._INSULO_DEBUG_ === true) console.log(`Menu, new menuConfig.curentItemKey=${item.key}`);
+            menuDispatch({type: menuTypes.SET_CURRENT_ROUTE, item, parentItem: getItem(menuConfig.items, item.key.split('.'), true)});
           }
         }
+      //}
+    }
+  }, [location, menuConfig.items, menuConfig.curentItemKey, menuConfig.currentItemRoute, menuConfig.currentItemAltRoute, menuDispatch ]);
+
+  useEffect(() => {
+    const updateSize = () => {
+      const persistentEnabled = (!isNaN(menuConfig.persistentMenuMinWindowSize)) ? 
+        window.innerWidth > menuConfig.persistentMenuMinWindowSize : true;
+      if (menuConfig.persistentEnabled !== persistentEnabled){
+        menuDispatch({type: menuTypes.SET_PERSISTENT_ENABLED, persistentEnabled});
       }
     }
-  }, [location, itemsConfig.items, itemsConfig.curentItemKey, itemsConfig.currentItemRoute, itemsConfig.currentItemAltRoute, itemsDispatch ]);
+
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, [menuConfig, menuDispatch]);
 
   const toggleDrawer = (open) => (event) => {
     // if (
@@ -265,13 +276,14 @@ export function Menu({children, history, backgroundColor, selectedColor, itemVib
           <MenuHeaderLeft classes={classes} />
         }
         {
-          itemsConfig.settings &&
+          menuConfig.settings &&
           <Collapse in={menuConfig.settingsOpen} classes={{entered: classes.collapseEntered}}>
-            <MenuSettingsPanel classes={classes} selectedClass={selectedClass} settingsVibilityValues={settingsVibilityValues} />
+            <MenuSettingsPanel classes={classes} selectedClass={selectedClass} settingsVibilityValues={settingsVibilityValues} 
+              itemCaptionCallback = {itemCaptionCallback}/>
           </Collapse>
         }
         { 
-          itemsConfig.items && 
+          menuConfig.items && 
             <MenuItemsPanel classes={classes} history={history} selectedClass={selectedClass} itemVibilityValues={itemVibilityValues} 
               itemCaptionCallback = {itemCaptionCallback} />
         } 

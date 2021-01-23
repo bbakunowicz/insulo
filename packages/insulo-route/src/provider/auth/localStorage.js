@@ -14,15 +14,22 @@
    limitations under the License.
 ***************************************************************************/
 
+import {useEffect} from 'react';
 import * as types from './types';
-import {useMediaQuery} from '@material-ui/core';
 
-const useThemeMediaQuery = (config, dispatch) => {
-  const type = useMediaQuery('(prefers-color-scheme: dark)') ? types.DARK : types.LIGHT;
-
-  if (type !== config.type && config.typeSetter === 'init') {
-    dispatch({type: types.SET_THEME_TYPE, themeType: type, typeSetter: 'init'});
-  }
+const useLocalStorage = (config, dispatch, setCredentials) => {
+  useEffect(() => {
+    if (config.saveAuthValues === true && typeof localStorage == 'object') {
+      const authValuesKey = config.authValuesKey || types.LS_AUTH_VALUES;
+      const authValuesStr = localStorage.getItem(authValuesKey);
+      if (typeof authValuesStr === 'string' && authValuesStr.length>0) {
+        if (window._INSULO_DEBUG_ === true) console.log(`useLocalStorage, setCredentials: authValuesStr = ${authValuesStr}`);
+        setCredentials({authValuesStr});
+      }
+    }
+    dispatch({type: types.SET_LOADING_STATE, inloadingState: false});
+  // eslint-disable-next-line
+  }, []);
 }
 
-export default useThemeMediaQuery;
+export default useLocalStorage;

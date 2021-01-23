@@ -1,8 +1,6 @@
+// #Theming(start) or #Localization(start)
 import React from 'react'
-// import MenuIcon from '@material-ui/icons/Menu';
-// import MenuOpenIcon from '@material-ui/icons/MenuOpen';
-// import MoreVertIcon from '@material-ui/icons/MoreVert';
-// import {menuTypes} from '../../../../packages/insulo-menu';
+// #Theming(stop) or #Localization(stop)
 
 // #Theming(start)
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';

@@ -16,15 +16,13 @@
 
 import * as menuTypes from './provider/types'
 
-export { Context as default } from './provider/config/providerWrapper';
-export { MenuConfigProvider} from './provider/config/providerWrapper';
-export { withContext as withMenuConfig } from './provider/config/withContext';
-export { Context as ItemsContext } from './provider/items/providerWrapper';
-export { MenuItemsProvider} from './provider/items/providerWrapper';
-export { withContext as withMenuItems } from './provider/items/withContext';
+export { Context as default } from './provider/providerWrapper';
+export { MenuProvider} from './provider/providerWrapper';
+export { withContext as withMenu } from './provider/withContext';
 
 export {Menu} from './Menu'
 export {MenuLanding} from './MenuLanding'
 export {ApplicationBar} from './ApplicationBar'
+export {Landing} from './Landing'
 
 export {menuTypes}

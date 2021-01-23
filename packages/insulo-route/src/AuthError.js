@@ -23,6 +23,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import * as authTypes from './provider/auth/types'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function AuthError({authError}) {
+export default function AuthError({authError, authErrorSeverity}) {
 
   const classes = useStyles();  
 
@@ -58,7 +59,9 @@ export default function AuthError({authError}) {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">Authorization Error</Typography><br />
+        <Typography component="h1" variant="h5">
+          {(authErrorSeverity === authTypes.AUTH_SEVERITY_INFO)?"Authorization Info":"Authorization Error"}
+        </Typography><br />
         { (authError) &&
         <Typography component="h2" variant="h6">{authError}</Typography>
         }

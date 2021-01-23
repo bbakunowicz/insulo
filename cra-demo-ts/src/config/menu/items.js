@@ -5,9 +5,9 @@ import ViewColumnIcon from '@material-ui/icons/ViewColumn';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import ViewAgendaIcon from '@material-ui/icons/ViewAgenda';
 import ViewArrayIcon from '@material-ui/icons/ViewArray';
+import ViewCarouselIcon from '@material-ui/icons/ViewCarousel';
 
 // #Authentication(start)
-import ViewCarouselIcon from '@material-ui/icons/ViewCarousel';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import ViewDayIcon from '@material-ui/icons/ViewDay';
 import ViewCompactIcon from '@material-ui/icons/ViewCompact';

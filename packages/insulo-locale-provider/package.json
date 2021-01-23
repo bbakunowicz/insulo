@@ -1,6 +1,6 @@
 {
   "name": "insulo-locale-provider",
-  "version": "0.1.23",
+  "version": "0.1.26",
   "description": "Locale provider for Insulo components.",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -19,13 +19,12 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "flag-icon-css": "^3.5.0",
-    "react": "^16.13.1"
+    "react": ">=16.13.1"
   },
   "devDependencies": {
     "nwb": "0.25.x",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react": ">=16.13.1",
+    "react-dom": ">=16.13.1"
   },
   "author": "Bartosz Bakunowicz <bartosz.bakunowicz@gmail.com>",
   "license": "Apache-2.0",

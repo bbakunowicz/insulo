@@ -17,7 +17,7 @@
 import React, {useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { Context as MenuContext } from './provider/config/providerWrapper';
+import { Context as MenuContext } from './provider/providerWrapper';
 import * as menuTypes from './provider/types';
 
 const useStyles = (drawerWidth) => makeStyles((theme) => ({

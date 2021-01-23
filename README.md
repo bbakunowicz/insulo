@@ -152,16 +152,6 @@ cd test-insulo-template
 2. Choose menu variants and test menu behavior.
 3. Test the functionality of the submenu.
 
-## <a id="test_visible"></a>Settings visibility test
-
-An example of limiting the visibility of one of the setting menu items (*Menu variants*):
-
-1. Remove all comments between the lines marked **#Visibitity(start)** and **#Visibitity(stop)** in all project files.
-2. Save all files.
-3. Choose *Settings*, then *Menu variants*, then *Temporary*
-4. Decrease the width of the browser window: the "Persistent" option should disappear. 
-5. It should reappear after an appropriate increase of the browser window's width.
-
 ## <a id="test_auth"></a>Authorization provider functionality test
 
 1. To facilitate the tests, it is best to set menu variant "Persistent" (*Settings*, then *Menu variants*, then *Persistent*)

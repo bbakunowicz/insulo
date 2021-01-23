@@ -15,5 +15,5 @@
 ***************************************************************************/
 
 export const SET_CURRENT_LOCALE = 'SET_CURRENT_LOCALE';
-export const LS_CURRENT_LOCALE = 'locale:currentLocale';
+export const LS_CURRENT_LOCALE = 'insulo:locale:currentLocale';
 

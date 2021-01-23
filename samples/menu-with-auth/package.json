@@ -1,5 +1,5 @@
 {
-  "name": "minimal",
+  "name": "route-only",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,16 +13,16 @@
     "@testing-library/user-event": "^7.1.2",
     "clsx": "^1.1.1",
     "flag-icon-css": "^3.5.0",
-    "insulo-locale-provider": "file:insulo-locale-provider-v0.1.24-4.tgz",
-    "insulo-menu": "file:insulo-menu-v0.1.15-9.tgz",
-    "insulo-route": "file:insulo-route-v0.1.15-7.tgz",
-    "insulo-theme-provider": "file:insulo-theme-provider-v0.1.19-4.tgz",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "insulo-locale-provider": ">=0.1.26",
+    "insulo-menu": ">=0.1.17",
+    "insulo-route": ">=0.1.17",
+    "insulo-theme-provider": ">=0.1.21",
+    "react": ">=16.13.1",
+    "react-dom": ">=16.13.1",
     "react-icons": "^3.11.0",
     "react-intl": "^5.8.6",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
+    "react-scripts": "^3.4.3",
     "typescript": "^4.0.3"
   },
   "scripts": {
