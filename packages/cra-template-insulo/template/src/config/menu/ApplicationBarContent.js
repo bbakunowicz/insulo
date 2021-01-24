@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   }
  }));
   
-export default function Content({children}) {
+function Content({children}) {
   const classes = useStyles();
   const { value: menuConfig, dispatch: menuDispatch } = useContext(MenuContext);
 
@@ -52,3 +52,5 @@ export default function Content({children}) {
     </Toolbar>
   );
 }
+
+export default Content;

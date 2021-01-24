@@ -1,8 +1,10 @@
 import getPageVisibility from './getPageVisibility';
 import AuthErrorPage from '../../pages/AuthError';
 
-export default { 
+const init = { 
   defaultRedirect: "/login",
   AuthErrorPage,
   getPageVisibility
-}
+};
+
+export default init;

@@ -19,7 +19,7 @@ import ViewCarouselIcon from '@material-ui/icons/ViewCarousel';
 import { FaHome } from "react-icons/fa";
 import { ImTable2 } from "react-icons/im";
 
-export default [
+const items = [
   {
     caption: "Dashboard",
     captionId: "item_home",
@@ -149,3 +149,5 @@ export default [
   // }
   // #Authentication(stop)
 ];
+
+export default items;

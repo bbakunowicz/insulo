@@ -6,7 +6,7 @@ import blue from '@material-ui/core/colors/blue'
 import yellow from '@material-ui/core/colors/yellow'
 import indigo from '@material-ui/core/colors/indigo'
 
-export default { 
+const init = { 
   type:  types.DARK,
   current: 'default',
   themes: [
@@ -64,4 +64,6 @@ export default {
       }
     }
   ]
-}
+};
+
+export default init;

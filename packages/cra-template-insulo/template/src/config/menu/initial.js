@@ -5,7 +5,7 @@ import getItemVisibility from './getItemVisibility';
 import getSettingVisibility from './getSettingVisibility';
 import ApplicationBarContent from './ApplicationBarContent';
 
-export default { 
+const init = { 
   width: "20em",                      //mandatory
   variant: menuTypes.TEMPORARY,       //optional
   availableVariants: [menuTypes.PERSISTENT, menuTypes.TEMPORARY, menuTypes.MINIMIZED],  //optional
@@ -18,3 +18,5 @@ export default {
   ApplicationBarContent,              //optional
   persistentMenuMinWindowSize: 800    //optional
 }
+
+export default init;

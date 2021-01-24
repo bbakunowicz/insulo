@@ -5,7 +5,7 @@ import es from './lang/es'
 import fr from './lang/fr'
 import de from './lang/de'
 
-export default { 
+const init = { 
   defaultLang: 'en',
   locales: {
     US,
@@ -31,4 +31,6 @@ export default {
     fr: 'fr',
     de: 'de'
   }
-}
+};
+
+export default init;

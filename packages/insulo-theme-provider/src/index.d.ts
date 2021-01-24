@@ -72,3 +72,5 @@ interface DispatchValues {
 declare const Context: React.Context<{value: ThemeConfigProvider.ContextValues, dispatch: (DispatchValues) => void, 
     actions: {getProps:(string, ThemeType) => any }}>
 export default Context;
+
+export interface ThemeConfigProviderInitValues extends ThemeConfigProvider.InitValues {}

@@ -1,4 +1,4 @@
-export default {
+const strings = {
   item_home: 'Accueil',
   item_sample: 'Exemple de données',
   item_user:"Page de l'utilisateur",
@@ -47,4 +47,6 @@ export default {
   auth_logout: 'Déconnexion',
   auth_login_inprogress: 'L\'autorisation est en cours (attendez 3 secondes) ...',
   auth_logout_inprogress: 'Déconnexion en cours (attendez 3 secondes) ...'
-}
+};
+
+export default strings;

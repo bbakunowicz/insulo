@@ -1,4 +1,4 @@
-export default {
+const strings = {
   item_home: 'Strona domowa',
   item_sample: 'Przykładowe dane',
   item_user: 'Strona użytkownika',
@@ -47,6 +47,7 @@ export default {
   auth_logout: 'Wylogowywanie',
   auth_login_inprogress: 'Autoryzacja w trakcie (zaczekaj 3 sekundy) ...',
   auth_logout_inprogress: 'Trwa wylogowywanie (zaczekaj 3 sekundy) ...'
-}  
+};
 
+export default strings;
 

@@ -1,6 +1,6 @@
 {
   "name": "insulo-theme-provider",
-  "version": "0.1.22",
+  "version": "0.1.25",
   "description": "Theme provider for Insulo components.",
   "main": "lib/index.js",
   "module": "es/index.js",
