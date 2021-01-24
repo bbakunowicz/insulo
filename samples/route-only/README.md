@@ -1,3 +1,18 @@
-# Project bootsrapped with cra-template-insulo for building a project with Insulo components
+# Route only sample
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with --template insulo option.
+This example shows the routing functionality. The example does not include the user interface. To verify the routing functionality use the paths defined in the example.
+
+The project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with *npx create-react-app route-only --template insulo*.
+
+## Using this example:
+```
+git clone git@github.com:bbakunowicz/insulo.git
+cd insulo/sample/route-only
+yarn install && yarn start
+```
+or
+```
+git clone git@github.com:bbakunowicz/insulo.git
+cd insulo/sample/route-only
+yarn install && yarn build && serve -s build
+```

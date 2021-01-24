@@ -1,6 +1,6 @@
 {
   "name": "insulo-locale-provider",
-  "version": "0.1.26",
+  "version": "0.1.27",
   "description": "Locale provider for Insulo components.",
   "main": "lib/index.js",
   "module": "es/index.js",
