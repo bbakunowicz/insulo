@@ -17,16 +17,18 @@ The private route component provides an interface for applying a user-defined [a
 <br />
 
 # Repository structure
-* **packages** directory contains source code of insulo packages,
 * **cra-demo** is a javascript demo project,
 * **cra-demo-ts** is a typescript demo project,
+* **packages** directory contains source code of insulo packages,
 * **samples** directory contains:
     * [menu-only-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only-flat/) – an example of Menu component with minimal functionality, structured as single file,
     * [menu-only](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only/) – equivalent to [menu-only-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only-flat/), organized as separate files,
     * [route-only](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only/) – an example example of routing with *insulo-route* package,
     * [menu-with-auth-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth-flat/) – an example [menu-only-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only-flat/) extended with an authorization, structured as single file, 
     * [menu-with-auth](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth/) – equivalent to [menu-with-auth-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth-flat/), organized as separate files,
-    * [class-components](https://github.com/bbakunowicz/insulo/tree/main/samples/class-components/) – an example of React Class Components usage with Insulo components.
+    * [class-components](https://github.com/bbakunowicz/insulo/tree/main/samples/class-components/) – an example of React Class Components usage with Insulo components,
+* **templates** directory contains source code of insulo template.
+
     
 # Getting started
 
@@ -202,4 +204,4 @@ yarn install && yarn start
 2. The language of the TablePagination component under the table component should be changed.
 
 # Licensing
-The entire project is licensed under the Apache-2.0 License, while the insulo template, located in the packages/cra-template-insulo directory is licensed under the MIT License.
+The project is generally licensed under the MIT license, with the exception of the Insulo packages located in the *packages* directory, which are licensed under the Apache-2.0 license.

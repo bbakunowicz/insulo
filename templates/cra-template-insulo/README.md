@@ -16,7 +16,7 @@ yarn start
 
 # Usage
 
-The application created with this template includes functionality limited to the basic menu functions. To use the other options of Insulo components, you need to unlock the appropriate code fragments. In order to extend the functionality with the following options: authorization, templates or localization, delete appropriately marked comments. In order to use authorization, remove the comments from the lines delimited by the comments #Authentication (start) and #Authentication (stop) in all files. Similarly, in order to use templates, you should remove comments placed between #Theming (start) and #Theming (stop) in all files. To use localization you must remove comments between #Localization (start) and #Localization (stop) in all files. 
+The application created with this template includes functionality limited to the basic menu functions. In order to use the other options of Insulo components, you need to uncomment the appropriate code fragments. To extend the functionality with the following options: authorization, templates or localization, delete appropriately marked comments. In order to use authorization, remove the comments from the lines delimited by the comments #Authentication (start) and #Authentication (stop) in all files. Similarly, in order to use templates, you should remove comments placed between #Theming (start) and #Theming (stop) in all files. To use localization you must remove comments between #Localization (start) and #Localization (stop) in all files. 
 
 In addition to removing comments, you need to adjust the configuration of the components to your needs. Each of the components: RouteConfigProvider, LocaleConfigProvider, ThemeConfigProvider, AuthConfigProvider, MenuProvider has an initValue configuration parameter. Configuration is relatively intuitive and at the moment it is best described by example configuration files in the config directory. 
 
@@ -25,5 +25,5 @@ To see how the application files should look like after removing all comments an
 ```sh
 git clone https://github.com/bbakunowicz/insulo.git
 cd insulo/cra-demo
-yarn start
+yarn install && yarn start
 ```

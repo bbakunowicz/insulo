@@ -1,6 +1,8 @@
 {
   "name": "cra-template-insulo",
-  "version": "0.1.19",
+  "version": "0.1.21",
+  "author": "Bartosz Bakunowicz <bartosz.bakunowicz@gmail.com>",
+  "license": "MIT",
   "keywords": [
     "menu",
     "react",
@@ -13,8 +15,6 @@
     "url": "https://github.com/bbakunowicz/insulo.git",
     "directory": "packages/cra-template-inulo"
   },
-  "author": "Bartosz Bakunowicz <bartosz.bakunowicz@gmail.com>",
-  "license": "MIT",
   "engines": {
     "node": ">=10"
   },
