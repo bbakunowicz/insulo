@@ -1,13 +1,13 @@
-# Insulo components
-Insulo components are a collection of components designed to rapidly build [React-based](https://reactjs.org/) applications. Insulo components are based on the [material-ui](https://material-ui.com/) library. They use [React hooks](https://reactjs.org/docs/hooks-intro.html), in terms of state management.
+# InsuloJS components
+InsuloJS components are a collection of components designed to rapidly build [React-based](https://reactjs.org/) applications. InsuloJS components are based on the [material-ui](https://material-ui.com/) library. They use [React hooks](https://reactjs.org/docs/hooks-intro.html), in terms of state management.
 
-The main Insulo library items are: the menu component and the private route component. 
+The main InsuloJS library items are: the menu component and the private route component. 
 
 The menu component offers three operating modes (persistent, temporary and minimized) and provides the functionality of many sub-menu levels. It also allows to create [themes](#theming) and [language versions](#loc).
 
 The private route component provides an interface for applying a user-defined [authentication and authorization](#auth) mechanism.
 
-# Contents of the Insulo npm packages
+# Contents of the InsuloJS npm packages
 | Package | Contents|
 |---|---|
 | insulo-menu| <ins>Components:</ins> <br />**Menu** – a component that supports three variants of behavior, hiding menu items according to authorization, theming, localization,<br />**ApplicationBar** – an application bar component with menu button and user-defined title,<br />**MenuLanding** – a page placement area compatible with the Menu component, <br />**Landing** – a helper component combinig the *Menu* and *MenuLanding* components,<br /><ins>Context Providers:</ins><br />**MenuProvider** – a context provider that provides menu configuration, including menu operation mode, available modes, lists of items and settings and their visibility and their visibility,|
@@ -19,20 +19,20 @@ The private route component provides an interface for applying a user-defined [a
 # Repository structure
 * **cra-demo** is a javascript demo project,
 * **cra-demo-ts** is a typescript demo project,
-* **packages** directory contains source code of insulo packages,
+* **packages** directory contains source code of InsuloJS packages,
 * **samples** directory contains:
     * [menu-only-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only-flat/) – an example of Menu component with minimal functionality, structured as single file,
     * [menu-only](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only/) – equivalent to [menu-only-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only-flat/), organized as separate files,
     * [route-only](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only/) – an example example of routing with *insulo-route* package,
     * [menu-with-auth-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth-flat/) – an example [menu-only-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only-flat/) extended with an authorization, structured as single file, 
     * [menu-with-auth](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth/) – equivalent to [menu-with-auth-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth-flat/), organized as separate files,
-    * [class-components](https://github.com/bbakunowicz/insulo/tree/main/samples/class-components/) – an example of React Class Components usage with Insulo components,
+    * [class-components](https://github.com/bbakunowicz/insulo/tree/main/samples/class-components/) – an example of React Class Components usage with InsuloJS components,
 * **templates** directory contains source code of insulo template.
 
     
 # Getting started
 
-The best way to learn about Insulo components is to run test applications. To run a test application, you must have the [Node.js](https://nodejs.org/en/) environment prepared. Assuming the current repository is cloned to the insulo directory, follow the steps below (starting from insulo subdirectory):
+The best way to learn about InsuloJS components is to run test applications. To run a test application, you must have the [Node.js](https://nodejs.org/en/) environment prepared. Assuming the current repository is cloned to the insulo directory, follow the steps below (starting from insulo subdirectory):
 
 for plain javascript example:
 ```sh
@@ -50,7 +50,7 @@ Additional examples can be found in the *samples* catalog. Each example has its 
 
 # Installation
 
-The easiest way of using Insulo components is to apply the [Create React App](https://create-react-app.dev/docs/getting-started/) with **Insulo template**:
+The easiest way of using InsuloJS components is to apply the [Create React App](https://create-react-app.dev/docs/getting-started/) with **Insulo template**:
 
 ```
 npx create-react-app insulo-test --template insulo
@@ -76,27 +76,26 @@ yarn add @material-ui/lab clsx flag-icon-css react-icons react-intl
 In general, the structure of the project is flexible and it depends on you what you will ultimately use. The insulo template will generate the following directory hierarchy: 
 
 ```
-insulo-test
-└── src
-    ├── config
-    │   └── ...
-    ├── containers
-    │   ├── App.js
-    │   └── MainLayout.js
-    └── pages
-        ├── routing
-        │   └── Routes.js
-        ├── Dashboard.js
-        └── ...
+src
+├── config
+│   └── ...
+├── containers
+│   ├── App.js
+│   └── MainLayout.js
+└── pages
+    ├── routing
+    │   └── Routes.js
+    ├── Dashboard.js
+    └── ...
 ```
 
-After provisioning an application with the **Insulo template**, you get an application skeleton with minimal functionality of Insulo components. Some code parts are commented out with comments like **#Theming(start)** / **#Theming(stop)**. In order to use the selected functionality, you will have to delete the comments in between. 
+After provisioning an application with the **Insulo template**, you get an application skeleton with minimal functionality of InsuloJS components. Some code parts are commented out with comments like **#Theming(start)** / **#Theming(stop)**. In order to use the selected functionality, you will have to delete the comments in between. 
 
-The starting point of the application is *App.js*, where Insulo providers are defined. Providers' configuration files are located in the config directory, but you can put them in a different location. *Routes.js* contains the configuration of routing including private routes, more information in the section [Authorization](#auth).
+The starting point of the application is *App.js*, where InsuloJS providers are defined. Providers' configuration files are located in the config directory, but you can put them in a different location. *Routes.js* contains the configuration of routing including private routes, more information in the section [Authorization](#auth).
 
 # <a id="auth"></a>Authorization
 
-Insulo components do not provide any authentication or authorization mechanisms. Instead, they provide an interface for user authorization. For authorized access to individual pages, use the **PrivateRoute** component from the **insulo-route** package.
+InsuloJS components do not provide any authentication or authorization mechanisms. Instead, they provide an interface for user authorization. For authorized access to individual pages, use the **PrivateRoute** component from the **insulo-route** package.
 
 ```jsx
 <ProtectedRoute exact path="/item1" 
@@ -123,11 +122,11 @@ Example of using providers needed for authorization:
     </AuthConfigProvider>
 </RouteConfigProvider>
 ```
-**AuthConfigProvider** provides an action SET_AUTH_VALUES, by which Insulo components obtain information about current user's credentials. Values set by SET_AUTH_VALUES are used in *PrivateRoute* component to determine availability of specify private route. The authorization values, set by the  SET_AUTH_VALUES action, are compared to the authProps PrivateRoute's property in the *getPageVisibility* function, which returns true for an available route and false for an unavailable route.
+**AuthConfigProvider** provides an action SET_AUTH_VALUES, by which InsuloJS components obtain information about current user's credentials. Values set by SET_AUTH_VALUES are used in *PrivateRoute* component to determine availability of specify private route. The authorization values, set by the  SET_AUTH_VALUES action, are compared to the authProps PrivateRoute's property in the *getPageVisibility* function, which returns true for an available route and false for an unavailable route.
 
 **AuthConfigProvider** allows using authorization helpers *setCredentials* and *clearCredentials*, which simplify authorization management. An example of using authorization helpers can be found in the *Login.js* file in *cra-demo* project.
 
-Authorization in Insulo components is shown in the example *samples/route-only* or *samples/menu-with-auth*. You can also test the authorization with the **Insulo template** as shown in [Authorization provider functionality test](#test_auth).
+Authorization in InsuloJS components is shown in the example *samples/route-only* or *samples/menu-with-auth*. You can also test the authorization with the **Insulo template** as shown in [Authorization provider functionality test](#test_auth).
 
 # Hiding menu items
 
@@ -139,13 +138,13 @@ Managing the visibility of menu items in Menu component is shown in the example 
 
 
 # <a id="theming"></a>Theming
-Insulo theming is based on [material-ui theming](https://material-ui.com/customization/theming/). The **insulo-theme-provider** is responsible for theming. Theming parameters are defined in **insulo-theme-provider** *initValue* parameter. You can define array of several themes. The property *props* of the elements in this table correspond to the properies of *material-iu* themes. The **insulo-theme-provider** *initValue* parameter has the *type* property influencing the presentation of the menu. Is sets the current theme type to dark or light. The theme array elements have *backgroud* and *selected* properties which affect menu colors.
+InsuloJS theming is based on [material-ui theming](https://material-ui.com/customization/theming/). The **insulo-theme-provider** is responsible for theming. Theming parameters are defined in **insulo-theme-provider** *initValue* parameter. You can define array of several themes. The *props* property of the items in this array corresponds to the *material-iu* theme properties. The **insulo-theme-provider** *initValue* parameter has the *type* property influencing the presentation of the menu. Is sets the current theme type to dark or light. The theme array elements have *backgroud* and *selected* properties which affect menu colors.
 
-Theming in Insulo components is shown in the cra-demo project. You can also test theming with the **Insulo template** as shown in [Theming provider functionality test](#test_theming).
+Theming in InsuloJS components is shown in the cra-demo project. You can also test theming with the **Insulo template** as shown in [Theming provider functionality test](#test_theming).
 
 # <a id="loc"></a>Localization
-The **insulo-locale-provider** context provider is responsible for the localization functionality of the Insulo components. The *initValue* parameter of the **insulo-locale-provider** defines appropriate strings used in **Menu** component for selected language. 
-The *initValue* also contains locales symbol conversion tables between used in Insulo components and symbols known from HTML or symbols used in the material-ui. The **insulo-locale-provider** context provider uses javascript navigator object to determine the language used. If the value of the language property is in the format "en-US", then **insulo-locale-provider** looks for string definitions first in the *US* property, then in the *en* property, and then uses the default language.
+The **insulo-locale-provider** context provider is responsible for the localization functionality of the InsuloJS components. The *initValue* parameter of the **insulo-locale-provider** defines appropriate strings used in **Menu** component for selected language. 
+The *initValue* also contains locales symbol conversion tables between used in InsuloJS components and symbols known from HTML or symbols used in the material-ui. The **insulo-locale-provider** context provider uses javascript navigator object to determine the language used. If the value of the language property is in the format "en-US", then **insulo-locale-provider** looks for string definitions first in the *US* property, then in the *en* property, and then uses the default language.
 
 You can test the language management with the **Insulo template** as shown in [Localization provider functionality test](#test_lang).
 
@@ -204,4 +203,4 @@ yarn install && yarn start
 2. The language of the TablePagination component under the table component should be changed.
 
 # Licensing
-The project is generally licensed under the MIT license, with the exception of the Insulo packages located in the *packages* directory, which are licensed under the Apache-2.0 license.
+The project is generally licensed under the MIT license, with the exception of the InsuloJS packages located in the *packages* directory, which are licensed under the Apache-2.0 license.
