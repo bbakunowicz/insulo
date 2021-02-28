@@ -1,0 +1,37 @@
+{
+  "name": "react-express-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Bartosz Bakunowicz",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "client-install": "npm install --prefix client",
+    "client-build": "npm run build --prefix client",
+    "server-mon": "nodemon index.js",
+    "server": "node index.js",
+    "client": "npm start --prefix client",
+    "client-test": "npm run test --prefix client",
+    "dev": "concurrently \"npm run server-mon\" \"npm run client\"",
+    "test": "NODE_ENV=testing mocha --timeout 30000 --exit",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client --only=dev && npm install --prefix client && npm run build --prefix client"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^6.0.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.9.2",
+    "http-errors": "^1.8.0",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "nodemon": "^1.17.3",
+    "supertest": "^4.0.2"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "cra-template-insulo",
-  "version": "0.1.21",
+  "version": "0.1.25",
   "author": "Bartosz Bakunowicz <bartosz.bakunowicz@gmail.com>",
   "license": "MIT",
   "keywords": [
@@ -9,7 +9,7 @@
     "react-component",
     "material-ui"
   ],
-  "description": "The base template for Insulo components.",
+  "description": "Insulo components template with basic functionality.",
   "repository": {
     "type": "git",
     "url": "https://github.com/bbakunowicz/insulo.git",

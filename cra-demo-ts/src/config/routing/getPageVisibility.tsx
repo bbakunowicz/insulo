@@ -1,6 +1,10 @@
 // The authValues format is up to you, there is no obligation to use the roles property, 
 // The value of authValues is prepared in the setRoles function defined in src/config/auth/initial
 const isGranted = (authValues:{roles?:string[]}, authProps:{roles?:string[], unauthenticated?: boolean}):boolean => {
+  if (!authProps) {
+    return true; 
+  }
+
   if (authProps.unauthenticated === true) {
     return true;
   }

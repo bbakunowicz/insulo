@@ -26,3 +26,5 @@ export { AuthConfigProvider} from './provider/auth/providerWrapper';
 export { withContext as withAuth } from './provider/auth/withContext';
 
 export { authTypes }
+
+export {ExtendedError} from './ExtendedError';

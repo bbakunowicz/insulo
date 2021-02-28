@@ -26,6 +26,7 @@ The private route component provides an interface for applying a user-defined [a
     * [route-only](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only/) – an example example of routing with *insulo-route* package,
     * [menu-with-auth-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth-flat/) – an example [menu-only-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-only-flat/) extended with an authorization, structured as single file, 
     * [menu-with-auth](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth/) – equivalent to [menu-with-auth-flat](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-auth-flat/), organized as separate files,
+    * [menu-with-bearer](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-bearer/) – an example of the operation of insulin components using JSON Web Tokens (JWT); it contains a bearer tokens server, based on the Express framework,
     * [class-components](https://github.com/bbakunowicz/insulo/tree/main/samples/class-components/) – an example of React Class Components usage with InsuloJS components,
 * **templates** directory contains source code of insulo template.
 
@@ -53,11 +54,17 @@ Additional examples can be found in the *samples* catalog. Each example has its 
 The easiest way of using InsuloJS components is to apply the [Create React App](https://create-react-app.dev/docs/getting-started/) with **Insulo template**:
 
 ```
+npx create-react-app insulo-test --template insulo-full
+cd insulo-test
+yarn start
+```
+or
+```
 npx create-react-app insulo-test --template insulo
 cd insulo-test
 yarn start
 ```
-Insulo template prepares the project structure and installs appropriate packages:_insulo-menu_, _insulo-route_, _insulo-theme-provider_ and _insulo-locale-provider_.
+Insulo template prepares the project structure and installs appropriate packages:_insulo-menu_, _insulo-route_, _insulo-theme-provider_ and _insulo-locale-provider_. The insulo-full template contains full functionality of the Insulo library. The insulo template is limited to the basic functionality, but you can enable individual functionalites by removing the appropriate comments.
 
 Installation without template:
 

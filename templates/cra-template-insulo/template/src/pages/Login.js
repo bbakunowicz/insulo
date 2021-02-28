@@ -1,6 +1,6 @@
 // Credit to:
 // https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-in/SignIn.js
-import React, {useState, useContext, Fragment} from 'react';
+import React, {useState, useContext, useEffect, Fragment} from 'react';
 import clsx from 'clsx';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import InfoIcon from '@material-ui/icons/Info';
-import { Alert, AlertTitle } from '@material-ui/lab';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
@@ -21,6 +20,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Popover from '@material-ui/core/Popover';
 import {AuthContext, authTypes} from 'insulo-route';
 import AuthError from './AuthError';
+import ErrorList from '../components/ErrorList';
+import AlertMessage from '../components/AlertMessage';
+
 // #Localization(start)
 // import LocaleContext from 'insulo-locale-provider';
 // #Localization(stop)
@@ -148,6 +150,10 @@ export default function SignIn() {
 
   const {value: authConfig, actions: authActions, dispatch: authDispatch} = useContext(AuthContext);
   
+  useEffect(() => {
+    authDispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_UNSET });
+  },[authDispatch]);
+
   let SignInCnv = "Sign In";
   // #Localization(start)
   // const { value: localeConfig } = useContext(LocaleContext);
@@ -224,7 +230,7 @@ export default function SignIn() {
     }
     else {
       authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, 
-        authError: {message: 'Wrong username or empty password. (sync)'}});
+        authError: 'Wrong username or empty password. (sync)'});
     }
   }
 
@@ -322,31 +328,23 @@ export default function SignIn() {
         </form>
      </div>
     </Container>
-    <Container component="main" maxWidth="xs">
-      <div className={classes.alerts}>
-      { (authConfig.authState === authTypes.AUTH_STATE_ERROR && !(typeof authConfig.authError == 'object' && typeof authConfig.authError.message)) && (
-          <Alert severity="error">
-            <AlertTitle>Autorization error</AlertTitle>
-          </Alert>
-        )
-      }
-      { (authConfig.authState === authTypes.AUTH_STATE_ERROR && typeof authConfig.authError == 'object' && typeof authConfig.authError.message) && (
-          <Alert severity="error">
-            <AlertTitle>Autorization error</AlertTitle>{authConfig.authError.message}
-          </Alert>
-        )
-      }
-      { (roles.length > 0) && (
-        <Alert severity="warning">
-          <AlertTitle>User is already authenticated</AlertTitle>
-            Current roles are: "<strong>{`${roles.join(', ')}`}</strong>".
-            {(authConfig.authError) && <br />} 
-            {(authConfig.authError) && authConfig.authError}
-        </Alert>
-      )}
-      </div>
-    </Container>
-    <Box mt={8}>
+    {(Array.isArray(authConfig.authError) && authConfig.authError.length > 0) &&
+      <Box mt={4}>
+        <Container component="main" maxWidth="sm">
+          { (roles.length > 0) && (
+            <Box mt={1}>
+              <AlertMessage severity="info" >
+              <span>
+                  User is already authenticated, current roles are: "<strong>{`${roles.join(', ')}`}</strong>"
+                </span>
+              </AlertMessage>
+            </Box>)
+          }
+          {ErrorList("error", authConfig.authError)}
+        </Container>
+    </Box>
+    }
+    <Box mt={5}>
       <Copyright />
     </Box>
   </Fragment>

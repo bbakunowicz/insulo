@@ -18,7 +18,7 @@ import indigo from '@material-ui/core/colors/indigo';
 import LanguageIcon from '@material-ui/icons/Language';
 // #Localization(stop)
 
-export default [
+const settings = [
   // #Theming(start)
   {
     caption: "Theme type",
@@ -168,3 +168,4 @@ export default [
   // #Localization(stop)
 ];
 
+export default settings;

@@ -54,8 +54,6 @@ export default function AuthError({authError, authErrorId, authErrorSeverity}:{a
     if (localeConfig.locales[localeConfig.currentLocale][authErrorSeverity || authTypes.AUTH_SEVERITY_ERROR]) {
       authTitleCnv = localeConfig.locales[localeConfig.currentLocale][authErrorSeverity || authTypes.AUTH_SEVERITY_ERROR];
     }
-
-    console.log(`authTitleCnv = ${authTitleCnv}`);
   }
   // #Localization(stop)
 

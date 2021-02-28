@@ -1,6 +1,6 @@
 {
   "name": "insulo-menu",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "React component that implements an application menu.",
   "main": "lib/index.js",
   "module": "es/index.js",

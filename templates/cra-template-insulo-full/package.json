@@ -1,0 +1,29 @@
+{
+  "name": "cra-template-insulo-full",
+  "version": "0.1.25",
+  "author": "Bartosz Bakunowicz <bartosz.bakunowicz@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "menu",
+    "react",
+    "react-component",
+    "material-ui"
+  ],
+  "description": "Insulo components template with full functionality.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbakunowicz/insulo.git",
+    "directory": "packages/cra-template-inulo-full"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "bugs": {
+    "url": "https://github.com/bbakunowicz/insulo/issues"
+  },
+  "files": [
+    "template",
+    "template.json"
+  ],
+  "homepage": "https://github.com/bbakunowicz/insulo#readme"
+}

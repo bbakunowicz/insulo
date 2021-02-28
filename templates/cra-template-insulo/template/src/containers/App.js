@@ -24,7 +24,7 @@ import routingConfig from '../config/routing/initial';
 
 import MainLayout from './MainLayout';
 
-// window._INSULO_DEBUG_=true;
+window._INSULO_DEBUG_= (process.env.REACT_APP_INSULO_DEBUG && process.env.REACT_APP_INSULO_DEBUG.toLowerCase() === "true")?true:false;
 
 export default function Demo () {
   return (

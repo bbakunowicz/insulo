@@ -5,8 +5,9 @@ import green from '@material-ui/core/colors/green'
 import blue from '@material-ui/core/colors/blue'
 import yellow from '@material-ui/core/colors/yellow'
 import indigo from '@material-ui/core/colors/indigo'
+import type {ThemeConfigProviderInitValues} from 'insulo-theme-provider';
 
-export default { 
+const init:ThemeConfigProviderInitValues = { 
   type:  types.DARK,
   current: 'default',
   themes: [
@@ -64,4 +65,6 @@ export default {
       }
     }
   ]
-}
+};
+
+export default init;

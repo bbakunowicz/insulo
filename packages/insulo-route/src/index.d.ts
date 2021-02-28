@@ -90,7 +90,7 @@ declare namespace AuthConfigProvider {
     export interface ContextValues extends InitValues {
         authValues?: any,
         authState: AuthState,
-        authError?: {name?: string, message: string}
+        authError?: {name?: string, message: string}[]
     }
 }
 

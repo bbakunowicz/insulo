@@ -23,9 +23,17 @@ import useLocalStorage from './localStorage';
 export const Context = createContext();
 
 const saveInLocalStorage = (authValuesKey, authValuesStr) => {
+  if (window._INSULO_DEBUG_ === true) {
+    console.log(`saveInLocalStorage: authValuesKey=${authValuesKey}, authValuesStr=${authValuesStr}`);
+  }
+
   localStorage.setItem(authValuesKey, authValuesStr);
 }
 const removeFromLocalStorage = (authValuesKey) => {
+  if (window._INSULO_DEBUG_ === true) {
+    console.log(`removeFromLocalStorage`);
+  }
+
   localStorage.removeItem(authValuesKey);
 }
 
@@ -40,7 +48,9 @@ const setCredentialsFunc = (dispatch, initValue) => ({authValuesStr, credentials
   const authValuesKey = initValue.authValuesKey || authTypes.LS_AUTH_VALUES;
   
   const setAuthStateError = (error) => {
-    if (window._INSULO_DEBUG_ === true) console.log(`setCredentialsFunc: setAuthStateError, authError = ${error}`);
+    if (window._INSULO_DEBUG_ === true) {
+      console.error('setCredentialsFunc: setAuthStateError, authError = ',error);
+    }
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, authError: error});
     removeFromLocalStorage(authValuesKey);
   }
@@ -85,11 +95,14 @@ const setCredentialsFunc = (dispatch, initValue) => ({authValuesStr, credentials
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: result, authState: authTypes.AUTH_STATE_SET});
 
     if (!authValuesStr && initValue.saveAuthValues === true) {
-      if (window._INSULO_DEBUG_ === true) { 
-        console.log(`setCredentialsFunc: setAuthStateSet, saving authValues to local storage.`);
+      if (result) {
+        saveAuthValues(result);
       }
-      saveAuthValues(result);
+      else {
+        setAuthStateError({message: "Auth values undefined."})
+      }
     }
+
   }
 
   try {
@@ -122,7 +135,9 @@ const setCredentialsFunc = (dispatch, initValue) => ({authValuesStr, credentials
         setAuthStateSet(result);
       })
       .catch(error => {
-        // async exceptions
+        if (window._INSULO_DEBUG_ === true) {
+          console.error('setCredentialsFunc: async exception');
+        }      
         setAuthStateError(error);
       });
     }
@@ -132,6 +147,9 @@ const setCredentialsFunc = (dispatch, initValue) => ({authValuesStr, credentials
   }
   catch (error) {
     // sync exceptions
+    if (window._INSULO_DEBUG_ === true) {
+      console.error('setCredentialsFunc: sync exception');
+    }      
     setAuthStateError(error);
   }
 }
@@ -153,7 +171,11 @@ const clearCredentialsFunc = (dispatch, initValue) => ({additionalProps}={}) => 
   }
 
   const setAuthStateError = (error) => {
-    if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: setAuthStateError, error = ${error}`);
+    if (window._INSULO_DEBUG_ === true) {
+      console.error(`clearCredentialsFunc: setAuthStateError, error = `);
+      console.error(error);
+    }
+
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, authError: error});
     removeFromLocalStorage(authValuesKey);
   }
@@ -164,7 +186,7 @@ const clearCredentialsFunc = (dispatch, initValue) => ({additionalProps}={}) => 
   const clearCredentialsWrk = typeof initValue == 'object' && initValue.clearCredentials;
 
   if (typeof clearCredentialsWrk != 'function') {
-    if (window._INSULO_DEBUG_ === true) console.error(`clearCredentialsFunc: clearCredentials is not a function`);
+    if (window._INSULO_DEBUG_ === true) console.info(`clearCredentialsFunc: clearCredentials is not a function`);
     dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, 
       authError: {message: 'clearCredentials is not a function'}});
     removeFromLocalStorage(authValuesKey);
@@ -182,10 +204,18 @@ const clearCredentialsFunc = (dispatch, initValue) => ({additionalProps}={}) => 
       .then(result => {
         setAuthStateUnset(result);
       })
-      .catch(error => {setAuthStateError(error)});
+      .catch(error => {
+        if (window._INSULO_DEBUG_ === true) {
+          console.error('clearCredentialsFunc: async exception');
+        }      
+        setAuthStateError(error)
+      });
     }
     else {
-      setAuthStateUnset(retval);
+      if (window._INSULO_DEBUG_ === true) {
+        console.error('clearCredentialsFunc: sync exception');
+      }      
+    setAuthStateUnset(retval);
     }
   }
   catch (error) {

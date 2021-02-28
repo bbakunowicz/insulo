@@ -22,10 +22,15 @@ const useLocalStorage = (config, dispatch, setCredentials) => {
     if (config.saveAuthValues === true && typeof localStorage == 'object') {
       const authValuesKey = config.authValuesKey || types.LS_AUTH_VALUES;
       const authValuesStr = localStorage.getItem(authValuesKey);
+      if (window._INSULO_DEBUG_ === true) console.log(`useLocalStorage: authValuesKey = ${authValuesKey}`);
+
       if (typeof authValuesStr === 'string' && authValuesStr.length>0) {
         if (window._INSULO_DEBUG_ === true) console.log(`useLocalStorage, setCredentials: authValuesStr = ${authValuesStr}`);
         setCredentials({authValuesStr});
       }
+    }
+    if (window._INSULO_DEBUG_ === true) {
+      console.log(`useLocalStorage: inloadingState = false`);
     }
     dispatch({type: types.SET_LOADING_STATE, inloadingState: false});
   // eslint-disable-next-line

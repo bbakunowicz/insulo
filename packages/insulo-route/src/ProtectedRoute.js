@@ -44,18 +44,27 @@ export function ProtectedRoute({authProps, getPageVisibility, component: Compone
     console.log(authProps);
     console.log(`ProtectedRoute: authValues = `);
     console.log(authValues);
+    console.log(`ProtectedRoute: rest = `);
+    console.log(rest);
   }
 
   const getPageVisibilityCnv = getPageVisibility || routeConfig.getPageVisibility;
   const AuthErrorCnv = AuthErrorPage || routeConfig.AuthErrorPage || AuthError;
 
   if (authConfig.inloadingState) {
+    const errorProps = {
+      authError: "Initializing the authorization values ...",
+      authErrorId: authTypes.AUTH_ERROR_INITIALIZING,
+      authErrorSeverity: authTypes.AUTH_SEVERITY_INFO
+    }
+
     if (window._INSULO_DEBUG_ === true) {
-      console.log(`ProtectedRoute: AuthErrorCnv (Loading the authorization values)`);
+      console.log(`ProtectedRoute: Initializing the authorization values ...`);
+      console.log(errorProps);
       console.log('ProtectedRoute (end) ------------------------------------------------------------------------------');
     }
-    return <AuthErrorCnv authError={"Initializing the authorization values ..."} //authErrorId={authTypes.AUTH_ERROR_INITIALIZING} 
-      authErrorSeverity={authTypes.AUTH_SEVERITY_INFO}/>;
+
+    return <AuthErrorCnv {...errorProps} />;
   }
   
   let isAuthenticated = false;
@@ -72,33 +81,27 @@ export function ProtectedRoute({authProps, getPageVisibility, component: Compone
     }
   }
 
-  let redirectProps = (isInvoker) ?
-  {
-    to: {
-      state: undefined,
-      pathname: (location.state.return !== path && location.state.incarnation !== authIncarnation)? location.state.return : undefined
-    }
-  }:
-  {
-    to: {
-      state: {
-        authError, authErrorId, authErrorSeverity,
-        return: (redirectCnv !== path) ? path : undefined, 
-        invoker: (redirectCnv !== path) ? redirectCnv: undefined,
-        incarnation: authIncarnation
-      }
-    }
-  };
+  let redirectProps = { to: {} };
 
-  if (!isInvoker && redirectCnv !== path) {
-    if (redirectWhenInvalidCredentails) {
-      if (!isAuthenticated && redirectCnv && redirectCnv !== path) {
-        redirectProps.to.pathname = redirectCnv;
+  if (isInvoker && authValues && location.state.return !== path && location.state.incarnation !== authIncarnation) {
+    redirectProps =  {
+      to: {
+        state: undefined,
+        pathname: location.state.return
       }
     }
-    else {
-      if (!authValues && redirectCnv && redirectCnv !== path) {
-        redirectProps.to.pathname = redirectCnv;
+  }
+
+  if (!isAuthenticated && !isInvoker && redirectCnv && redirectCnv !== path && (!authValues || redirectWhenInvalidCredentails)) {
+    redirectProps =   {
+      to: {
+        state: {
+          authError, authErrorId, authErrorSeverity,
+          return: path,
+          invoker: redirectCnv,
+          incarnation: authIncarnation
+        },
+        pathname: redirectCnv
       }
     }
   }
@@ -108,8 +111,8 @@ export function ProtectedRoute({authProps, getPageVisibility, component: Compone
   return (
     <Route {...props} render={(props) => {
 
-      let mergedProps = {...componentProps, ...props};
-  
+      const mergedProps = {...componentProps, ...props};
+
       if (window._INSULO_DEBUG_ === true) {
         console.log(`ProtectedRoute: redirectProps.to.pathname = ${redirectProps.to.pathname}, `);
         console.log('ProtectedRoute: redirectProps =');
@@ -117,13 +120,13 @@ export function ProtectedRoute({authProps, getPageVisibility, component: Compone
         console.log(`ProtectedRoute: isAuthenticated = ${isAuthenticated}`);
 
         if (forwardUnauthorizedRouteCnv && forwardUnauthorizedRouteCnv !== path && !isInvoker && !authValues) {
-          console.log(`ProtectedRoute, invoking forward unauthorized: props.history.push(${forwardUnauthorizedRouteCnv})`);
+          console.log(`ProtectedRoute, forwarding unauthorized: props.history.push(${forwardUnauthorizedRouteCnv})`);
         }
         else if (redirectProps.to.pathname) {
-          console.log('ProtectedRoute, invoking redirect: Redirect {...redirectProps}');
+          console.log('ProtectedRoute, redirecting: Redirect {...redirectProps}');
         }
         else if (forwardAuthorizedRouteCnv && forwardAuthorizedRouteCnv !== path && !isInvoker && authValues) {
-          console.log(`ProtectedRoute, invoking forward authorized: props.history.push(${forwardAuthorizedRouteCnv})`);
+          console.log(`ProtectedRoute, forwarding authorized: props.history.push(${forwardAuthorizedRouteCnv})`);
         }
         else if (isAuthenticated ) {
           console.log('ProtectedRoute, invoking: Component {...mergedProps}, mergedProps =');
@@ -151,15 +154,18 @@ export function ProtectedRoute({authProps, getPageVisibility, component: Compone
       if (forwardAuthorizedRouteCnv && forwardAuthorizedRouteCnv !== path && !isInvoker && authValues) {
         return <Redirect to={{pathname: forwardAuthorizedRouteCnv}} />;  
       }
-      else if (isAuthenticated) {
+      
+      if (isAuthenticated) {
         return <Component {...mergedProps}/>;
       }
-      else {
-        const authErrorCnv = (authError) ? authError : (location && location.state) ? location.state.authError : undefined;
-        const authErrorIdCnv = (authErrorId) ? authErrorId : (location && location.state) ? location.state.authErrorId : undefined;
-        const authErrorSeverityCnv = (authErrorSeverity) ? authErrorSeverity : (location && location.state) ? location.state.authErrorSeverity : undefined;
-        return <AuthErrorCnv authError={authErrorCnv} authErrorId={authErrorIdCnv} authErrorSeverity={authErrorSeverityCnv}/>;
+
+      const errorProps = {
+        authError: (authError) ? authError : (location && location.state) ? location.state.authError : undefined,
+        authErrorId: (authErrorId) ? authErrorId : (location && location.state) ? location.state.authErrorId : undefined,
+        authErrorSeverity: (authErrorSeverity) ? authErrorSeverity : (location && location.state) ? location.state.authErrorSeverity : undefined
       }
+  
+      return <AuthErrorCnv {...errorProps} />;
     }}/>
   )
 }
