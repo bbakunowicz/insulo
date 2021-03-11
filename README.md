@@ -11,7 +11,7 @@ The private route component provides an interface for applying a user-defined [a
 | Package | Contents|
 |---|---|
 | insulo-menu| <ins>Components:</ins> <br />**Menu** – a component that supports three variants of behavior, hiding menu items according to authorization, theming, localization,<br />**ApplicationBar** – an application bar component with menu button and user-defined title,<br />**MenuLanding** – a page placement area compatible with the Menu component, <br />**Landing** – a helper component combinig the *Menu* and *MenuLanding* components,<br /><ins>Context Providers:</ins><br />**MenuProvider** – a context provider that provides menu configuration, including menu operation mode, available modes, lists of items and settings and their visibility and their visibility,|
-|insulo-route| <ins>Components:</ins> <br />**PrivateRoute** – a component that supports the use of routes requiring authorization,<br /><ins>Context Providers:</ins><br />**AuthConfigProvider** – a context provider that provides an authorization context for the PrivateRoute component and for Menu component, as well as providing helper methods for authorization,<br />**RouteConfigProvider** – an context provider of the routing configuration used by ProtectedRoute components |
+|insulo-route| <ins>Components:</ins> <br />**ProtectedRoute** – a component that supports the use of routes requiring authorization,<br /><ins>Context Providers:</ins><br />**AuthConfigProvider** – a context provider that provides an authorization context for the ProtectedRoute component and for Menu component, as well as providing helper methods for authorization,<br />**RouteConfigProvider** – an context provider of the routing configuration used by ProtectedRoute components |
 |insulo-theme-provider | <ins>Context Providers:</ins><br /> **ThemeConfigProvider** – an optional context provider that supports themes,|
 |insulo-locale-provider|<ins>Context Providers:</ins><br />**LocaleConfigProvider** – an optional context provider supporting localization.|
 <br />
@@ -102,7 +102,29 @@ The starting point of the application is *App.js*, where InsuloJS providers are 
 
 # <a id="auth"></a>Authorization
 
-InsuloJS components do not provide any authentication or authorization mechanisms. Instead, they provide an interface for user authorization. For authorized access to individual pages, use the **PrivateRoute** component from the **insulo-route** package.
+InsuloJS components do not provide any authentication or authorization mechanisms. Instead, insulo-route packet provides an interface for user authorization. An example of JWT (bearer tokens) authorization using insulo-route can be found in [menu-with-bearer](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-bearer/) example.
+
+## How the insulo-route authorization interface works
+* The configuration of insulo-route is located in two configuration files by default:
+    * *src/config/auth/initial.js* – authorization configuration,
+    * *src/config/routing/initial.js* – routing configuration,
+* The first step is to set the authorization value for the current session, which can be done by:
+    * directly - using action SET_AUTH_VALUES of AuthContext from insulo-route package,
+    * indirectly (which is the preferred way) - using **setCredentials** action helper from the insulo-route package,
+* Comparision of both methods you can find in the [cra-demo project](https://github.com/bbakunowicz/insulo/tree/main/cra-demo).
+* Action helper **setCredentials** calls the method indicated by the property *setCredentials* of the athorization configuration file.
+* This method is a user-defined method, taking an input parameter of type object, containing property *credentials* (user-defined type) and *additionalProps* (user-defined type), and returning a user-defined value
+* The value (let's call it "*authValues*") returned from above method is used in:
+    * *ProtectedRoute* components - to determine the availability of a given route,
+    * in the menu component to define the visibility of the menu item.
+* For comparison with *authValues* are taken:
+    * property *authProps* of the *ProtectedRoute* component,
+    * property *authProps* of individual items, defined in the *items* object, which is a property of the menu component configuration object, defined in the menu configuration file (*src/config/menu/initial.js* by default).
+* The following functions are responsible for the comparison *authValues* and *authProps*:
+    * for the *ProtectedRoute* component it is the function indicated in property *getPageVisibility* of the routing configuration file - returned value true means that the specific *ProtectedRoute* is available,
+    * for the menu component it is the function indicated in the property *getItemVisibility* of the menu configuration file - returned value true means that the specific menu item is visible.
+
+For authorized access to individual pages, use the **ProtectedRoute** component from the **insulo-route** package.
 
 ```jsx
 <ProtectedRoute exact path="/item1" 
@@ -112,11 +134,11 @@ InsuloJS components do not provide any authentication or authorization mechanism
     getPageVisibility={getPageVisibility} />
 ```          
 
-**PrivateRoute** uses following parameters to configure authorized access to a given route:
+**ProtectedRoute** uses following parameters to configure authorized access to a given route:
 * **component** – the target React functional or class component,
 * **componentProps** – (optional) properties passed to the target component,
 * **authProps** – user-defined route access conditions; the type of authProps parameter is defined by the user, according to the authorization mechanisms used, for example it could be a string or an object or an array,
-* **getPageVisibility** – (optional) user-defined function which returns true for athorized access to the route or false when access is denied; *PrivateRoute* pass *authProps* and *authValues* to the *getPageVisibility* function as input parameters. It's an optional parameter. Te use of **RouteConfigProvider** eliminates the need to specify the *getPageVisibility* parameter in **PrivateRoute** components. **RouteConfigProvider** injects the *getPageVisibility* value to all **PrivateRoute** components. User-defined permission validation function is passed to the **RouteConfigProvider** via the property *getPageVisibility* of the *initValue* parameter.
+* **getPageVisibility** – (optional) user-defined function which returns true for athorized access to the route or false when access is denied; *ProtectedRoute* pass *authProps* and *authValues* to the *getPageVisibility* function as input parameters. It's an optional parameter. Te use of **RouteConfigProvider** eliminates the need to specify the *getPageVisibility* parameter in **ProtectedRoute** components. **RouteConfigProvider** injects the *getPageVisibility* value to all **ProtectedRoute** components. User-defined permission validation function is passed to the **RouteConfigProvider** via the property *getPageVisibility* of the *initValue* parameter.
 
 Example of using providers needed for authorization:
 
@@ -129,7 +151,7 @@ Example of using providers needed for authorization:
     </AuthConfigProvider>
 </RouteConfigProvider>
 ```
-**AuthConfigProvider** provides an action SET_AUTH_VALUES, by which InsuloJS components obtain information about current user's credentials. Values set by SET_AUTH_VALUES are used in *PrivateRoute* component to determine availability of specify private route. The authorization values, set by the  SET_AUTH_VALUES action, are compared to the authProps PrivateRoute's property in the *getPageVisibility* function, which returns true for an available route and false for an unavailable route.
+**AuthConfigProvider** provides an action SET_AUTH_VALUES, by which InsuloJS components obtain information about current user's credentials. Values set by SET_AUTH_VALUES are used in *ProtectedRoute* component to determine availability of specify private route. The authorization values, set by the  SET_AUTH_VALUES action, are compared to the authProps ProtectedRoute's property in the *getPageVisibility* function, which returns true for an available route and false for an unavailable route.
 
 **AuthConfigProvider** allows using authorization helpers *setCredentials* and *clearCredentials*, which simplify authorization management. An example of using authorization helpers can be found in the *Login.js* file in *cra-demo* project.
 
@@ -137,9 +159,9 @@ Authorization in InsuloJS components is shown in the example *samples/route-only
 
 # Hiding menu items
 
-Authorization values set by the action SET_AUTH_VALUES, in addition to being used by the PrivateRoute component, are used by the Menu component to determine the visibility of individual menu items.
+Authorization values set by the action SET_AUTH_VALUES, in addition to being used by the ProtectedRoute component, are used by the Menu component to determine the visibility of individual menu items.
 
-Menu items may be hidden according to the application user's credentials. Equivalent to parameter *authProps* from **PrivateRoute** component is property *authProps* of **MenuProvider** *initValue* parameter, assigned to a given menu item. Values provided by the authorization mechanism are provided to Menu component by **AuthConfigProvider** SET_AUTH_VALUES action, in the same way as used in **PrivateRoute**. Permission verification function is defined as *getItemVisibility* property of **MenuItemsProvider** *initValue* parameter.
+Menu items may be hidden according to the application user's credentials. Equivalent to parameter *authProps* from **ProtectedRoute** component is property *authProps* of **MenuProvider** *initValue* parameter, assigned to a given menu item. Values provided by the authorization mechanism are provided to Menu component by **AuthConfigProvider** SET_AUTH_VALUES action, in the same way as used in **ProtectedRoute**. Permission verification function is defined as *getItemVisibility* property of **MenuItemsProvider** *initValue* parameter.
 
 Managing the visibility of menu items in Menu component is shown in the example *samples/menu-with-auth*. You can also test the menu item visibility management with the **Insulo template** as shown in [Authorization provider functionality test](#test_auth).
 
