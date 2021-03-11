@@ -24,7 +24,8 @@ yarn install && yarn client-install && yarn run client-build && yarn run server
 * The validity of the access token should depend on the permissible propagation time of user privilege changes.
 * It is unacceptable to store tokens in the browser’s local storage, due to the possibility of an XSS attack, due to the availability of local storage for javascript code launched as part of the web application.
 * In order to prevent XSS attacks, it is recommended to use cookies to store tokens, but the cookie token must have at least the HttpOnly attribute.
-JSON Web tokens implementation in menu-with-bearer:
+
+## JSON Web tokens implementation in menu-with-bearer:
 * The example includes the bearer tokens server, based on the [Express web application framework](https://expressjs.com) and the client, using the insulo-menu and insulo-route packages.
 * The client's source code is located in the client subdirectory.
 * The authorization mechanism uses access tokens (AT) and refresh tokens (RT)
