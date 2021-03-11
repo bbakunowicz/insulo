@@ -3,13 +3,13 @@
 ## Using this example:
 ```
 git clone https://github.com/bbakunowicz/insulo.git
-cd insulo/sample/menu-with-bearer
+cd insulo/samples/menu-with-bearer
 yarn install && yarn client-install && yarn start
 ```
 or
 ```
 git clone https://github.com/bbakunowicz/insulo.git
-cd insulo/sample/menu-with-bearer
+cd insulo/samples/menu-with-bearer
 yarn install && yarn client-install && yarn run client-build && yarn run server
 ```
 ## Basic information about JSON Web tokens:

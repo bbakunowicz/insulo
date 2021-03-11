@@ -7,12 +7,12 @@ The project was bootstrapped with [Create React App](https://github.com/facebook
 ## Using this example:
 ```
 git clone https://github.com/bbakunowicz/insulo.git
-cd insulo/sample/class-components
+cd insulo/samples/class-components
 yarn install && yarn start
 ```
 or
 ```
 git clone https://github.com/bbakunowicz/insulo.git
-cd insulo/sample/class-components
+cd insulo/samples/class-components
 yarn install && yarn build && serve -s build
 ```
