@@ -11,6 +11,7 @@ or
 git clone https://github.com/bbakunowicz/insulo.git
 cd insulo/samples/menu-with-bearer
 yarn install && yarn client-install && yarn run client-build && yarn run server
+# open http://localhost:5000 in a browser
 ```
 ## Basic information about JSON Web tokens:
 * Bearer token obtained as a result of authentication contains information about user rights necessary to perform the authorization, i.e. access to the resource.
