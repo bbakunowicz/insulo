@@ -54,20 +54,26 @@ export const reducer = (state, action) => {
           parentItemCaption: undefined
         }
       case SET_CURRENT_ITEM:
-        if (window._INSULO_DEBUG_ === true) console.log(`SET_CURRENT_ITEM: ${action.item.key}`);
+        if (window._INSULO_DEBUG_ === true) {
+          console.info('SET_CURRENT_ITEM: ', action.item);
+        }
+
         return {...state, 
-          curentItemKey: action.item.key,
-          currentItemCaption: action.item.caption,
-          currentItemRoute: action.item.route,
-          currentItemAltRoute: action.item.altRoute
+          curentItemKey: (typeof action.item == 'object') ? action.item.key: undefined,
+          currentItemCaption: (typeof action.item == 'object') ? action.item.caption: undefined,
+          currentItemRoute:(typeof action.item == 'object') ?  action.item.route: undefined,
+          currentItemAltRoute: (typeof action.item == 'object') ? action.item.altRoute: undefined
         }
       case SET_CURRENT_ROUTE:
-        if (window._INSULO_DEBUG_ === true) console.log(`SET_CURRENT_ROUTE: ${action.item.key}`);
+        if (window._INSULO_DEBUG_ === true) {
+          console.info('SET_CURRENT_ROUTE ', action.item);
+        }
+
         return {...state, 
-          curentItemKey: action.item.key,
-          currentItemCaption: action.item.caption,
-          currentItemRoute: action.item.route,
-          currentItemAltRoute: action.item.altRoute,
+          curentItemKey: (typeof action.item == 'object') ? action.item.key: undefined,
+          currentItemCaption: (typeof action.item == 'object') ? action.item.caption: undefined,
+          currentItemRoute: (typeof action.item == 'object') ? action.item.route: undefined,
+          currentItemAltRoute: (typeof action.item == 'object') ? action.item.altRoute: undefined,
           parentItemKeyArr: typeof action.parentItem == 'object' ? action.parentItem.key.split('.') : undefined,
           parentItemCaption: typeof action.parentItem == 'object' ? action.parentItem.caption : undefined,
         }

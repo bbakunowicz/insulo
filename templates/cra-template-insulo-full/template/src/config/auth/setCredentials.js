@@ -33,15 +33,13 @@ export const setCredentialsAsync = async (credentials) => {
 }
 
 export const setCredentialsSync = (credentials) => {
-  if (credentials.username && credentials.password) {
-    if (credentials.username === 'user') {
-      // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-      return {roles: ['user']};
-    }
-    else if (credentials.username === 'admin') {
-      // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-      return {roles: ['user', 'admin']};
-    }
+  if (credentials.password && credentials.username === 'user') {
+    // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
+    return {roles: ['user']};
+  }
+  else if (credentials.password && credentials.username === 'admin') {
+    // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
+    return {roles: ['user', 'admin']};
   }
   else {
     throw new Error('Wrong username or empty password. (sync)');

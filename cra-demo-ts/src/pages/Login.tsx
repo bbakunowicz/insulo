@@ -231,22 +231,20 @@ export default function SignIn() {
     evt.preventDefault();
     authDispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_LOGINPROGRESS});
 
-    if (password){
-      if (username === 'user') {
-        // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
-        // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user']}, authState: authTypes.AUTH_STATE_SET});
-      }
-      else if (username === 'admin') {
-        // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
-        // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
-        authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin']}, authState: authTypes.AUTH_STATE_SET});
-      }
+    if (password && username === 'user'){
+      // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
+      // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
+      authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user']}, authState: authTypes.AUTH_STATE_SET});
+    }
+    else if (password && username === 'admin') {
+      // The authValues prepared here are used in src/config/menu/items/getItemVisibility or in src/config/routing/getPageVisibility 
+      // authValues properties are at your choice, you can use for example: {groups: ['users', 'admins']}
+      authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: {roles: ['user', 'admin']}, authState: authTypes.AUTH_STATE_SET});
     }
     else {
       authDispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, 
         authError: 'Wrong username or empty password. (sync)'});
-      }
+    }
   }
 
   if (authConfig.authState === authTypes.AUTH_STATE_LOGINPROGRESS) {

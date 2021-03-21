@@ -213,10 +213,16 @@ export function Menu({children, history, backgroundColor, selectedColor, itemVib
       //if (menuConfig.currentItemRoute !== location.pathname || menuConfig.currentItemAltRoute !== location.pathname){
         const item = findItem(menuConfig.items, 'route', location.pathname) || findItem(menuConfig.items, 'altRoute', location.pathname) ;
         if (typeof item == 'object' && item.key) {
-          if (window._INSULO_DEBUG_ === true) console.log(`Menu, location.pathname=${location.pathname}, menuConfig.curentItemKey=${menuConfig.curentItemKey}`);
+          if (window._INSULO_DEBUG_ === true) console.log(`Menu, location.pathname=${location.pathname}, menuConfig.curentItemKey=${menuConfig.curentItemKey}, item.key=${item.key}`);
           if (item.key !== menuConfig.curentItemKey) {
             if (window._INSULO_DEBUG_ === true) console.log(`Menu, new menuConfig.curentItemKey=${item.key}`);
             menuDispatch({type: menuTypes.SET_CURRENT_ROUTE, item, parentItem: getItem(menuConfig.items, item.key.split('.'), true)});
+          }
+        }
+        else {
+          if (window._INSULO_DEBUG_ === true) console.error(`Menu, cannot find menu item for location.pathname=${location.pathname}, menuConfig.curentItemKey=${menuConfig.curentItemKey}`);
+          if (menuConfig.curentItemKey) {
+            menuDispatch({type: menuTypes.SET_CURRENT_ROUTE, item: undefined, parentItem: undefined});
           }
         }
       //}

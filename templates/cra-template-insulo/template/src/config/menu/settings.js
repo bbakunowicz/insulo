@@ -1,5 +1,5 @@
 // #Theming(start) or #Localization(start)
-// import React from 'react'
+import React from 'react'
 // #Theming(stop) or #Localization(stop)
 
 // #Theming(start)

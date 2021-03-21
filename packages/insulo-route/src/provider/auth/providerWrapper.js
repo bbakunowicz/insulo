@@ -99,7 +99,7 @@ const setCredentialsFunc = (dispatch, initValue) => ({authValuesStr, credentials
         saveAuthValues(result);
       }
       else {
-        setAuthStateError({message: "Auth values undefined."})
+        setAuthStateError('Auth values undefined.');
       }
     }
 
@@ -110,17 +110,12 @@ const setCredentialsFunc = (dispatch, initValue) => ({authValuesStr, credentials
     const setCredentialsParams = (authValuesStr)? {authValuesStr} : {credentials, additionalProps};
 
     if (typeof setCredentialsWrk != 'function') {
-      if (window._INSULO_DEBUG_ === true) {
-        if (authValuesStr) {
-          console.error(`setCredentialsFunc: saveAuthValuesDecode is not a function`);
-        }
-        else {
-          console.error(`setCredentialsFunc: setCredentials is not a function`);
-        }
+      if (authValuesStr) {
+        setAuthStateError('setCredentialsFunc: saveAuthValuesDecode is not a function');
       }
-      dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, 
-        authError: {message: 'setCredentials is not a function'}});
-      removeFromLocalStorage(authValuesKey);
+      else {
+        setAuthStateError('setCredentialsFunc: setCredentials is not a function');
+      }
       return;
     }
 
@@ -186,10 +181,7 @@ const clearCredentialsFunc = (dispatch, initValue) => ({additionalProps}={}) => 
   const clearCredentialsWrk = typeof initValue == 'object' && initValue.clearCredentials;
 
   if (typeof clearCredentialsWrk != 'function') {
-    if (window._INSULO_DEBUG_ === true) console.info(`clearCredentialsFunc: clearCredentials is not a function`);
-    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_ERROR, 
-      authError: {message: 'clearCredentials is not a function'}});
-    removeFromLocalStorage(authValuesKey);
+    setAuthStateError('clearCredentialsFunc: clearCredentials is not a function');
     return;
   }
 
@@ -212,13 +204,13 @@ const clearCredentialsFunc = (dispatch, initValue) => ({additionalProps}={}) => 
       });
     }
     else {
-      if (window._INSULO_DEBUG_ === true) {
-        console.error('clearCredentialsFunc: sync exception');
-      }      
-    setAuthStateUnset(retval);
+      setAuthStateUnset(retval);
     }
   }
   catch (error) {
+    if (window._INSULO_DEBUG_ === true) {
+      console.error('clearCredentialsFunc: sync exception');
+    }      
     setAuthStateError(error)
   }
 }
