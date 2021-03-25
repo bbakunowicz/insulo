@@ -1,11 +1,62 @@
 # InsuloJS components
 InsuloJS components are a collection of components designed to rapidly build [React-based](https://reactjs.org/) applications. InsuloJS components are based on the [material-ui](https://material-ui.com/) library. They use [React hooks](https://reactjs.org/docs/hooks-intro.html), in terms of state management.
 
-The main InsuloJS library items are: the menu component and the private route component. 
+The main InsuloJS library items are: the Menu component and the ProtectedRoute component. 
 
-The menu component offers three operating modes (persistent, temporary and minimized) and provides the functionality of many sub-menu levels. It also allows to create [themes](#theming) and [language versions](#loc).
+The Menu component offers three operating modes (persistent, temporary and minimized) and provides the functionality of many sub-menu levels. It also allows to create [themes](#theming) and [language versions](#loc).
 
-The private route component provides an interface for applying a user-defined [authentication and authorization](#auth) mechanism.
+The ProtectedRoute component provides an interface for applying a user-defined [authentication and authorization](#auth) mechanism.
+
+# Demo
+
+* [Sample application](https://cra-demo-deploy.vercel.app/)
+* [Code sandbox](https://codesandbox.io/s/2uplh)
+
+# Getting started
+
+The best way to learn about InsuloJS components is to run test applications. To run a test application, you must have the [Node.js](https://nodejs.org) environment prepared. 
+
+Plain JavaScript example:
+```sh
+git clone https://github.com/bbakunowicz/insulo.git
+cd insulo/cra-demo
+yarn install && yarn start
+```
+The TypeScript version:
+```sh
+git clone https://github.com/bbakunowicz/insulo.git
+cd insulo/cra-demo-ts
+yarn install && yarn start
+```
+Additional examples can be found in the *samples* catalog of cloned repository. Each example has its own README file, with some usage information.
+
+# Installation
+
+The easiest way of using InsuloJS components is to apply the [Create React App](https://create-react-app.dev/docs/getting-started/) with **insulo** template:
+
+```
+npx create-react-app insulo-test --template insulo
+cd insulo-test
+yarn start
+```
+or with **insulo-full** template:
+```
+npx create-react-app insulo-test-full --template insulo-full
+cd insulo-test-full
+yarn start
+```
+Insulo template prepares the project structure and installs appropriate packages:_insulo-menu_, _insulo-route_, _insulo-theme-provider_ and _insulo-locale-provider_. The **insulo-full** template contains full functionality of the Insulo library. The **insulo** template is limited to the basic functionality, but you can enable individual functionalites by removing the appropriate comments. Some code parts are commented out with comments like **#Theming(start)** / **#Theming(stop)**. In order to use the selected functionality, you will have to delete the comments in between. 
+
+
+Installation without template:
+
+```sh
+npx create-react-app insulo-test
+cd insulo-test
+yarn add @material-ui/core @material-ui/icons react-router-dom insulo-menu insulo-route insulo-theme-provider insulo-locale-provider
+# adding additional packages (used in some examples):
+yarn add @material-ui/lab clsx flag-icon-css react-icons react-intl
+```
 
 # Contents of the InsuloJS npm packages
 | Package | Contents|
@@ -31,56 +82,9 @@ The private route component provides an interface for applying a user-defined [a
 * **templates** directory contains source code of insulo template.
 
     
-# Getting started
-
-The best way to learn about InsuloJS components is to run test applications. To run a test application, you must have the [Node.js](https://nodejs.org/en/) environment prepared. Assuming the current repository is cloned to the insulo directory, follow the steps below (starting from insulo subdirectory):
-
-for plain javascript example:
-```sh
-git clone https://github.com/bbakunowicz/insulo.git
-cd insulo/cra-demo
-yarn install && yarn start
-```
-for the Typescript version:
-```sh
-https://github.com/bbakunowicz/insulo.git
-cd insulo/cra-demo-ts
-yarn install && yarn start
-```
-Additional examples can be found in the *samples* catalog. Each example has its own README file, with some usage information.
-
-# Installation
-
-The easiest way of using InsuloJS components is to apply the [Create React App](https://create-react-app.dev/docs/getting-started/) with **Insulo template**:
-
-```
-npx create-react-app insulo-test --template insulo-full
-cd insulo-test
-yarn start
-```
-or
-```
-npx create-react-app insulo-test --template insulo
-cd insulo-test
-yarn start
-```
-Insulo template prepares the project structure and installs appropriate packages:_insulo-menu_, _insulo-route_, _insulo-theme-provider_ and _insulo-locale-provider_. The insulo-full template contains full functionality of the Insulo library. The insulo template is limited to the basic functionality, but you can enable individual functionalites by removing the appropriate comments.
-
-Installation without template:
-
-```sh
-npx create-react-app insulo-test
-cd insulo-test
-yarn add @material-ui/core @material-ui/icons react-router-dom insulo-menu insulo-route insulo-theme-provider insulo-locale-provider
-```
-Adding optional packages (used in some samples):
-```sh
-yarn add @material-ui/lab clsx flag-icon-css react-icons react-intl
-```
-
 # Default project structure
 
-In general, the structure of the project is flexible and it depends on you what you will ultimately use. The insulo template will generate the following directory hierarchy: 
+In general, the structure of the project is flexible and it depends on you what you will ultimately use. The **insulo** / **insulo-full** template will generate the following directory hierarchy: 
 
 ```
 src
@@ -96,13 +100,11 @@ src
     └── ...
 ```
 
-After provisioning an application with the **Insulo template**, you get an application skeleton with minimal functionality of InsuloJS components. Some code parts are commented out with comments like **#Theming(start)** / **#Theming(stop)**. In order to use the selected functionality, you will have to delete the comments in between. 
-
-The starting point of the application is *App.js*, where InsuloJS providers are defined. Providers' configuration files are located in the config directory, but you can put them in a different location. *Routes.js* contains the configuration of routing including private routes, more information in the section [Authorization](#auth).
+The starting point of the application is *App.js*, where InsuloJS providers are defined. Providers' configuration files are located in the config directory, but you can put them in a different location. *Routes.js* contains the configuration of routing including protected routes, more information in the section [Authorization](#auth).
 
 # <a id="auth"></a>Authorization
 
-InsuloJS components do not provide any authentication or authorization mechanisms. Instead, insulo-route packet provides an interface for user authorization. An example of JWT (bearer tokens) authorization using insulo-route can be found in [menu-with-bearer](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-bearer/) example.
+InsuloJS components do not provide any authentication or authorization mechanisms. Instead, insulo-route packet provides an interface for user authorization. An example of JWT (bearer tokens) authorization using insulo-route can be found in the [menu-with-bearer](https://github.com/bbakunowicz/insulo/tree/main/samples/menu-with-bearer/) example.
 
 ## How the insulo-route authorization interface works
 * The configuration of insulo-route is located in two configuration files by default:
@@ -177,59 +179,6 @@ The *initValue* also contains locales symbol conversion tables between used in I
 
 You can test the language management with the **Insulo template** as shown in [Localization provider functionality test](#test_lang).
 
-# Functionality testing
-
-For basic tests, install and run the application provisioned with the **Insulo template** (you will have to delete comments yourself):
-
-```sh
-npx create-react-app test-insulo-template --template insulo
-cd test-insulo-template
-yarn start
-```
-or use the cra-demo example (with all comments removed already):
-
-```sh
-git clone https://github.com/bbakunowicz/insulo.git
-cd insulo/cra-demo
-yarn install && yarn start
-```
-
-## Basic test
-
-1. Click the Settings menu icon.
-2. Choose menu variants and test menu behavior.
-3. Test the functionality of the submenu.
-
-## <a id="test_auth"></a>Authorization provider functionality test
-
-1. To facilitate the tests, it is best to set menu variant "Persistent" (*Settings*, then *Menu variants*, then *Persistent*)
-2. _(skip this step for cra-demo)_ Remove all comments between the lines marked **#Authentication(start)** and **#Authentication(stop)** in all project files and save all changes.
-2. "User's Page", "Admin's Page", "Sign In" should appear in the menu.
-2. Select "User's Page".
-2. You should be redirected to the page "Sign In".
-2. In "Sign In" enter: user = admin, password = <any_text> (but preferably random and quite long;) and use one of the buttons to sign in.
-2. After successful authorization you should see "User's Page" and hidden menu items: "User's Hidden Page", "Admin's Hidden Submenu".
-2. Select "Sign Out" and do sign out.
-2. Select "User's Page".
-2. Authenticate as user "user" (with any text as password).
-2. "Admin's Hidden Submenu" should be unavailable.
-2. Select "Admin's Page".
-2. You should see an "Authorization Error" message. If you set the _redirectWhenInvalidCredentails_ option to _true_ (default is _false_) in the _AuthConfigProvider_ options, then you will be redirected to the Sign In page and after logging in as "admin" user, you will be redirected back to the "Admin's Page".
-
-## <a id="test_theming"></a>Theming provider functionality test
-
-1. _(skip this step for cra-demo)_ Uncomment all comments between the lines marked **#Theming(start)** and **#Theming(stop)** in all project files, except for the areas marked as **#Theming(start) and #Localization(start)**, which should be uncommented when theming is tested simultaneously with localization. Then save all changes.
-2. Test various theming settings available in "Themes" and "Theme type" in the settings menu.
-
-## <a id="test_lang"></a>Localization provider functionality test
-
-1. _(skip this step for cra-demo)_ Remove all comments between the lines marked **#Localization(start)** and **#Localization(stop)** in all project files, including areas marked as **#Theming(start) and #Localization(start)**, which should be uncommented when theming is tested simultaneously with localization. Then save all changes.
-2. _(skip this step for cra-demo)_ Comment out the **#No localization** area in the _src/pages/Dashboard.js_ file. Then save all changes.
-2. Select "Home (EN)".
-2. Choose: *Settings*, then *Languages* and select one of the available languages.
-2. The menu language and the language of the Home Page should be changed.
-2. Select "Sample Data".
-2. The language of the TablePagination component under the table component should be changed.
 
 # Licensing
 The project is generally licensed under the MIT license, with the exception of the InsuloJS packages located in the *packages* directory, which are licensed under the Apache-2.0 license.
