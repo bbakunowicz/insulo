@@ -4,11 +4,20 @@ This is the official base template for [InsuloJS components](https://github.com/
 
 InsuloJS components are a collection of components designed to rapidly build [React-based](https://reactjs.org/) applications. InsuloJS components are based on the [material-ui](https://material-ui.com/) library. They use [React hooks](https://reactjs.org/docs/hooks-intro.html), in terms of state management. 
 
-More information can be found on the [InsuloJS project](https://github.com/bbakunowicz/insulo) website. Basic examples can also be found on the website of the [insulo-route](https://www.npmjs.com/package/insulo-route) package or on the website of the [insulo-menu](https://www.npmjs.com/package/insulo-menu) package.
+More information can be found on the [InsuloJS](https://github.com/bbakunowicz/insulo) project website. Basic examples can also be found on the website of the [insulo-route](https://www.npmjs.com/package/insulo-route) package or on the website of the [insulo-menu](https://www.npmjs.com/package/insulo-menu) package. 
+
+The **insulo** template is limited to the basic functionality, but you can enable individual functionalites by removing the appropriate comments. Some code parts are commented out with comments like **#Theming(start)** / **#Theming(stop)**. In order to use the selected functionality, you will have to delete the comments in between. 
+
+The [insulo-full](https://www.npmjs.com/package/cra-template-insulo-full) template contains full functionality of the Insulo library. 
+
+# Demo
+
+* [Sample application](https://cra-demo-deploy.vercel.app/)
+* [Code sandbox](https://codesandbox.io/s/2uplh)
 
 # Installation
 
-```sh
+```
 npx create-react-app test-app --template insulo
 cd test-app
 yarn start

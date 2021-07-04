@@ -20,8 +20,8 @@ const Routes = () => {
       <Route exact path="/subitem1-2-2" render={(props) => <Subitem {...props} title="Item 1-2-2" title_id='item_1_2_2' />} />
       <Route exact path="/subitem1-3" render={(props) => <Subitem {...props} title="Item 1-3" title_id='item_1_3' />} />
       {/* #Authentication(start) */}
-              
-      {/* <ProtectedRoute exact path="/useritem" component={Subitem} componentProps={{title:'User Page', title_id: 'item_user'}} 
+{/*               
+      <ProtectedRoute exact path="/useritem" component={Subitem} componentProps={{title:'User Page', title_id: 'item_user'}} 
         authProps={{roles:['user', 'admin']}} authError="&quot;User's Page&quot; requires an user role."/>
       <ProtectedRoute exact path="/userhiddenitem" component={Subitem} componentProps={{title:"User's Hidden Item", title_id: 'item_user_hidden'}}
         authProps={{roles:['user', 'admin']}} />

@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
   tableHead: {
     fontWeight: 700
-  }
+  },
 });
 
 const desserts = {
@@ -141,7 +141,7 @@ const Page = () => {
   return (
     <section>
       <h1>{`${calories}`}</h1>
-      <SimpleTable props={{dessert, calories, fat, carbs, protein}} currentLocale={currentLocale} />
+      <SimpleTable props={{dessert, calories, fat, carbs, protein}} currentLocale={currentLocale}/>
       {/* #Theming(start) and #Localization(start), At least all #Theming sections in App.js and MainLayout.js must be uncommented */}
       {/* <ThemeProvider theme={(outerTheme) => createMuiTheme(outerTheme, locales[localeConfig.currentLocaleMui])}>
         <TablePagination

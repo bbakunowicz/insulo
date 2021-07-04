@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import Typography from '@material-ui/core/Typography';
 // #Localization(start)
-import { useContext } from 'react'
-import LocaleContext from 'insulo-locale-provider';
+// import { useContext } from 'react'
+// import LocaleContext from 'insulo-locale-provider';
 // #Localization(stop)
 
 const Page = ({title, title_id}) => {

@@ -28,9 +28,7 @@ export function Landing({children, ...rest}) {
       <Fragment>
         <Menu history={history} {...rest} />
         <MenuLanding>
-          <section className="container">
-            {children}
-          </section>
+          {children}
         </MenuLanding>
       </Fragment>
     </Router>

@@ -20,18 +20,21 @@ import clsx from 'clsx';
 import { Context as MenuContext } from './provider/providerWrapper';
 import * as menuTypes from './provider/types';
 
-const useStyles = (drawerWidth) => makeStyles((theme) => ({
+const useStyles = (drawerWidth) => makeStyles((theme) => {
+  const themeSpacing = theme.spacing(3);
+  return  {
   drawerHeader: {
+    height: '2rem',
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 1),
+    // padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'space-between',
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: `0px ${themeSpacing}px ${themeSpacing}px ${themeSpacing}px`,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -66,7 +69,7 @@ const useStyles = (drawerWidth) => makeStyles((theme) => ({
     }),
     marginRight: theme.spacing(7) + 1,
   },
-}));
+}});
 
 export function MenuLanding({children}) {
   const { value: menuConfig } = useContext(MenuContext);
@@ -74,7 +77,6 @@ export function MenuLanding({children}) {
   const classes = useStyles(menuConfig.width)();
 
     return (
-      <div style={{display: 'flex'}}>
         <main
         className={clsx(classes.content, {
           [classes.contentShift]: menuConfig.open && menuConfig.variant !== menuTypes.TEMPORARY && menuConfig.anchor !== 'right',
@@ -86,6 +88,5 @@ export function MenuLanding({children}) {
           <div className={classes.drawerHeader} />
           {children}
         </main>
-      </div>
     );
 }
