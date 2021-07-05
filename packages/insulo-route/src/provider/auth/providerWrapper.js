@@ -157,13 +157,13 @@ const clearCredentialsFunc = (dispatch, initValue) => ({additionalProps}={}) => 
 
   const authValuesKey = initValue.authValuesKey || authTypes.LS_AUTH_VALUES;
 
-  const setAuthStateUnset = () => {
-    if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: setAuthStateUnset`);
+  // const setAuthStateUnset = () => {
+  //   if (window._INSULO_DEBUG_ === true) console.log(`clearCredentialsFunc: setAuthStateUnset`);
 
-    dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_UNSET});
+  //   dispatch({type: authTypes.SET_AUTH_VALUES, authValues: undefined, authState: authTypes.AUTH_STATE_UNSET});
 
-    removeFromLocalStorage(authValuesKey);
-  }
+  //   removeFromLocalStorage(authValuesKey);
+  // }
 
   const setAuthStateError = (error) => {
     if (window._INSULO_DEBUG_ === true) {
@@ -181,7 +181,7 @@ const clearCredentialsFunc = (dispatch, initValue) => ({additionalProps}={}) => 
   const clearCredentialsWrk = typeof initValue == 'object' && initValue.clearCredentials;
 
   if (typeof clearCredentialsWrk != 'function') {
-    setAuthStateError('clearCredentialsFunc: clearCredentials is not a function');
+    // setAuthStateError('clearCredentialsFunc: clearCredentials is not a function');
     return;
   }
 
@@ -193,9 +193,9 @@ const clearCredentialsFunc = (dispatch, initValue) => ({additionalProps}={}) => 
       dispatch({type: authTypes.SET_AUTH_STATE, authState: authTypes.AUTH_STATE_LOGOUTPROGRESS});
         
       retval
-      .then(result => {
-        setAuthStateUnset(result);
-      })
+      // .then(result => {
+      //   setAuthStateUnset(result);
+      // })
       .catch(error => {
         if (window._INSULO_DEBUG_ === true) {
           console.error('clearCredentialsFunc: async exception');
@@ -203,9 +203,9 @@ const clearCredentialsFunc = (dispatch, initValue) => ({additionalProps}={}) => 
         setAuthStateError(error)
       });
     }
-    else {
-      setAuthStateUnset(retval);
-    }
+    // else {
+    //   setAuthStateUnset(retval);
+    // }
   }
   catch (error) {
     if (window._INSULO_DEBUG_ === true) {
