@@ -9,8 +9,9 @@ The ProtectedRoute component provides an interface for applying a user-defined [
 
 # Demo
 
-* [Sample application](https://cra-demo-deploy.vercel.app/)
-* [Code sandbox](https://codesandbox.io/s/2uplh)
+* [Menu Sample](https://insulo-menu.vercel.app/) - an example showing the functionality of the Menu component and the ProtectedRoute component 
+* [Code sandbox](https://codesandbox.io/s/2uplh)- the above example presented in the sandbox
+* [DataTable Sample](https://insulo-datatable.vercel.app/) - an example of the DataTable component. The DataTable component is under development and is likely to be part of the InsuloJS library.
 
 # Getting started
 
