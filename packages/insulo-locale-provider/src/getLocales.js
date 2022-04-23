@@ -50,4 +50,6 @@ export const currentLocale = (locales, locale, defaultLocale) => {
   }
 };
 
-export default ({locales, locale, id}) => locale && locales[locale][id];
+const getLocaleId = ({locales, locale, id}) => locale && locales[locale][id];
+
+export default getLocaleId;

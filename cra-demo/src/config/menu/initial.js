@@ -7,7 +7,7 @@ import ApplicationBarContent from './ApplicationBarContent';
 
 const init = { 
   width: "20em",                      //mandatory
-  variant: menuTypes.TEMPORARY,       //optional
+  variant: menuTypes.PERSISTENT,       //optional
   availableVariants: [menuTypes.PERSISTENT, menuTypes.TEMPORARY, menuTypes.MINIMIZED],  //optional
   anchor: menuTypes.MENU_LEFT,        //optional
   //defaultVisible: false,            //optional

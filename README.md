@@ -21,13 +21,13 @@ Plain JavaScript example:
 ```sh
 git clone https://github.com/bbakunowicz/insulo.git
 cd insulo/cra-demo
-yarn install && yarn start
+npm install && npm start
 ```
-The TypeScript version:
+The TypeScript version (do not use yarn because of problems with some Material UI components compilation):
 ```sh
 git clone https://github.com/bbakunowicz/insulo.git
 cd insulo/cra-demo-ts
-yarn install && yarn start
+npm install && npm start
 ```
 Additional examples can be found in the *samples* catalog of cloned repository. Each example has its own README file, with some usage information.
 
@@ -38,26 +38,17 @@ The easiest way of using InsuloJS components is to apply the [Create React App](
 ```
 npx create-react-app insulo-test --template insulo
 cd insulo-test
-yarn start
+npm start
 ```
 or with **insulo-full** template:
 ```
 npx create-react-app insulo-test-full --template insulo-full
 cd insulo-test-full
-yarn start
+npm start
 ```
 Insulo template prepares the project structure and installs appropriate packages:_insulo-menu_, _insulo-route_, _insulo-theme-provider_ and _insulo-locale-provider_. The **insulo-full** template contains full functionality of the Insulo library. The **insulo** template is limited to the basic functionality, but you can enable individual functionalites by removing the appropriate comments. Some code parts are commented out with comments like **#Theming(start)** / **#Theming(stop)**. In order to use the selected functionality, you will have to delete the comments in between. 
 
 
-Installation without template:
-
-```sh
-npx create-react-app insulo-test
-cd insulo-test
-yarn add @material-ui/core @material-ui/icons react-router-dom insulo-menu insulo-route insulo-theme-provider insulo-locale-provider
-# adding additional packages (used in some examples):
-yarn add @material-ui/lab clsx flag-icon-css react-icons react-intl
-```
 
 # Contents of the InsuloJS npm packages
 | Package | Contents|
