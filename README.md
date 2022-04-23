@@ -33,20 +33,21 @@ Additional examples can be found in the *samples* catalog of cloned repository. 
 
 # Installation
 
-The easiest way of using InsuloJS components is to apply the [Create React App](https://create-react-app.dev/docs/getting-started/) with **insulo** template:
+The easiest way of using InsuloJS components is to apply the [Create React App](https://create-react-app.dev/docs/getting-started/) with **insulo-full** template:
 
-```
-npx create-react-app insulo-test --template insulo
-cd insulo-test
-npm start
-```
-or with **insulo-full** template:
 ```
 npx create-react-app insulo-test-full --template insulo-full
 cd insulo-test-full
 npm start
 ```
-Insulo template prepares the project structure and installs appropriate packages:_insulo-menu_, _insulo-route_, _insulo-theme-provider_ and _insulo-locale-provider_. The **insulo-full** template contains full functionality of the Insulo library. The **insulo** template is limited to the basic functionality, but you can enable individual functionalites by removing the appropriate comments. Some code parts are commented out with comments like **#Theming(start)** / **#Theming(stop)**. In order to use the selected functionality, you will have to delete the comments in between. 
+or with **insulo** template:
+```
+npx create-react-app insulo-test --template insulo
+cd insulo-test
+npm start
+```
+
+The **insulo-full** template contains full functionality of the Insulo library. The **insulo** template is limited to the basic functionality, but you can enable individual functionalites by removing the appropriate comments. Some code parts are commented out with comments like **#Theming(start)** / **#Theming(stop)**. In order to use the selected functionality, you will have to remove the comments between the marks, for example between **#Theming (start)** and **#Theming (stop)**.
 
 
 
